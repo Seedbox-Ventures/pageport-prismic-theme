@@ -18,6 +18,7 @@ module.exports = {
     },
     {
       resolve: 'gatsby-source-prismic',
+      accessToken: process.env.PRISMIC_API_KEY,
       options: {
         repositoryName: process.env.PRISMIC_REPO_NAME,
         linkResolver: require('./src/utils/LinkResolver').linkResolver,
