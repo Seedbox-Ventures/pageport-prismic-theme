@@ -8,7 +8,6 @@ import './../styles/style.css'
 
 export const Layout = ({ isHomepage, children, navigation }) => (
   <>
-    <script async defer src="https://static.cdn.prismic.io/prismic.js?new=true&repo=pageport-playground"></script>
     <Header isHomepage={isHomepage} navigation={navigation} />
     {children}
     <Footer />
