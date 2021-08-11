@@ -14,6 +14,7 @@ module.exports = {
       resolve: 'gatsby-plugin-prismic-previews',
       options: {
         repositoryName: process.env.PRISMIC_REPO_NAME,
+        accessToken: process.env.PRISMIC_API_KEY,
       },
     },
     {
