@@ -68,7 +68,7 @@ export const query = graphql`
 
 export default withPrismicPreview(HomeTemplate, [
   {
-    repositoryName: process.env.PRISMIC_REPO_NAME,
+    repositoryName: 'pageport-playground',
     accessToken: 'MC5ZUlBXVWhJQUFDNEFDdm5K.bCZ-77-977-9G3fvv70dEO-_vVHvv73vv73vv71bHmZp77-977-977-9Be-_ve-_vUXvv70A77-977-9Y2E',
     linkResolver,
   },
