@@ -43,7 +43,8 @@ export const query = graphql`
     }
 `
 
-console.log('BUILD PAGE', process.env);
+console.log('BUILD PAGE - REPO NAME', process.env.PRISMIC_REPO_NAME);
+console.log('BUILD PAGE - API KEY', process.env.PRISMIC_API_KEY);
 
 export default withPrismicPreview(PageTemplate, [
   {
