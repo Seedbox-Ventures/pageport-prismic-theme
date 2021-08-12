@@ -1,4 +1,7 @@
 // {PrismicPage.url}.js file
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
 
 import * as React from 'react'
 import { graphql } from 'gatsby'
@@ -43,6 +46,7 @@ export const query = graphql`
     }
 `
 
+console.log('BUILD PAGE - NODE ENV', process.env.NODE_ENV);
 console.log('BUILD PAGE - REPO NAME', process.env.PRISMIC_REPO_NAME);
 console.log('BUILD PAGE - API KEY', process.env.PRISMIC_API_KEY);
 
