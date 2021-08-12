@@ -15,6 +15,7 @@ const PreviewPage = () => {
 export default withPrismicPreviewResolver(PreviewPage, [
   {
     repositoryName: process.env.PRISMIC_REPO_NAME,
+    accessToken: process.env.PRISMIC_API_KEY,
     linkResolver,
   },
 ])

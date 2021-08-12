@@ -19,6 +19,7 @@ export default withPrismicUnpublishedPreview(
   [
     {
       repositoryName: process.env.PRISMIC_REPO_NAME,
+      accessToken: process.env.PRISMIC_API_KEY,
       linkResolver,
       componentResolver: componentResolverFromMap({
         homepage: HomeTemplate,
