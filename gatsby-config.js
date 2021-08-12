@@ -4,6 +4,9 @@ require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
 })
 
+console.log('TEST CONFIG REPO NAME', process.env.PRISMIC_REPO_NAME);
+console.log('TEST CONFIG API KEY', process.env.PRISMIC_API_KEY);
+
 module.exports = {
   siteMetadata: {
     title: 'Gatsby + Prismic Tutorial',
