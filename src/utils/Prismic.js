@@ -1,18 +1,15 @@
 import { linkResolver } from './LinkResolver'
 
-let previewConfig
-
-exports.previewConfig = () => {
-  if (!previewConfig) {
-    if (process.env.GATSBY_PRISMIC_REPO_NAME) {
-      previewConfig = {
-        repositoryName: process.env.GATSBY_PRISMIC_REPO_NAME,
-        accessToken: process.env.GATSBY_PRISMIC_API_KEY,
-        linkResolver,
-      }
-    } else {
-      previewConfig = { linkResolver } //
+function generatePreviewConfig() {
+  if (process.env.GATSBY_PRISMIC_REPO_NAME) {
+    return {
+      repositoryName: process.env.GATSBY_PRISMIC_REPO_NAME,
+      accessToken: process.env.GATSBY_PRISMIC_API_KEY,
+      linkResolver,
     }
   }
-  return previewConfig
+  return { linkResolver } //
+
 }
+
+export const previewConfig = generatePreviewConfig()
