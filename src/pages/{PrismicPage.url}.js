@@ -1,8 +1,3 @@
-// {PrismicPage.url}.js file
-require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV}`,
-})
-
 import * as React from 'react'
 import { graphql } from 'gatsby'
 import { withPrismicPreview } from 'gatsby-plugin-prismic-previews'
