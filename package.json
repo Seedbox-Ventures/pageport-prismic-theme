@@ -1,5 +1,5 @@
 {
-  "name": "pageport playground",
+  "name": "pageport-playground",
   "description": "Playground for pageport development",
   "dependencies": {
     "gatsby": "^3.5.0",
