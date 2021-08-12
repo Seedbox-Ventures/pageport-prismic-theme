@@ -4,11 +4,11 @@ import * as React from 'react'
 import { graphql } from 'gatsby'
 import { withPrismicPreview } from 'gatsby-plugin-prismic-previews'
 import { RichText } from 'prismic-reactjs'
-import { linkResolver } from '../utils/LinkResolver'
 import { Layout } from '../components/Layout'
 import { Seo } from '../components/Seo'
 import { HomepageBanner } from '../components/HomepageBanner'
 import { SliceZone } from '../components/SliceZone'
+import { previewConfig } from '../utils/Prismic'
 
 const HomeTemplate = ({ data }) => {
   if (!data) return null
@@ -67,9 +67,5 @@ export const query = graphql`
 `
 
 export default withPrismicPreview(HomeTemplate, [
-  {
-    repositoryName: process.env.PRISMIC_REPO_NAME,
-    accessToken: process.env.PRISMIC_API_KEY,
-    linkResolver,
-  },
+  previewConfig,
 ])
