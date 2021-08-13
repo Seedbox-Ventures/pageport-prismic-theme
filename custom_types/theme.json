@@ -1,0 +1,278 @@
+{
+  "General": {
+    "logo": {
+      "type": "Image",
+      "config": {
+        "constraint": {},
+        "thumbnails": [],
+        "label": "Logo"
+      }
+    },
+    "logo_inverted": {
+      "type": "Image",
+      "config": {
+        "constraint": {},
+        "thumbnails": [],
+        "label": "Logo (inverted)"
+      }
+    },
+    "icon": {
+      "type": "Image",
+      "config": {
+        "constraint": {
+          "width": 512,
+          "height": 512
+        },
+        "thumbnails": [],
+        "label": "Icon"
+      }
+    },
+    "icon_inverted": {
+      "type": "Image",
+      "config": {
+        "constraint": {
+          "width": 512,
+          "height": 512
+        },
+        "thumbnails": [],
+        "label": "Icon (inverted)"
+      }
+    }
+  },
+  "Colors": {
+    "colors": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "color_type": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "Primary",
+                "Accent",
+                "Info",
+                "Warn",
+                "Danger",
+                "Success",
+                "Light Text",
+                "Dark Text",
+                "Background Default",
+                "Background Alternative",
+                "Background Emphasize"
+              ],
+              "default_value": "Primary",
+              "label": "Color Type"
+            }
+          },
+          "value": {
+            "type": "Color",
+            "config": {
+              "label": "value"
+            }
+          }
+        },
+        "label": "Colors"
+      }
+    }
+  },
+  "Type": {
+    "primary_font_family": {
+      "type": "Text",
+      "config": {
+        "label": "Primary Font Family",
+        "placeholder": "'Roboto', sans-serif"
+      }
+    },
+    "font_import_link": {
+      "type": "Link",
+      "config": {
+        "select": "media",
+        "label": "Font Import Link",
+        "placeholder": "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      }
+    },
+    "secondary_font_family": {
+      "type": "Text",
+      "config": {
+        "label": "Secondary Font Family",
+        "placeholder": "'Source Sans Pro', sans-serif"
+      }
+    },
+    "secondary_font_import_link": {
+      "type": "Link",
+      "config": {
+        "select": "media",
+        "label": "Secondary Font Import Link",
+        "placeholder": "'https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap'"
+      }
+    },
+    "type_definitions": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "text_type": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "Standard Text",
+                "Page Title",
+                "Section Title",
+                "Sub Title",
+                "Small Title",
+                "Small Text",
+                "Big Text",
+                "Footnote",
+                "Button"
+              ],
+              "default_value": "Standard Text",
+              "label": "Text Type"
+            }
+          },
+          "font_famil": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "Primary",
+                "Secondary"
+              ],
+              "default_value": "Primary",
+              "label": "Font Famil"
+            }
+          },
+          "16px": {
+            "type": "Text",
+            "config": {
+              "label": "Font Size",
+              "placeholder": "Font Size"
+            }
+          },
+          "line_height": {
+            "type": "Text",
+            "config": {
+              "label": "Line Height",
+              "placeholder": "1.2em"
+            }
+          },
+          "letter_spacing": {
+            "type": "Text",
+            "config": {
+              "label": "Letter Spacing",
+              "placeholder": "normal"
+            }
+          }
+        },
+        "label": "Type Definitions"
+      }
+    }
+  },
+  "Layout": {
+    "content_width-width": {
+      "type": "Number",
+      "config": {
+        "label": "Max Content Width",
+        "placeholder": "1140"
+      }
+    },
+    "content_padding": {
+      "type": "Text",
+      "config": {
+        "label": "Content Padding",
+        "placeholder": "2rem, 3rem"
+      }
+    }
+  },
+  "Buttons": {
+    "button_padding": {
+      "type": "Text",
+      "config": {
+        "label": "Button Padding",
+        "placeholder": "12px 24px"
+      }
+    },
+    "button_border_radius": {
+      "type": "Number",
+      "config": {
+        "label": "Button Border Radius",
+        "placeholder": "10px"
+      }
+    },
+    "button_border_style": {
+      "type": "Text",
+      "config": {
+        "label": "Button Border Style",
+        "placeholder": "none"
+      }
+    },
+    "box_shadow": {
+      "type": "Text",
+      "config": {
+        "label": "Box Shadow",
+        "placeholder": "none"
+      }
+    },
+    "color_mapping": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "button_type": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "Default",
+                "Submit",
+                "Success",
+                "Danger",
+                "Cancel"
+              ],
+              "default_value": "Default",
+              "label": "Button Type"
+            }
+          },
+          "color": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "Primary",
+                "Accent",
+                "Info",
+                "Warn",
+                "Danger",
+                "Success",
+                "Light Text",
+                "Dark Text",
+                "Background Default",
+                "Background Alternative",
+                "Background Emphasize"
+              ],
+              "default_value": "Primary",
+              "label": "Color"
+            }
+          },
+          "fill_background": {
+            "type": "Boolean",
+            "config": {
+              "placeholder_false": "outline",
+              "placeholder_true": "fill",
+              "default_value": true,
+              "label": "Fill Background"
+            }
+          },
+          "hover_effect": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "None",
+                "Change Background",
+                "Change Box Shadow",
+                "Darken / Lighten"
+              ],
+              "label": "Hover Effect",
+              "placeholder": "none"
+            }
+          }
+        },
+        "label": "Color Mapping"
+      }
+    }
+  }
+}

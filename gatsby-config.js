@@ -22,9 +22,10 @@ module.exports = {
         accessToken: process.env.PRISMIC_API_KEY,
         linkResolver: require('./src/utils/LinkResolver').linkResolver,
         schemas: {
-          homepage: require('./custom_types/homepage.json'),
-          navigation: require('./custom_types/navigation.json'),
-          page: require('./custom_types/page.json'),
+          page_dynamic: require('./custom_types/page_dynamic.json'),
+          page_imprint: require('./custom_types/page_imprint.json'),
+          page_legal: require('./custom_types/page_legal.json'),
+          theme: require('./custom_types/theme.json'),
         },
       },
     },

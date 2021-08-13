@@ -6,9 +6,9 @@ import './../styles/reset.css'
 import './../styles/common.css'
 import './../styles/style.css'
 
-export const Layout = ({ isHomepage, children, navigation }) => (
+export const Layout = () => (
   <>
-    <Header isHomepage={isHomepage} navigation={navigation} />
+    <Header />
     {children}
     <Footer />
   </>

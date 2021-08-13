@@ -1,0 +1,20 @@
+{
+  "Main": {
+    "title": {
+      "type": "StructuredText",
+      "config": {
+        "single": "heading1",
+        "label": "Title",
+        "placeholder": "Title"
+      }
+    },
+    "imprint_text": {
+      "type": "StructuredText",
+      "config": {
+        "multi": "paragraph,heading2,heading3,heading4,heading5,strong,hyperlink,image,list-item,o-list-item,rtl",
+        "allowTargetBlank": true,
+        "label": "Imprint Text"
+      }
+    }
+  }
+}

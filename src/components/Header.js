@@ -1,50 +1,12 @@
-// Header.js file
-
 import * as React from 'react'
-import { graphql, Link, useStaticQuery } from 'gatsby'
-import { RichText } from 'prismic-reactjs'
+import { Link } from 'gatsby'
 
-export const Header = ({ isHomepage }) => {
-  const queryData = useStaticQuery(graphql`
-      {
-          prismicNavigation {
-              data {
-                  top_navigation {
-                      link {
-                          url
-                      }
-                      link_label {
-                          raw
-                      }
-                  }
-              }
-          }
-      }
-  `)
-
-  const navigation = queryData.prismicNavigation
-  const topNav = navigation.data.top_navigation
-
-  const homepageClass = isHomepage ? 'homepage-header' : ''
-
+export const Header = () => {
   return (
-    <header className={`site-header ${homepageClass}`}>
+    <header className='site-header'>
       <Link to='/'>
         <div className='logo'>Example Site</div>
       </Link>
-      <nav>
-        <ul>
-          {topNav.map((navItem, index) => {
-            return (
-              <li key={`link-${index}`}>
-                <Link to={navItem.link.url}>
-                  {RichText.asText(navItem.link_label.raw)}
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
-      </nav>
     </header>
   )
 }
