@@ -1,0 +1,26 @@
+[
+  {
+    "id": "theme",
+    "name": "Theme",
+    "repeatable": false,
+    "value": "theme.json"
+  },
+  {
+    "id": "page_dynamic",
+    "name": "Page - Dynamic",
+    "repeatable": true,
+    "value": "page_dynamic.json"
+  },
+  {
+    "id": "page_imprint",
+    "name": "Page - Imprint",
+    "repeatable": false,
+    "value": "page_imprint.json"
+  },
+  {
+    "id": "page_legal",
+    "name": "Page - Legal",
+    "repeatable": false,
+    "value": "page_legal.json"
+  }
+]
