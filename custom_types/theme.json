@@ -128,7 +128,7 @@
               "label": "Text Type"
             }
           },
-          "font_famil": {
+          "font_family": {
             "type": "Select",
             "config": {
               "options": [
@@ -136,10 +136,10 @@
                 "Secondary"
               ],
               "default_value": "Primary",
-              "label": "Font Famil"
+              "label": "Font Family"
             }
           },
-          "16px": {
+          "font_size": {
             "type": "Text",
             "config": {
               "label": "Font Size",
