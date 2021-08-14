@@ -1,5 +1,11 @@
 {
   "Meta": {
+    "uid": {
+      "type": "UID",
+      "config": {
+        "label": "URL Path"
+      }
+    },
     "page_title": {
       "type": "Text",
       "config": {
@@ -50,7 +56,7 @@
     }
   },
   "Main": {
-    "body1": {
+    "body": {
       "type": "Slices",
       "fieldset": "Slice zone",
       "config": {
@@ -179,7 +185,10 @@
               "columns": {
                 "type": "Select",
                 "config": {
-                  "options": ["1 Column", "2 Columns"],
+                  "options": [
+                    "1 Column",
+                    "2 Columns"
+                  ],
                   "default_value": "1 Column",
                   "label": "columns"
                 }
@@ -187,7 +196,7 @@
               "content": {
                 "type": "StructuredText",
                 "config": {
-                  "multi": "paragraph, heading1, heading2, heading3, strong, em, hyperlink",
+                  "multi": "paragraph,heading1,heading2,heading3,strong,em,hyperlink",
                   "allowTargetBlank": true,
                   "label": "content"
                 }
@@ -244,7 +253,7 @@
               "gallery_title": {
                 "type": "StructuredText",
                 "config": {
-                  "single": "heading2, heading3",
+                  "single": "heading2,heading3",
                   "label": "gallery_title"
                 }
               }
@@ -313,7 +322,7 @@
               "description": {
                 "type": "StructuredText",
                 "config": {
-                  "single": "heading3, strong, em",
+                  "single": "heading3,strong,em",
                   "label": "description"
                 }
               },
@@ -366,7 +375,32 @@
     "social_media_links": {
       "type": "Group",
       "config": {
-        "fields": {},
+        "fields": {
+          "platform": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "Facebook",
+                "Instagram",
+                "Pinterest",
+                "TikTok",
+                "Twitch",
+                "Twitter",
+                "Whatsapp"
+              ],
+              "default_value": "Facebook",
+              "label": "platform"
+            }
+          },
+          "link": {
+            "type": "Link",
+            "config": {
+              "allowTargetBlank": true,
+              "label": "link",
+              "select": null
+            }
+          }
+        },
         "label": "Social Media Links"
       }
     }

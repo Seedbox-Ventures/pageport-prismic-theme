@@ -3,8 +3,7 @@
 import * as React from 'react'
 import { componentResolverFromMap, withPrismicUnpublishedPreview } from 'gatsby-plugin-prismic-previews'
 import { linkResolver } from '../utils/LinkResolver'
-import HomeTemplate from './index'
-import PageTemplate from './{PrismicPage.url}'
+import PageTemplate from './{PrismicPageDynamic.url}'
 
 const NotFoundPage = () => {
   return (
@@ -22,7 +21,6 @@ export default withPrismicUnpublishedPreview(
       accessToken: process.env.PRISMIC_API_KEY,
       linkResolver,
       componentResolver: componentResolverFromMap({
-        homepage: HomeTemplate,
         page: PageTemplate,
       }),
     },

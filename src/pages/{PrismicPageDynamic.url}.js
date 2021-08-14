@@ -1,53 +1,45 @@
 import * as React from 'react'
 import { graphql } from 'gatsby'
 import { withPrismicPreview } from 'gatsby-plugin-prismic-previews'
+import { previewConfig } from '../utils/Prismic'
 import { Layout } from '../components/Layout'
 import { Seo } from '../components/Seo'
 import { SliceZone } from '../components/SliceZone'
-import { previewConfig } from '../utils/Prismic'
 
-const PageTemplate = ({ data }) => {
+const DynamicPageTemplate = ({ data }) => {
   if (!data) return null
-  const page = data.prismicPage
+  const page = data.prismicPageDynamic
 
   return (
     <Layout>
-      <Seo title={page.data.document_display_name.text} />
+      <Seo title={page.data.page_title} />
       <SliceZone sliceZone={page.data.body} />
     </Layout>
   )
 }
 
 export const query = graphql`
-    query PageQuery($id: String) {
+    query DynamicPageQuery($id: String) {
         site {
             siteMetadata {
                 title
             }
         }
-        prismicPage(id: { eq: $id }) {
+        prismicPageDynamic(id: { eq: $id }) {
             _previewable
             data {
-                document_display_name {
-                    text
-                }
                 body {
                     ... on PrismicSliceType {
                         slice_type
                     }
-                    ...PageDataBodyText
-                    ...PageDataBodyQuote
-                    ...PageDataBodyFullWidthImage
-                    ...PageDataBodyImageGallery
-                    ...PageDataBodyImageHighlight
+                    ...PageDynamicDataBodyText
                 }
             }
         }
     }
+
 `
 
-
-
-export default withPrismicPreview(PageTemplate, [
+export default withPrismicPreview(DynamicPageTemplate, [
   previewConfig,
 ])

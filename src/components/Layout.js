@@ -6,7 +6,7 @@ import './../styles/reset.css'
 import './../styles/common.css'
 import './../styles/style.css'
 
-export const Layout = () => (
+export const Layout = ({children}) => (
   <>
     <Header />
     {children}

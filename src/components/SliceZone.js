@@ -2,18 +2,19 @@
 
 import * as React from 'react'
 
-import { FullWidthImage } from '../slices/FullWidthImage'
-import { ImageGallery } from '../slices/ImageGallery'
-import { ImageHighlight } from '../slices/ImageHighlight'
-import { Quote } from '../slices/Quote'
+// import { FullWidthImage } from '../slices/FullWidthImage'
+// import { ImageGallery } from '../slices/ImageGallery'
+// import { ImageHighlight } from '../slices/ImageHighlight'
+// import { Quote } from '../slices/Quote'
 import { Text } from '../slices/Text'
 
 export const SliceZone = ({ sliceZone }) => {
+  console.log('SLIZE ZONE', sliceZone)
   const sliceComponents = {
-    full_width_image: FullWidthImage,
-    image_gallery: ImageGallery,
-    image_highlight: ImageHighlight,
-    quote: Quote,
+    // full_width_image: FullWidthImage,
+    // image_gallery: ImageGallery,
+    // image_highlight: ImageHighlight,
+    // quote: Quote,
     text: Text,
   }
 
