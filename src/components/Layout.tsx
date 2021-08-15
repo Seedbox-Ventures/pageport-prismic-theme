@@ -6,7 +6,11 @@ import './../styles/reset.css'
 import './../styles/common.css'
 import './../styles/style.css'
 
-export const Layout = ({children}) => (
+export interface LayoutProps {
+  children: React.ReactNode | undefined
+}
+
+export const Layout: React.FC<LayoutProps> = ({ children }) => (
   <>
     <Header />
     {children}

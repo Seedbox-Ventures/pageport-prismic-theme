@@ -1,18 +1,30 @@
 import * as React from 'react'
+import * as gatsby from 'gatsby'
 import { graphql } from 'gatsby'
-import { withPrismicPreview } from 'gatsby-plugin-prismic-previews'
+import { UnknownRecord, withPrismicPreview } from 'gatsby-plugin-prismic-previews'
 import { previewConfig } from '../utils/Prismic'
 import { Layout } from '../components/Layout'
-import { Seo } from '../components/Seo'
+import { SEO } from '../components/Seo'
 import { SliceZone } from '../components/SliceZone'
+import { SliceData } from '../slices'
+import { WithPrismicPreviewProps } from 'gatsby-plugin-prismic-previews/src/withPrismicPreview'
 
-const DynamicPageTemplate = ({ data }) => {
+interface DynamicPageProps extends UnknownRecord {
+  prismicPageDynamic: {
+    data: {
+      page_title: string,
+      body: Array<SliceData>
+    }
+  }
+}
+
+const DynamicPage: React.ComponentType<gatsby.PageProps<DynamicPageProps> & WithPrismicPreviewProps<DynamicPageProps>> = ({ data }) => {
   if (!data) return null
   const page = data.prismicPageDynamic
 
   return (
     <Layout>
-      <Seo title={page.data.page_title} />
+      <SEO title={page.data.page_title} />
       <SliceZone sliceZone={page.data.body} />
     </Layout>
   )
@@ -40,6 +52,6 @@ export const query = graphql`
 
 `
 
-export default withPrismicPreview(DynamicPageTemplate, [
+export default withPrismicPreview(DynamicPage, [
   previewConfig,
 ])
