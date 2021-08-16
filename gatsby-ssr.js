@@ -5,10 +5,13 @@ import { PrismicPreviewProvider } from 'gatsby-plugin-prismic-previews'
 
 import 'gatsby-plugin-prismic-previews/dist/styles.css'
 
-import './src/styles/reset.css'
-import './src/styles/common.css'
-import './src/styles/style.css'
+import './src/theme/reset.css'
+import { graphql } from 'gatsby'
 
 export const wrapRootElement = ({ element }) => (
   <PrismicPreviewProvider>{element}</PrismicPreviewProvider>
 )
+
+// export const query = graphql`
+//     fragment ThemeData
+// `

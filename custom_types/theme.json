@@ -86,9 +86,9 @@
     "font_import_link": {
       "type": "Link",
       "config": {
-        "select": "media",
-        "label": "Font Import Link",
-        "placeholder": "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        "label": "Primary Font Import Link",
+        "placeholder": "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap",
+        "select": null
       }
     },
     "secondary_font_family": {
@@ -101,9 +101,9 @@
     "secondary_font_import_link": {
       "type": "Link",
       "config": {
-        "select": "media",
         "label": "Secondary Font Import Link",
-        "placeholder": "'https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap'"
+        "placeholder": "'https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap'",
+        "select": null
       }
     },
     "type_definitions": {
@@ -143,7 +143,7 @@
             "type": "Text",
             "config": {
               "label": "Font Size",
-              "placeholder": "Font Size"
+              "placeholder": "16px"
             }
           },
           "line_height": {
@@ -166,11 +166,11 @@
     }
   },
   "Layout": {
-    "content_width-width": {
-      "type": "Number",
+    "content_max_width": {
+      "type": "Text",
       "config": {
-        "label": "Max Content Width",
-        "placeholder": "1140"
+        "label": "Content max width",
+        "placeholder": "1140px"
       }
     },
     "content_padding": {

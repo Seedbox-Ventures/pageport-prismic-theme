@@ -1,8 +1,6 @@
-// preview.js file
-
 import * as React from 'react'
 import { withPrismicPreviewResolver } from 'gatsby-plugin-prismic-previews'
-import { linkResolver } from '../utils/LinkResolver'
+import { previewConfig } from '../utils/Prismic'
 
 const PreviewPage = () => {
   return (
@@ -13,9 +11,5 @@ const PreviewPage = () => {
 }
 
 export default withPrismicPreviewResolver(PreviewPage, [
-  {
-    repositoryName: process.env.PRISMIC_REPO_NAME,
-    accessToken: process.env.PRISMIC_API_KEY,
-    linkResolver,
-  },
+  previewConfig,
 ])
