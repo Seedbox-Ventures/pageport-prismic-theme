@@ -1,6 +1,6 @@
 import React from 'react'
+import { Text } from './Text'
 
-export * as Text from './Text'
 
 export interface SliceData {
   slice_type: string,
@@ -9,6 +9,10 @@ export interface SliceData {
 
 export interface SliceProps {
   data: SliceData,
+}
+
+export const sliceTypeMap: Record<string, SliceComponent<any>> = {
+  text: Text,
 }
 
 export interface SliceComponent<P> extends React.FC<P> {
