@@ -6,18 +6,22 @@ import * as React from 'react'
 // import { ImageGallery } from '../slices/ImageGallery'
 // import { ImageHighlight } from '../slices/ImageHighlight'
 // import { Quote } from '../slices/Quote'
-import { Slice, SliceData, slicesMapping } from '../slices'
+import { SliceComponent, SliceData } from '../slices'
+import { Text } from '../slices/Text'
+
+const sliceComponents: Record<string, SliceComponent<any>> = {
+  text: Text,
+}
 
 export interface SliceZoneProps {
   sliceZone: Array<SliceData>
 }
 
 export const SliceZone: React.FC<SliceZoneProps> = ({ sliceZone }) => {
-
   const sliceZoneContent = sliceZone.map((sliceData, index) => {
-    const SliceComponent: Slice = slicesMapping[sliceData.slice_type]
+    const SliceComponent = sliceComponents[sliceData.slice_type]
     if (SliceComponent) {
-      return <SliceComponent data={sliceData} key={`slice-${index}`} />
+      return <SliceComponent key={`slice-${index}`} {...SliceComponent.mapSliceDataToProps(sliceData)} />
     }
     return null
   })

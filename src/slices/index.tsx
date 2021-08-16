@@ -11,10 +11,11 @@ export interface SliceProps {
   data: SliceData,
 }
 
-export interface Slice extends React.FC<SliceProps> {
+export interface SliceComponent<P> extends React.FC<P> {
+  mapSliceDataToProps: (sliceData: SliceData) => P
 }
 
 export const slicesMapping: Record<string, any> = {
-  "text": Text,
+  'text': Text,
 }
 

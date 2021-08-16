@@ -2,26 +2,38 @@
 
 import * as React from 'react'
 import { graphql } from 'gatsby'
-import { RichText } from 'prismic-reactjs'
+import { RichText, RichTextBlock } from 'prismic-reactjs'
 
 import { CustomLink } from '../utils/CustomLink'
-import { Slice } from './index'
+import { SliceComponent, SliceData } from './index'
 
-export const Text: Slice = ({ data }) => {
+export interface TextProps {
+  columns: number,
+  content: RichTextBlock[]
+}
+
+export const Text: SliceComponent<TextProps> = ({ columns, content }) => {
   const columnClass =
-    data.primary.columns === '2 Columns'
+    columns === 2
       ? 'text-section-2col'
       : 'text-section-1col'
 
   return (
     <section className={`content-section ${columnClass}`}>
       <RichText
-        render={data.primary.content.raw()}
+        render={content}
         serializeHyperlink={CustomLink}
       />
     </section>
   )
 }
+
+Text.mapSliceDataToProps = (sliceData: SliceData) =>
+  ({
+      columns: sliceData.primary.columns === '2 Columns' ? 2 : 1,
+      content: sliceData.primary.content?.raw,
+    }
+  )
 
 export const query = graphql`
     fragment PageDynamicDataBodyText on PrismicPageDynamicDataBodyText {
