@@ -2,12 +2,13 @@ require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
 })
 
-module.exports = {
+export default {
   siteMetadata: {
     title: 'Gatsby + Prismic Tutorial',
     description: 'Learn how to integrate Prismic into your Gatsby project.',
   },
   plugins: [
+    'gatsby-plugin-ts-config',
     {
       resolve: 'gatsby-plugin-prismic-previews',
       options: {

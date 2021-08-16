@@ -1,9 +1,4 @@
-module.exports = {
-  plugins: [
-    {
-      resolve: 'gatsby-plugin-ts-config', options: {
-        configDir: `${process.cwd()}/gatsby-config`,
-      },
-    },
-  ],
-}
+require('source-map-support').install()
+require('ts-node').register()
+
+module.exports = require('./gatsby-config.ts')
