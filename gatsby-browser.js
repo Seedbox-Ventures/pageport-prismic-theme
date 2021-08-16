@@ -1,5 +1,3 @@
-// gatsby-ssr.js and gatsby-browser.js files
-
 import * as React from 'react'
 import { PrismicPreviewProvider } from 'gatsby-plugin-prismic-previews'
 
