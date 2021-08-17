@@ -4,10 +4,12 @@ import { ThemeValues } from './types'
 
 export const getGlobalStyle = (themeValues: ThemeValues): GlobalStyleComponent<ThemeValues, DefaultTheme> => {
   const standardType = ThemeHelper.getStandardType(themeValues)
-  return createGlobalStyle<ThemeValues>`
+  return createGlobalStyle<ThemeValues>(props => (
+    `
     body, p {
-      ${ThemeHelper.renderTypeCss(standardType.textType, themeValues)}
+      ${ThemeHelper.renderTypeCss(standardType.textType, props)}
     }
-  `
+  `),
+  )
 }
 

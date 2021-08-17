@@ -23,7 +23,7 @@ export const ThemeWrapper: React.FC<ThemeWrapperProps> = ({ themeValues, childre
 
   return (
     <ThemeProvider theme={mergedThemeValues}>
-      {isRootTheme && <GlobalStyle />}
+      {isRootTheme && <GlobalStyle {...mergedThemeValues} />}
       {children}
     </ThemeProvider>
   )
