@@ -8,8 +8,13 @@ import { SEO } from '../components/Seo'
 import { SliceZone } from '../components/SliceZone'
 import { SliceData } from '../slices'
 import { WithPrismicPreviewProps } from 'gatsby-plugin-prismic-previews/src/withPrismicPreview'
+import { ThemePrismicData } from '../theme/types'
+import { ThemeWrapper } from '../theme/ThemeWrapper'
 
 interface DynamicPageProps extends UnknownRecord {
+  prismicTheme: {
+    data: ThemePrismicData
+  },
   prismicPageDynamic: {
     data: {
       page_title: string,
@@ -21,12 +26,15 @@ interface DynamicPageProps extends UnknownRecord {
 const DynamicPage: React.ComponentType<gatsby.PageProps<DynamicPageProps> & WithPrismicPreviewProps<DynamicPageProps>> = ({ data }) => {
   if (!data) return null
   const page = data.prismicPageDynamic
+  const themeValues = data.prismicTheme.data as ThemePrismicData
 
   return (
-    <Layout>
-      <SEO title={page.data.page_title} />
-      <SliceZone sliceZone={page.data.body} />
-    </Layout>
+    <ThemeWrapper themeValues={themeValues} isRootTheme={true}>
+      <Layout>
+        <SEO title={page.data.page_title} />
+        <SliceZone sliceZone={page.data.body} />
+      </Layout>
+    </ThemeWrapper>
   )
 }
 
@@ -48,6 +56,7 @@ export const query = graphql`
                 }
             }
         }
+        ...Theme
     }
 
 `

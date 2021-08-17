@@ -1,5 +1,3 @@
-// Text.js file
-
 import * as React from 'react'
 import { graphql } from 'gatsby'
 import { RichText, RichTextBlock } from 'prismic-reactjs'
