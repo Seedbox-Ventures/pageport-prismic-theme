@@ -1,5 +1,3 @@
-// 404.js file
-
 import * as React from 'react'
 import { componentResolverFromMap, withPrismicUnpublishedPreview } from 'gatsby-plugin-prismic-previews'
 import { linkResolver } from '../utils/LinkResolver'
@@ -17,8 +15,9 @@ export default withPrismicUnpublishedPreview(
   NotFoundPage,
   [
     {
-      repositoryName: process.env.PRISMIC_REPO_NAME,
-      accessToken: process.env.PRISMIC_API_KEY,
+      repositoryName: process.env.PRISMIC_REPO_NAME!,
+      // @ts-ignore
+      accessToken: process.env.PRISMIC_API_KEY!,
       linkResolver,
       componentResolver: componentResolverFromMap({
         page: PageTemplate,
