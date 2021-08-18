@@ -6,28 +6,27 @@ import { StyleHelper } from '../theme'
 
 export interface SectionProps {
   backgroundColor: ThemeBackgroundColor
-  isfullWidth: boolean
+  isFullWidth: boolean
 }
 
-export const Section: React.FC<SectionProps> = ({ backgroundColor, isfullWidth = false, children }) => {
-
-  const StyledSection = styled.section(({ theme }) => (
-    `
+const StyledSection = styled.section<{backgroundColor: ThemeBackgroundColor}>(({ backgroundColor, theme }) => (
+  `
     background-color: ${theme.getColorValueByType(backgroundColor)};
   `
-  ))
+))
 
-  const ContentContainer = styled.div(({ theme }) => {
-    const styleObj = {
-      margin: '0 auto',
-      padding: `${theme.values.contentPadding}`,
-      'max-width': isfullWidth ? '100%' : theme.values.contentMaxWidth,
-    }
-    return StyleHelper.renderCssFromObject(styleObj)
-  })
+const ContentContainer = styled.div<{isFullWidth: boolean}>(({ isFullWidth, theme }) => {
+  const styleObj = {
+    margin: '0 auto',
+    padding: `${theme.values.contentPadding}`,
+    'max-width': isFullWidth ? '100%' : theme.values.contentMaxWidth,
+  }
+  return StyleHelper.renderCssFromObject(styleObj)
+})
 
-  return <StyledSection>
-    <ContentContainer className='contentContainer'>
+export const Section: React.FC<SectionProps> = ({ backgroundColor, isFullWidth = false, children }) => {
+  return <StyledSection backgroundColor={backgroundColor}>
+    <ContentContainer className='contentContainer' isFullWidth={isFullWidth}>
       {children}
     </ContentContainer>
   </StyledSection>
