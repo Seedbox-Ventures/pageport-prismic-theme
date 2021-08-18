@@ -4,38 +4,39 @@ import { RichText, RichTextBlock } from 'prismic-reactjs'
 
 import { CustomLink } from '../utils/CustomLink'
 import { SliceComponent, SliceData } from './index'
+import { Section } from '../components/Section'
+import { ThemeBackgroundColor } from '../theme'
 
 export interface TextProps {
+  backgroundColor: ThemeBackgroundColor,
   columns: number,
   content: RichTextBlock[]
 }
 
-export const Text: SliceComponent<TextProps> = ({ columns, content }) => {
-  const columnClass =
-    columns === 2
-      ? 'text-section-2col'
-      : 'text-section-1col'
-
+export const Text: SliceComponent<TextProps> = ({ backgroundColor, content }) => {
   return (
-    <section className={`content-section ${columnClass}`}>
+    <Section backgroundColor={backgroundColor}>
       <RichText
         render={content}
         serializeHyperlink={CustomLink}
       />
-    </section>
+    </Section>
   )
 }
 
 Text.mapSliceDataToProps = (sliceData: SliceData) =>
   ({
+      backgroundColor: sliceData.primary.background_color as ThemeBackgroundColor,
       columns: sliceData.primary.columns === '2 Columns' ? 2 : 1,
       content: sliceData.primary.content?.raw,
     }
   )
 
+
 export const query = graphql`
     fragment PageDynamicDataBodyText on PrismicPageDynamicDataBodyText {
         primary {
+            background_color
             columns
             content {
                 raw

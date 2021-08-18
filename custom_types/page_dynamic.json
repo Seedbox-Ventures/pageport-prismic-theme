@@ -182,6 +182,14 @@
             "icon": "text_fields",
             "display": "list",
             "non-repeat": {
+              "content": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,heading1,heading2,heading3,strong,em,hyperlink",
+                  "allowTargetBlank": true,
+                  "label": "content"
+                }
+              },
               "columns": {
                 "type": "Select",
                 "config": {
@@ -193,12 +201,16 @@
                   "label": "columns"
                 }
               },
-              "content": {
-                "type": "StructuredText",
+              "background_color": {
+                "type": "Select",
                 "config": {
-                  "multi": "paragraph,heading1,heading2,heading3,strong,em,hyperlink",
-                  "allowTargetBlank": true,
-                  "label": "content"
+                  "options": [
+                    "Background Default",
+                    "Background Alternative",
+                    "Background Emphasize"
+                  ],
+                  "default_value": "Background Default",
+                  "label": "Background Color"
                 }
               }
             },

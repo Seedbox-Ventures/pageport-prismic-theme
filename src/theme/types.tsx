@@ -14,6 +14,11 @@ export enum ThemeColorType {
   BackgroundEmphasize = 'Background Emphasize'
 }
 
+export type ThemeBackgroundColor =
+  ThemeColorType.BackgroundDefault
+  | ThemeColorType.BackgroundAlternative
+  | ThemeColorType.BackgroundAlternative
+
 export interface ThemeColor {
   colorType: ThemeColorType
   value: `#${string}`
@@ -82,7 +87,7 @@ export interface ThemePrismicData {
 export interface ThemeInterface {
   values: ThemeValues
   //Function Section
-
+  getColorValueByType: (colorType: ThemeColorType) => `#${string}`
   getFontFamily: (fontFamilyType: ThemeFontFamilyType) => string
   getType: (textType: ThemeTextType) => ThemeType | undefined
   getStandardType: () => ThemeType

@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { DefaultTheme } from 'styled-components'
-import { ThemeFontFamilyType, ThemeTextType, ThemeType, ThemeValues } from './types'
+import { ThemeColorType, ThemeFontFamilyType, ThemeTextType, ThemeType, ThemeValues } from './types'
+import { StyleHelper } from './Style'
 
 const objectKeysToCamelCase = (obj: Object): Record<string, any> => {
   let transformedObj: Record<string, any> = _.mapKeys(obj, (_v, k) => _.camelCase(k))
@@ -24,13 +25,15 @@ export class Theme implements DefaultTheme {
     return objectKeysToCamelCase(themingData) as ThemeValues
   }
 
+  getColorValueByType = (colorType: ThemeColorType): `#${string}` => {
+    return (_.find(this.values.colors, { colorType })!).value
+  }
+
   getFontFamily = (fontFamilyType: ThemeFontFamilyType): string => {
     return fontFamilyType === ThemeFontFamilyType.Secondary ? this.values.secondaryFontFamily : this.values.primaryFontFamily
   }
 
   getType = (textType: ThemeTextType): ThemeType | undefined => {
-    console.log('GET TYPE - TEXT TYPE', textType)
-    console.log('GET TYPE - RESULT', _.find(this.values.typeDefinitions, { textType }))
     return _.find(this.values.typeDefinitions, { textType })
   }
 
@@ -49,12 +52,10 @@ export class Theme implements DefaultTheme {
   }
 
   renderTypeCss = (themeType: ThemeType): string => {
-    const fontFamily = this.getFontFamily(themeType.fontFamily)
-
-    return `
-        font-size: ${themeType.fontSize};
-        line-height: ${themeType.lineHeight};
-        font-family: ${fontFamily};
-    `
+    return StyleHelper.renderCssFromObject({
+      'font-size': themeType.fontSize,
+      'line-height': themeType.lineHeight,
+      'font-family': this.getFontFamily(themeType.fontFamily),
+    })
   }
 }

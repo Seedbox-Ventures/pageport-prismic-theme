@@ -1,3 +1,4 @@
+export * from './Style'
 export * from './GlobalStyle'
 export * from './Theme'
 export * from './ThemeWrapper'

@@ -3,6 +3,7 @@
   "description": "Playground for pageport development",
   "dependencies": {
     "@prismicio/types": "^0.1.6",
+    "@types/lodash": "^4.14.172",
     "@types/react": "^17.0.18",
     "@types/react-dom": "^17.0.9",
     "gatsby": "^3.5.0",
