@@ -78,3 +78,15 @@ export interface ThemePrismicData {
     'text_type': string
   }>,
 }
+
+export interface ThemeInterface {
+  values: ThemeValues
+  //Function Section
+
+  getFontFamily: (fontFamilyType: ThemeFontFamilyType) => string
+  getType: (textType: ThemeTextType) => ThemeType | undefined
+  getStandardType: () => ThemeType
+  renderTextTypeCss: (themeTextType: ThemeTextType) => string
+  renderTypeCss: (themeTextType: ThemeType) => string
+}
+

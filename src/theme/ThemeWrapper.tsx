@@ -20,7 +20,7 @@ export const ThemeWrapper: React.FC<ThemeWrapperProps> = ({ themeValues, childre
   const prismicThemeValues: Partial<ThemeValues> = themeValues ? Theme.mapThemingData(themeValues) : {}
   const mergedThemeValues: ThemeValues = { ...defaultValues, ...prismicThemeValues }
 
-  const theme = new Theme(mergedThemeValues);
+  const theme = new Theme(mergedThemeValues)
 
   return (
     <ThemeProvider theme={theme}>

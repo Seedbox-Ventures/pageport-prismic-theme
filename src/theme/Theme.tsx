@@ -29,6 +29,8 @@ export class Theme implements DefaultTheme {
   }
 
   getType = (textType: ThemeTextType): ThemeType | undefined => {
+    console.log('GET TYPE - TEXT TYPE', textType)
+    console.log('GET TYPE - RESULT', _.find(this.values.typeDefinitions, { textType }))
     return _.find(this.values.typeDefinitions, { textType })
   }
 
@@ -36,13 +38,17 @@ export class Theme implements DefaultTheme {
     return this.getType(ThemeTextType.StandardText)!
   }
 
-  renderTypeCss = (themeTextType: ThemeTextType): string => {
+  renderTextTypeCss = (themeTextType: ThemeTextType): string => {
     const themeType = this.getType(themeTextType)
 
     if (!themeType) {
       return ''
     }
 
+    return this.renderTypeCss(themeType)
+  }
+
+  renderTypeCss = (themeType: ThemeType): string => {
     const fontFamily = this.getFontFamily(themeType.fontFamily)
 
     return `
