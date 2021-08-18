@@ -6,11 +6,12 @@ import { StyleHelper } from '../theme'
 
 export interface SectionProps {
   backgroundColor: ThemeBackgroundColor
-  isFullWidth: boolean
+  isFullWidth?: boolean
 }
 
 const StyledSection = styled.section<{backgroundColor: ThemeBackgroundColor}>(({ backgroundColor, theme }) => (
   `
+    color: ${theme.getTextColorValueByBackground(backgroundColor)};
     background-color: ${theme.getColorValueByType(backgroundColor)};
   `
 ))
@@ -18,7 +19,7 @@ const StyledSection = styled.section<{backgroundColor: ThemeBackgroundColor}>(({
 const ContentContainer = styled.div<{isFullWidth: boolean}>(({ isFullWidth, theme }) => {
   const styleObj = {
     margin: '0 auto',
-    padding: `${theme.values.contentPadding}`,
+    padding: theme.values.contentPadding,
     'max-width': isFullWidth ? '100%' : theme.values.contentMaxWidth,
   }
   return StyleHelper.renderCssFromObject(styleObj)
