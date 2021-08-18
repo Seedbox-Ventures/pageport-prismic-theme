@@ -4,8 +4,8 @@ import { ThemeProvider } from 'styled-components'
 import { ThemePrismicData, ThemeValues } from './types'
 import { graphql } from 'gatsby'
 import { theme as themeConfig } from '../../pageport-config'
-import { ThemeHelper } from './ThemeHelper'
-import { getGlobalStyle } from './GlobalStyle'
+import { Theme } from './Theme'
+import { GlobalStyle } from './GlobalStyle'
 
 export interface ThemeWrapperProps {
   children: ReactNode | undefined
@@ -13,17 +13,18 @@ export interface ThemeWrapperProps {
   isRootTheme: boolean
 }
 
-export const defaultValues: ThemeValues = ThemeHelper.mapThemingData(themeConfig.defaultValues) as ThemeValues
+export const defaultValues: ThemeValues = Theme.mapThemingData(themeConfig.defaultValues) as ThemeValues
 
 export const ThemeWrapper: React.FC<ThemeWrapperProps> = ({ themeValues, children, isRootTheme = false }) => {
 
-  const prismicThemeValues: Partial<ThemeValues> = themeValues ? ThemeHelper.mapThemingData(themeValues) : {}
+  const prismicThemeValues: Partial<ThemeValues> = themeValues ? Theme.mapThemingData(themeValues) : {}
   const mergedThemeValues: ThemeValues = { ...defaultValues, ...prismicThemeValues }
-  const GlobalStyle = getGlobalStyle(mergedThemeValues)
+
+  const theme = new Theme(mergedThemeValues);
 
   return (
-    <ThemeProvider theme={mergedThemeValues}>
-      {isRootTheme && <GlobalStyle {...mergedThemeValues} />}
+    <ThemeProvider theme={theme}>
+      {isRootTheme && <GlobalStyle />}
       {children}
     </ThemeProvider>
   )
