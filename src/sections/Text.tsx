@@ -5,7 +5,8 @@ import { RichText, RichTextBlock } from 'prismic-reactjs'
 import { CustomLink } from '../utils/CustomLink'
 import { SliceComponent, SliceData } from './index'
 import { Section } from '../components/Section'
-import { ThemeBackgroundColor } from '../theme'
+import { StyleHelper, ThemeBackgroundColor } from '../theme'
+import styled from 'styled-components'
 
 export interface TextProps {
   backgroundColor: ThemeBackgroundColor,
@@ -13,15 +14,24 @@ export interface TextProps {
   content: RichTextBlock[]
 }
 
-export const Text: SliceComponent<TextProps> = ({ backgroundColor, content }) => {
+const TextContainer = styled.div<{ columns: number }>(({ columns }) => {
+  if (columns === 2) {
+    return StyleHelper.renderCssFromObject({ 'column-count': '1|2', 'column-gap': '2rem|3rem' })
+  }
+  return ''
+})
+
+export const Text: SliceComponent<TextProps> = ({ backgroundColor, columns, content }) => {
   return (
     <Section backgroundColor={backgroundColor}>
+      <TextContainer columns={columns}>
       <RichText
         render={content}
         serializeHyperlink={CustomLink}
       />
-    </Section>
-  )
+    </TextContainer>
+</Section>
+)
 }
 
 Text.mapSliceDataToProps = (sliceData: SliceData) =>
