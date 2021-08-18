@@ -26,12 +26,12 @@ export interface ResponsiveStyleMap extends Partial<Record<BreakPointName, Parti
 }
 
 
-export const StyleHelper = {
-  getBreakPointValue: (breakPointName: BreakPointName): number => {
+export class StyleHelper {
+  static getBreakPointValue = (breakPointName: BreakPointName): number => {
     return styleConfig.breakpoints[breakPointName]
-  },
+  }
 
-  renderCssFromObject: (cssDefinitions: Record<string, string>): string => {
+  static renderCssFromObject = (cssDefinitions: Record<string, string>): string => {
     const responsiveStyleMap = StyleHelper.extractResponsiveStyleMap(cssDefinitions)
 
     return _.map(responsiveStyleMap, (styles: Partial<Record<string, string>>, breakPoint: BreakPointName) => {
@@ -45,14 +45,18 @@ export const StyleHelper = {
       }
       return styleParts.join('\n\r')
     }).join('\n\r')
-  },
+  }
 
-  extractResponsiveStyleMap: (cssDefinitions: Record<string, string>): ResponsiveStyleMap => {
+  static extractResponsiveStyleMap = (cssDefinitions: Record<string, string>): ResponsiveStyleMap => {
     const responsiveStyleMap: ResponsiveStyleMap = {}
 
     _.each(cssDefinitions, (values, attr) => {
-      const attrValues = values.split(',')
+      const attrValues = values.split('|')
       _.each(attrValues, (v, i) => {
+        if (i >= breakPoints.length) {
+          return
+        }
+
         const breakPointName = breakPoints[i].name
         responsiveStyleMap[breakPointName] = responsiveStyleMap[breakPointName] ?? {}
         responsiveStyleMap[breakPointName]![attr] = v
@@ -60,5 +64,5 @@ export const StyleHelper = {
     })
 
     return responsiveStyleMap
-  },
+  }
 }
