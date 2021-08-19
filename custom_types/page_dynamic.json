@@ -212,6 +212,20 @@
                   "default_value": "Background Default",
                   "label": "Background Color"
                 }
+              },
+              "padding_top": {
+                "type": "Text",
+                "config": {
+                  "label": "Padding Top",
+                  "placeholder": "2rem|3rem"
+                }
+              },
+              "padding_bottom": {
+                "type": "Text",
+                "config": {
+                  "label": "Padding Bottom",
+                  "placeholder": "2rem|3rem"
+                }
               }
             },
             "repeat": {}

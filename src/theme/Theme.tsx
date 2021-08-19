@@ -1,7 +1,18 @@
 import _ from 'lodash'
 import { DefaultTheme } from 'styled-components'
-import { ThemeColorType, ThemeFontFamilyType, ThemeTextType, ThemeType, ThemeValues } from './types'
+import {
+  ThemeBackgroundColor,
+  ThemeColorType,
+  ThemeFontFamilyType,
+  ThemeTextColor,
+  ThemeTextType,
+  ThemeType,
+  ThemeValues,
+} from './types'
 import { StyleHelper } from './Style'
+
+const tinycolor = require('tinycolor2')
+
 
 const objectKeysToCamelCase = (obj: Object): Record<string, any> => {
   let transformedObj: Record<string, any> = _.mapKeys(obj, (_v, k) => _.camelCase(k))
@@ -31,6 +42,16 @@ export class Theme implements DefaultTheme {
 
   getFontFamily = (fontFamilyType: ThemeFontFamilyType): string => {
     return fontFamilyType === ThemeFontFamilyType.Secondary ? this.values.secondaryFontFamily : this.values.primaryFontFamily
+  }
+
+  getTextColorValueByBackground = (background: ThemeBackgroundColor): `#${string}` => {
+    const backgroundColorValue: `#${string}` = this.getColorValueByType(background)
+    return this.getTextColorValueByBackgroundValue(backgroundColorValue)
+  }
+
+  getTextColorValueByBackgroundValue = (background: `#${string}`): `#${string}` => {
+    const textColor: ThemeTextColor = tinycolor(background).isDark() ? ThemeColorType.LightText : ThemeColorType.DarkText
+    return this.getColorValueByType(textColor)
   }
 
   getType = (textType: ThemeTextType): ThemeType | undefined => {

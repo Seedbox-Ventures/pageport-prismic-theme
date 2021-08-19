@@ -19,6 +19,8 @@ export type ThemeBackgroundColor =
   | ThemeColorType.BackgroundAlternative
   | ThemeColorType.BackgroundAlternative
 
+export type ThemeTextColor = ThemeColorType.DarkText | ThemeColorType.LightText
+
 export interface ThemeColor {
   colorType: ThemeColorType
   value: `#${string}`
@@ -89,6 +91,8 @@ export interface ThemeInterface {
   //Function Section
   getColorValueByType: (colorType: ThemeColorType) => `#${string}`
   getFontFamily: (fontFamilyType: ThemeFontFamilyType) => string
+  getTextColorValueByBackground: (background: ThemeBackgroundColor) => `#${string}`
+  getTextColorValueByBackgroundValue: (background: `#${string}`) => `#${string}`
   getType: (textType: ThemeTextType) => ThemeType | undefined
   getStandardType: () => ThemeType
   renderTextTypeCss: (themeTextType: ThemeTextType) => string
