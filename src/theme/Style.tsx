@@ -119,8 +119,8 @@ export class StyleHelper {
     const responsiveStyleMap: ResponsiveStyleMap = {}
 
     _.each(cssDefinitions, (values, attr) => {
-      if (typeof values === 'undefined') {
-        return
+      if (_.isEmpty(values)) {
+        return {}
       }
       const responsiveAttributeStyleMap = StyleHelper.extractResponsiveAttributeMap(values)
       _.each(Object.keys(responsiveAttributeStyleMap), (key) => {
@@ -133,7 +133,10 @@ export class StyleHelper {
     return responsiveStyleMap
   }
 
-  static extractResponsiveAttributeMap = (attributeValue: string): Partial<Record<BreakPointName, string>> => {
+  static extractResponsiveAttributeMap = (attributeValue: string | undefined): Partial<Record<BreakPointName, string>> => {
+    if (_.isEmpty(attributeValue)) {
+      return {}
+    }
     const responsiveAttributeMap: Partial<Record<BreakPointName, string>> = {}
     const attrValues = attributeValue.split('|')
     _.each(attrValues, (v, i) => {

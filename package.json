@@ -1,6 +1,7 @@
 {
   "name": "pageport-playground",
   "description": "Playground for pageport development",
+  "version": "0.0.3",
   "dependencies": {
     "@prismicio/types": "^0.1.6",
     "@types/lodash": "^4.14.172",
