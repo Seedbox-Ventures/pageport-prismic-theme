@@ -8,7 +8,7 @@ export interface SliceZoneProps {
 
 export const SliceZone: React.FC<SliceZoneProps> = ({ sliceZone }) => {
   const sliceZoneContent = sliceZone.map((sliceData, index) => {
-    const SliceComponent = sliceTypeMap[sliceData.slice_type]
+    const SliceComponent = sliceTypeMap[sliceData?.slice_type]
     if (SliceComponent) {
       return <SliceComponent key={`slice-${index}`} {...SliceComponent.mapSliceDataToProps(sliceData)} />
     }
