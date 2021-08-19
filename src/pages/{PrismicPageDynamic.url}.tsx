@@ -53,6 +53,11 @@ export const query = graphql`
                         slice_type
                     }
                     ...PageDynamicDataBodyText
+                    ... on PrismicPageDynamicDataBodyCallToAction {
+                        primary {
+                            title
+                        }
+                    }
                 }
             }
         }
