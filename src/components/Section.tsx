@@ -7,28 +7,43 @@ import { StyleHelper } from '../theme'
 export interface SectionProps {
   backgroundColor: ThemeBackgroundColor
   isFullWidth?: boolean
+  paddingTop?: string
+  paddingBottom?: string
 }
 
-const StyledSection = styled.section<{backgroundColor: ThemeBackgroundColor}>(({ backgroundColor, theme }) => (
+const StyledSection = styled.section<{ backgroundColor: ThemeBackgroundColor }>(({ backgroundColor, theme }) => (
   `
     color: ${theme.getTextColorValueByBackground(backgroundColor)};
     background-color: ${theme.getColorValueByType(backgroundColor)};
   `
 ))
 
-const ContentContainer = styled.div<{isFullWidth: boolean}>(({ isFullWidth, theme }) => {
-  const styleObj = {
+const ContentContainer = styled.div<{ isFullWidth: boolean, paddingTop?: string, paddingBottom?: string }>
+(({
+    isFullWidth,
+    paddingTop,
+    paddingBottom,
+    theme,
+  }) => {
+  const styleObj: Record<string, string> = {
     margin: '0 auto',
-    padding: theme.values.contentPadding,
     'max-width': isFullWidth ? '100%' : theme.values.contentMaxWidth,
+    padding: StyleHelper.mergePaddings(theme.values.contentPadding, { top: paddingTop, bottom: paddingBottom }),
   }
   return StyleHelper.renderCssFromObject(styleObj)
 })
 
-export const Section: React.FC<SectionProps> = ({ backgroundColor, isFullWidth = false, children }) => {
-  return <StyledSection backgroundColor={backgroundColor}>
-    <ContentContainer className='contentContainer' isFullWidth={isFullWidth}>
-      {children}
-    </ContentContainer>
-  </StyledSection>
-}
+export const Section: React.FC<SectionProps> =
+  ({
+     backgroundColor,
+     isFullWidth = false,
+     paddingTop,
+     paddingBottom,
+     children,
+   }) => {
+    return <StyledSection backgroundColor={backgroundColor}>
+      <ContentContainer {...{ className: 'contentContainer', isFullWidth, paddingTop, paddingBottom }}>
+        {children}
+      </ContentContainer>
+    </StyledSection>
+  }

@@ -9,9 +9,11 @@ import { StyleHelper, ThemeBackgroundColor } from '../theme'
 import styled from 'styled-components'
 
 export interface TextProps {
-  backgroundColor: ThemeBackgroundColor,
-  columns: number,
+  backgroundColor: ThemeBackgroundColor
+  columns: number
   content: RichTextBlock[]
+  paddingTop?: string
+  paddingBottom?: string
 }
 
 const TextContainer = styled.div<{ columns: number }>(({ columns }) => {
@@ -21,17 +23,17 @@ const TextContainer = styled.div<{ columns: number }>(({ columns }) => {
   return ''
 })
 
-export const Text: SliceComponent<TextProps> = ({ backgroundColor, columns, content }) => {
+export const Text: SliceComponent<TextProps> = ({ backgroundColor, columns, content, paddingTop, paddingBottom }) => {
   return (
-    <Section backgroundColor={backgroundColor}>
+    <Section {...{ backgroundColor, paddingTop, paddingBottom }}>
       <TextContainer columns={columns}>
-      <RichText
-        render={content}
-        serializeHyperlink={CustomLink}
-      />
-    </TextContainer>
-</Section>
-)
+        <RichText
+          render={content}
+          serializeHyperlink={CustomLink}
+        />
+      </TextContainer>
+    </Section>
+  )
 }
 
 Text.mapSliceDataToProps = (sliceData: SliceData) =>
@@ -39,6 +41,8 @@ Text.mapSliceDataToProps = (sliceData: SliceData) =>
       backgroundColor: sliceData.primary.background_color as ThemeBackgroundColor,
       columns: sliceData.primary.columns === '2 Columns' ? 2 : 1,
       content: sliceData.primary.content?.raw,
+      paddingTop: sliceData.primary.padding_top,
+      paddingBottom: sliceData.primary.padding_bottom,
     }
   )
 
@@ -51,6 +55,8 @@ export const query = graphql`
             content {
                 raw
             }
+            padding_top
+            padding_bottom
         }
     }
 `
