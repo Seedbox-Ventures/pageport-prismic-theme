@@ -19,7 +19,3 @@ export interface SliceComponent<P> extends React.FC<P> {
   mapSliceDataToProps: (sliceData: SliceData) => P
 }
 
-export const slicesMapping: Record<string, any> = {
-  'text': Text,
-}
-
