@@ -14,7 +14,6 @@ export default {
       options: {
         repositoryName: process.env.PRISMIC_REPO_NAME,
         accessToken: process.env.PRISMIC_API_KEY,
-        releaseID: process.env.GATSBY_PRISMIC_RELEASE_ID,
       },
     },
     {
