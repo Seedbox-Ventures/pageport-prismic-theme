@@ -21,6 +21,7 @@ export default {
       options: {
         repositoryName: process.env.PRISMIC_REPO_NAME,
         accessToken: process.env.PRISMIC_API_KEY,
+        releaseID: process.env.PRISMIC_RELEASE_ID,
         linkResolver: require('./src/utils/LinkResolver').linkResolver,
         schemas: {
           page_dynamic: require('./custom_types/page_dynamic.json'),
