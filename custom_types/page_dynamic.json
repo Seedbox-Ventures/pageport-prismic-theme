@@ -61,13 +61,13 @@
       "fieldset": "Slice zone",
       "config": {
         "labels": {
-          "hero_1": [
+          "hero": [
             {
               "display": "Hero",
               "name": "hero"
             }
           ],
-          "features_1": [
+          "features": [
             {
               "display": "Features",
               "name": "features"
@@ -79,7 +79,7 @@
               "name": "pricing"
             }
           ],
-          "contact_1": [
+          "contact": [
             {
               "display": "Contact",
               "name": "contact"
@@ -102,9 +102,9 @@
           "image_highlight": []
         },
         "choices": {
-          "hero_1": {
+          "hero": {
             "type": "Slice",
-            "fieldset": "Hero 1",
+            "fieldset": "Hero",
             "description": "Hero Section",
             "icon": "aspect_ratio",
             "display": "grid",
@@ -139,9 +139,9 @@
             },
             "repeat": {}
           },
-          "features_1": {
+          "features": {
             "type": "Slice",
-            "fieldset": "Features 1",
+            "fieldset": "Features",
             "description": "Feature Section",
             "icon": "content_copy",
             "display": "grid",
@@ -157,9 +157,9 @@
             "non-repeat": {},
             "repeat": {}
           },
-          "contact_1": {
+          "contact": {
             "type": "Slice",
-            "fieldset": "Contact 1",
+            "fieldset": "Contact",
             "description": "Contact Section",
             "icon": "contact_mail",
             "display": "grid",
