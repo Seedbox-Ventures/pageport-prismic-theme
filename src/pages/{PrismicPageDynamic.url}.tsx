@@ -54,9 +54,7 @@ export const query = graphql`
                     }
                     ...PageDynamicDataBodyText
                     ... on PrismicPageDynamicDataBodyCallToAction {
-                        primary {
-                            title
-                        }
+                        id
                     }
                 }
             }
