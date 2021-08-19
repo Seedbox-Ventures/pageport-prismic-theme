@@ -7,6 +7,7 @@ function createPrismicRepositoryConfig(): PrismicRepositoryConfig {
       repositoryName: process.env.GATSBY_PRISMIC_REPO_NAME,
       // @ts-ignore
       accessToken: process.env.GATSBY_PRISMIC_API_KEY,
+      releaseID: process.env.GATSBY_PRISMIC_RELEASE_ID,
       linkResolver,
     }
   }
