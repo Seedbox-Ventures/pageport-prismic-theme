@@ -138,7 +138,7 @@ export class StyleHelper {
       return {}
     }
     const responsiveAttributeMap: Partial<Record<BreakPointName, string>> = {}
-    const attrValues = attributeValue.split('|')
+    const attrValues = attributeValue!.split('|')
     _.each(attrValues, (v, i) => {
       if (i >= breakPoints.length) {
         return
