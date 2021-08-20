@@ -76,7 +76,7 @@ export const theme = {
     'buttons': [
       {
         'button_type': 'Default',
-        'color': 'Light Text',
+        'color': 'Dark Text',
         'fill_background': true,
         'hover_effect': 'None'
       },
