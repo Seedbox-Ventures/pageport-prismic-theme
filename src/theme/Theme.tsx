@@ -83,6 +83,6 @@ export class Theme implements DefaultTheme {
   }
 
   getButtonConfigByType = (buttonType: ThemeButtonType): ThemeButtonConfig => {
-    return (_.find(this.values.colorMapping, { buttonType })!)
+    return (_.find(this.values.buttons, { buttonType })!)
   }
 }

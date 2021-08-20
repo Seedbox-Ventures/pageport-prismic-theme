@@ -62,7 +62,7 @@ export const query = graphql`
                 button_border_radius
                 button_border_width
                 button_box_shadow
-                color_mapping {
+                buttons {
                   button_type
                   color
                   fill_background

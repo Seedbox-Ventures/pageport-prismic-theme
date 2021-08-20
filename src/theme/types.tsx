@@ -86,7 +86,7 @@ export interface ThemeValues {
   buttonBorderRadius: string
   buttonBorderWidth: string
   buttonBoxShadow: string
-  colorMapping: Array<ThemeButtonConfig>
+  buttons: Array<ThemeButtonConfig>
 }
 
 export interface ThemePrismicData {
@@ -115,7 +115,7 @@ export interface ThemePrismicData {
   button_border_radius?: string
   button_border_width?: string
   button_box_shadow?: string
-  color_mapping?: Array<{
+  buttons?: Array<{
     'button_type': string
     'color': string
     'fill_background': boolean
