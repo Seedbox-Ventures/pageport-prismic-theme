@@ -35,7 +35,7 @@ export class Theme implements DefaultTheme {
   }
 
   static mapThemingData = (themingData: Record<string, any>): Partial<ThemeValues> => {
-    return objectKeysToCamelCase(themingData) as ThemeValues
+    return _.omitBy(objectKeysToCamelCase(themingData), _.isEmpty) as ThemeValues
   }
 
   getColorValueByType = (colorType: ThemeColorType): `#${string}` => {
