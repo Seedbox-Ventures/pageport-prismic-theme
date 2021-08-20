@@ -88,7 +88,7 @@ export const Button: React.FC<ButtonProps> =
 
     if (link.link_type === PrismicLinkTypeEnum.Web) {
       return (
-        <StyledButton as="a" buttonType={type} id={link.id} href={link.url}>
+        <StyledButton as="a" buttonType={type} id={link.id} href={link.url} target={link.target}>
           {text}
         </StyledButton>
       )
