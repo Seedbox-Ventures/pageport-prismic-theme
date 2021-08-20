@@ -53,10 +53,14 @@ export interface ThemeType {
 
 export enum ThemeButtonType {
   Default = 'Default',
+  Primary = 'Primary',
+  Secondary = 'Secondary',
   Submit = 'Submit',
-  Success = 'Success',
-  Danger = 'Danger',
   Cancel = 'Cancel',
+  Info = 'Info',
+  Success = 'Success',
+  Warn = 'Warn',
+  Danger = 'Danger',
 }
 
 export enum ThemeButtonHoverEffectType {
