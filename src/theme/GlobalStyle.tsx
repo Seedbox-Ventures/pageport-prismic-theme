@@ -7,7 +7,6 @@ import { Helmet } from 'react-helmet'
 
 const StyleComponent = createGlobalStyle<{}>(({ theme }) => {
   return `
-  @import
   body {
     ${theme.renderTextTypeCss(ThemeTextType.StandardText)}
   }
