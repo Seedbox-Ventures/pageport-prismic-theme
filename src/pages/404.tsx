@@ -15,12 +15,12 @@ export default withPrismicUnpublishedPreview(
   NotFoundPage,
   [
     {
-      repositoryName: process.env.PRISMIC_REPO_NAME!,
+      repositoryName: process.env.GATSBY_PRISMIC_REPO_NAME!,
       // @ts-ignore
-      accessToken: process.env.PRISMIC_API_KEY!,
+      accessToken: process.env.GATSBY_PRISMIC_API_KEY!,
       linkResolver,
       componentResolver: componentResolverFromMap({
-        page: PageTemplate,
+        page_dynamic: PageTemplate,
       }),
     },
   ],

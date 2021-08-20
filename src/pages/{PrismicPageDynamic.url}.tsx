@@ -2,7 +2,6 @@ import * as React from 'react'
 import * as gatsby from 'gatsby'
 import { graphql } from 'gatsby'
 import { UnknownRecord, withPrismicPreview } from 'gatsby-plugin-prismic-previews'
-import { previewConfig } from '../utils/Prismic'
 import { Layout } from '../components/Layout'
 import { SEO } from '../components/Seo'
 import { SliceZone } from '../components/SliceZone'
@@ -10,6 +9,7 @@ import { SliceData } from '../sections'
 import { WithPrismicPreviewProps } from 'gatsby-plugin-prismic-previews/src/withPrismicPreview'
 import { ThemePrismicData } from '../theme/types'
 import { ThemeWrapper } from '../theme/ThemeWrapper'
+import { linkResolver } from '../utils/LinkResolver'
 
 interface DynamicPageProps extends UnknownRecord {
   prismicTheme: {
@@ -65,5 +65,10 @@ export const query = graphql`
 `
 
 export default withPrismicPreview(DynamicPage, [
-  previewConfig,
+  {
+    repositoryName: process.env.GATSBY_PRISMIC_REPO_NAME!,
+    // @ts-ignore
+    accessToken: process.env.GATSBY_PRISMIC_API_KEY!,
+    linkResolver,
+  },
 ])
