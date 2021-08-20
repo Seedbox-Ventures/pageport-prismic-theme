@@ -51,6 +51,32 @@ export interface ThemeType {
   textType: ThemeTextType
 }
 
+export enum ThemeButtonType {
+  Default = 'Default',
+  Primary = 'Primary',
+  Secondary = 'Secondary',
+  Submit = 'Submit',
+  Cancel = 'Cancel',
+  Info = 'Info',
+  Success = 'Success',
+  Warn = 'Warn',
+  Danger = 'Danger',
+}
+
+export enum ThemeButtonHoverEffectType {
+  None = "None",
+  ChangeBackground = "Change Background",
+  ChangeBoxShadow = "Change Box Shadow",
+  DarkenLighten = "Darken / Lighten",
+}
+
+export interface ThemeButtonConfig {
+  buttonType: ThemeButtonType
+  color: ThemeColorType,
+  fillBackground: boolean
+  hoverEffect: ThemeButtonHoverEffectType
+}
+
 export interface ThemeValues {
   colors: Array<ThemeColor>
   contentPadding: string
@@ -60,6 +86,11 @@ export interface ThemeValues {
   secondaryFontFamily: string
   secondaryFontImportLink: FilledLinkToWebField
   typeDefinitions: Array<ThemeType>
+  buttonPadding: string
+  buttonBorderRadius: string
+  buttonBorderWidth: string
+  buttonBoxShadow: string
+  buttons: Array<ThemeButtonConfig>
 }
 
 export interface ThemePrismicData {
@@ -84,6 +115,16 @@ export interface ThemePrismicData {
     'line_height': string
     'text_type': string
   }>,
+  button_padding?: string
+  button_border_radius?: string
+  button_border_width?: string
+  button_box_shadow?: string
+  buttons?: Array<{
+    'button_type': string
+    'color': string
+    'fill_background': boolean
+    'hover_effect': string
+  }>
 }
 
 export interface ThemeInterface {
@@ -97,5 +138,6 @@ export interface ThemeInterface {
   getStandardType: () => ThemeType
   renderTextTypeCss: (themeTextType: ThemeTextType) => string
   renderTypeCss: (themeTextType: ThemeType) => string
+  getButtonConfigByType: (buttonType: ThemeButtonType) => ThemeButtonConfig
 }
 
