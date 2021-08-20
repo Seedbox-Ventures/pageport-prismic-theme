@@ -8,6 +8,8 @@ import {
   ThemeTextType,
   ThemeType,
   ThemeValues,
+  ThemeButtonType,
+  ThemeButtonConfig
 } from './types'
 import { StyleHelper } from './Style'
 
@@ -33,7 +35,7 @@ export class Theme implements DefaultTheme {
   }
 
   static mapThemingData = (themingData: Record<string, any>): Partial<ThemeValues> => {
-    return objectKeysToCamelCase(themingData) as ThemeValues
+    return _.omitBy(objectKeysToCamelCase(themingData), _.isEmpty) as ThemeValues
   }
 
   getColorValueByType = (colorType: ThemeColorType): `#${string}` => {
@@ -78,5 +80,9 @@ export class Theme implements DefaultTheme {
       'line-height': themeType.lineHeight,
       'font-family': this.getFontFamily(themeType.fontFamily),
     })
+  }
+
+  getButtonConfigByType = (buttonType: ThemeButtonType): ThemeButtonConfig => {
+    return (_.find(this.values.buttons, { buttonType })!)
   }
 }

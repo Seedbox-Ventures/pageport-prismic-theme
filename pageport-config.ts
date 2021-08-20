@@ -15,8 +15,24 @@ export const theme = {
         'value': '#7a39db',
       },
       {
+        'color_type': 'Accent',
+        'value': '#c97c1e',
+      },
+      {
+        'color_type': 'Info',
+        'value': '#1e8dc9',
+      },
+      {
         'color_type': 'Success',
         'value': '#82c91e',
+      },
+      {
+        'color_type': 'Warn',
+        'value': '#eab327',
+      },
+      {
+        'color_type': 'Danger',
+        'value': '#c9321e',
       },
       {
         'color_type': 'Dark Text',
@@ -53,5 +69,53 @@ export const theme = {
       'line_height': '1.5em',
       'text_type': 'Standard Text',
     }],
+    'button_padding': '.5em .75em',
+    'button_border_radius': '99999px',
+    'button_border_width': '.125em',
+    'button_box_shadow': 'none',
+    'buttons': [
+      {
+        'button_type': 'Default',
+        'color': 'Dark Text',
+        'fill_background': true,
+        'hover_effect': 'None'
+      },
+      {
+        'button_type': 'Primary',
+        'color': 'Primary',
+        'fill_background': true,
+        'hover_effect': 'None'
+      },
+      {
+        'button_type': 'Secondary',
+        'color': 'Accent',
+        'fill_background': true,
+        'hover_effect': 'None'
+      },
+      {
+        'button_type': 'Submit',
+        'color': 'Success',
+        'fill_background': true,
+        'hover_effect': 'None'
+      },
+      {
+        'button_type': 'Success',
+        'color': 'Success',
+        'fill_background': true,
+        'hover_effect': 'None'
+      },
+      {
+        'button_type': 'Danger',
+        'color': 'Danger',
+        'fill_background': true,
+        'hover_effect': 'None'
+      },
+      {
+        'button_type': 'Cancel',
+        'color': 'Danger',
+        'fill_background': true,
+        'hover_effect': 'None'
+      },
+    ]
   },
 }
