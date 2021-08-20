@@ -1,6 +1,6 @@
 import * as React from 'react'
-import _ from 'lodash'
 import { ReactNode } from 'react'
+import _ from 'lodash'
 import { ThemeProvider } from 'styled-components'
 import { ThemePrismicData, ThemeValues } from './types'
 import { graphql } from 'gatsby'
@@ -19,7 +19,8 @@ export const defaultValues: ThemeValues = Theme.mapThemingData(themeConfig.defau
 export const ThemeWrapper: React.FC<ThemeWrapperProps> = ({ themeValues, children, isRootTheme = false }) => {
 
   const prismicThemeValues: Partial<ThemeValues> = themeValues ? Theme.mapThemingData(themeValues) : {}
-  const mergedThemeValues: ThemeValues = _.merge({ ...defaultValues, ...prismicThemeValues })
+  const mergedThemeValues: ThemeValues = _.merge(defaultValues, prismicThemeValues)
+
 
   const theme = new Theme(mergedThemeValues)
 
