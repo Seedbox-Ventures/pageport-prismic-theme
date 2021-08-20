@@ -1,6 +1,6 @@
 import * as React from 'react'
-import _ from 'lodash'
 import { ReactNode } from 'react'
+import _ from 'lodash'
 import { ThemeProvider } from 'styled-components'
 import { ThemePrismicData, ThemeValues } from './types'
 import { graphql } from 'gatsby'
