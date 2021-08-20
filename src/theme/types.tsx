@@ -134,5 +134,6 @@ export interface ThemeInterface {
   getStandardType: () => ThemeType
   renderTextTypeCss: (themeTextType: ThemeTextType) => string
   renderTypeCss: (themeTextType: ThemeType) => string
+  getButtonConfigByType: (buttonType: ThemeButtonType) => ThemeButtonConfig
 }
 

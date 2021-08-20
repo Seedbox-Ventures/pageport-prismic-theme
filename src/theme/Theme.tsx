@@ -8,6 +8,8 @@ import {
   ThemeTextType,
   ThemeType,
   ThemeValues,
+  ThemeButtonType,
+  ThemeButtonConfig
 } from './types'
 import { StyleHelper } from './Style'
 
@@ -78,5 +80,9 @@ export class Theme implements DefaultTheme {
       'line-height': themeType.lineHeight,
       'font-family': this.getFontFamily(themeType.fontFamily),
     })
+  }
+
+  getButtonConfigByType = (buttonType: ThemeButtonType): ThemeButtonConfig => {
+    return (_.find(this.values.colorMapping, { buttonType })!)
   }
 }
