@@ -58,6 +58,16 @@ export const query = graphql`
                     line_height
                     text_type
                 }
+                button_padding
+                button_border_radius
+                button_border_width
+                button_box_shadow
+                color_mapping {
+                  button_type
+                  color
+                  fill_background
+                  hover_effect
+                }
                 logo_inverted {
                     alt
                     url

@@ -186,31 +186,31 @@
       "type": "Text",
       "config": {
         "label": "Button Padding",
-        "placeholder": "12px 24px"
+        "placeholder": ".5em 1em"
       }
     },
     "button_border_radius": {
-      "type": "Number",
+      "type": "Text",
       "config": {
         "label": "Button Border Radius",
-        "placeholder": "10px"
+        "placeholder": "rounded"
       }
     },
-    "button_border_style": {
+    "button_border_width": {
       "type": "Text",
       "config": {
-        "label": "Button Border Style",
+        "label": "Button Border Width",
+        "placeholder": ".125em"
+      }
+    },
+    "button_box_shadow": {
+      "type": "Text",
+      "config": {
+        "label": "Button Box Shadow",
         "placeholder": "none"
       }
     },
-    "box_shadow": {
-      "type": "Text",
-      "config": {
-        "label": "Box Shadow",
-        "placeholder": "none"
-      }
-    },
-    "color_mapping": {
+    "buttons": {
       "type": "Group",
       "config": {
         "fields": {
@@ -219,6 +219,8 @@
             "config": {
               "options": [
                 "Default",
+                "Primary",
+                "Secondary",
                 "Submit",
                 "Success",
                 "Danger",
@@ -266,8 +268,8 @@
                 "Change Box Shadow",
                 "Darken / Lighten"
               ],
-              "label": "Hover Effect",
-              "placeholder": "none"
+              "default_value": "None",
+              "label": "Hover Effect"
             }
           }
         },
