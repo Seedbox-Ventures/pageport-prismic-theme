@@ -401,6 +401,23 @@
     }
   },
   "Footer" : {
+    "footer_background_color" : {
+      "type" : "Select",
+      "config" : {
+        "options" : [ "Background Default", "Background Alternative", "Background Emphasize" ],
+        "default_value" : "Background Default",
+        "label" : "Background Color"
+      }
+    },
+    "footer_show_logo" : {
+      "type" : "Boolean",
+      "config" : {
+        "placeholder_false" : "Logo im Footer nicht anzeigen",
+        "placeholder_true" : "Logo im Footer anzeigen",
+        "default_value" : true,
+        "label" : "Logo im Footer"
+      }
+    },
     "footer_text" : {
       "type" : "Text",
       "config" : {
@@ -408,40 +425,49 @@
         "placeholder" : "Some text in the footer"
       }
     },
-    "footer_menu" : {
+    "footer_links" : {
       "type" : "Group",
       "config" : {
         "fields" : {
-          "footer_link" : {
+          "text" : {
+            "type" : "Text",
+            "config" : {
+              "label" : "Footer Item Text",
+              "placeholder" : "Link Text"
+            }
+          },
+          "link" : {
             "type" : "Link",
             "config" : {
-              "label" : "footer_link",
+              "label" : "Footer Item Link",
               "placeholder" : "Link",
-              "select" : null
+              "select" : null,
+              "allowTargetBlank" : true
             }
           }
         },
         "label" : "Footer Menu"
       }
     },
-    "social_media_links" : {
+    "footer_socialmedia" : {
       "type" : "Group",
       "config" : {
         "fields" : {
           "platform" : {
             "type" : "Select",
             "config" : {
-              "options" : [ "Facebook", "Instagram", "Pinterest", "TikTok", "Twitch", "Twitter", "Whatsapp" ],
+              "options" : [ "Facebook", "Instagram", "LinkedIn", "Pinterest", "TikTok", "Twitch", "Twitter", "Whatsapp" ],
               "default_value" : "Facebook",
-              "label" : "platform"
+              "label" : "Plattform"
             }
           },
           "link" : {
             "type" : "Link",
             "config" : {
               "allowTargetBlank" : true,
-              "label" : "link",
-              "select" : null
+              "label" : "Link",
+              "select" : null,
+              "placeholder" : "Link"
             }
           }
         },
