@@ -1,7 +1,6 @@
 import * as React from 'react'
 import * as gatsby from 'gatsby'
 import { graphql } from 'gatsby'
-import { UnknownRecord, withPrismicPreview } from 'gatsby-plugin-prismic-previews'
 import { Layout } from '../components/Layout'
 import { SEO } from '../components/Seo'
 import { SliceZone } from '../components/SliceZone'
@@ -10,6 +9,7 @@ import { WithPrismicPreviewProps } from 'gatsby-plugin-prismic-previews/src/with
 import { ThemePrismicData } from '../theme/types'
 import { ThemeWrapper } from '../theme/ThemeWrapper'
 import { linkResolver } from '../utils/LinkResolver'
+import { UnknownRecord } from 'gatsby-source-prismic'
 
 interface DynamicPageProps extends UnknownRecord {
   prismicTheme: {
@@ -64,11 +64,17 @@ export const query = graphql`
 
 `
 
-export default withPrismicPreview(DynamicPage, [
-  {
-    repositoryName: process.env.GATSBY_PRISMIC_REPO_NAME!,
-    // @ts-ignore
-    accessToken: process.env.GATSBY_PRISMIC_API_KEY!,
-    linkResolver,
-  },
-])
+export default ((): React.ComponentType<gatsby.PageProps<DynamicPageProps> & WithPrismicPreviewProps<DynamicPageProps>> => {
+  if (process.env.PRISMIC_PREVIEW === '1') {
+    const { withPrismicPreview } = require('gatsby-plugin-prismic-previews')
+    return withPrismicPreview(DynamicPage, [
+      {
+        repositoryName: process.env.GATSBY_PRISMIC_REPO_NAME!,
+        // @ts-ignore
+        accessToken: process.env.GATSBY_PRISMIC_API_KEY!,
+        linkResolver,
+      },
+    ])
+  }
+  return DynamicPage
+})()
