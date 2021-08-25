@@ -37,7 +37,7 @@
     }
   },
   "Header": {
-    "background_color": {
+    "header_background_color": {
       "type": "Select",
       "config": {
         "options": [
@@ -54,10 +54,10 @@
           "Background Emphasize"
         ],
         "default_value": "Primary",
-        "label": "Header Background Color"
+        "label": "Background Color"
       }
     },
-    "logo_position": {
+    "header_logo_position": {
       "type": "Boolean",
       "config": {
         "placeholder_false": "Left",
@@ -66,14 +66,14 @@
         "label": "Logo Position"
       }
     },
-    "logo_width": {
+    "header_logo_width": {
       "type": "Text",
       "config": {
         "label": "Logo Width",
         "placeholder": "120px"
       }
     },
-    "icon_as_logo": {
+    "header_icon_as_logo": {
       "type": "Select",
       "config": {
         "options": [
@@ -87,7 +87,7 @@
         "label": "Icon as Logo"
       }
     },
-    "burger_menu": {
+    "header_burger_menu": {
       "type": "Select",
       "config": {
         "options": [
@@ -101,7 +101,15 @@
         "label": "Burger Menu"
       }
     },
-    "header_menu": {
+    "header_logo_link": {
+      "type": "Link",
+      "config": {
+        "allowTargetBlank": true,
+        "label": "Header Logo Link",
+        "placeholder": "/"
+      }
+    },
+    "header_links": {
       "type": "Group",
       "config": {
         "fields": {
