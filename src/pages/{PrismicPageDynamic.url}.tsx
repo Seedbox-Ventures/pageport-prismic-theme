@@ -53,9 +53,7 @@ export const query = graphql`
                         slice_type
                     }
                     ...PageDynamicDataBodyText
-                    ... on PrismicPageDynamicDataBodyCallToAction {
-                        id
-                    }
+                    ...PageDynamicDataBodyCallToAction
                 }
             }
         }
