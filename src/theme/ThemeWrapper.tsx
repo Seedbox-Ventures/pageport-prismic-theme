@@ -67,14 +67,6 @@ export const query = graphql`
                     fill_background
                     hover_effect
                 }
-                logo_inverted {
-                    alt
-                    url
-                }
-                logo {
-                    url
-                    alt
-                }
             }
         }
     }

@@ -118,13 +118,17 @@ export default {
     },
   },
   pageDynamic: {
-    defaultProps: {
-      'header_background_color': 'Primary',
-      'header_burger_menu': 'Tablet',
-      'header_icon_as_logo': 'Never',
-      'header_logo_position': false,
-      'header_logo_width': '120px',
-      'header_links': [],
+    defaultData: {},
+  },
+  header: {
+    defaultData: {
+      'background_color': 'Primary',
+      'burger_menu_breakpoint': 'Never',
+      'icon_as_logo_breakpoint': 'Never',
+      'logo_position': false,
+      'logo_width': '120px',
+      'padding_bottom': '1rem',
+      'padding_top': '1rem',
     },
   },
 }

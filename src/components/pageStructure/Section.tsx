@@ -2,12 +2,11 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { StyleHelper, ThemeColorType } from '../../theme'
 
-
 export interface SectionProps {
   backgroundColor: ThemeColorType
   isFullWidth?: boolean
-  paddingTop?: string
-  paddingBottom?: string
+  paddingTop: string
+  paddingBottom: string
   as?: React.ElementType
 }
 
@@ -31,6 +30,7 @@ const ContentContainer = styled.div<{ isFullWidth: boolean, paddingTop?: string,
     theme,
   }) => {
   const styleObj: Record<string, string> = {
+    position: 'relative',
     margin: '0 auto',
     'max-width': isFullWidth ? '100%' : theme.props.contentMaxWidth,
     padding: StyleHelper.mergePaddings(theme.props.contentPadding, { top: paddingTop, bottom: paddingBottom }),
@@ -47,6 +47,7 @@ export const Section: React.FC<SectionProps> =
      children,
      as = 'section',
    }) => {
+
     return <StyledSection {...{ as, backgroundColor }}>
       <ContentContainer {...{ className: 'contentContainer', isFullWidth, paddingTop, paddingBottom }}>
         {children}

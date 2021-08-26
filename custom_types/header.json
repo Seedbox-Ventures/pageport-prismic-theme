@@ -19,9 +19,34 @@
         "default_value": "Primary",
         "label": "Background Color"
       }
+    },
+    "padding_top": {
+      "type": "Text",
+      "config": {
+        "label": "Padding Top",
+        "placeholder": "1rem"
+      }
+    },
+    "padding_bottom": {
+      "type": "Text",
+      "config": {
+        "label": "Padding Bottom",
+        "placeholder": "1rem"
+      }
     }
   },
   "Logo": {
+    "logo": {
+      "type": "Image",
+      "config": {
+        "constraint": {
+          "width": null,
+          "height": null
+        },
+        "thumbnails": [],
+        "label": "Logo"
+      }
+    },
     "logo_position": {
       "type": "Boolean",
       "config": {
@@ -38,20 +63,6 @@
         "placeholder": "120px"
       }
     },
-    "icon_as_logo_breakpoint": {
-      "type": "Select",
-      "config": {
-        "options": [
-          "Never",
-          "Smartphone",
-          "Tablet",
-          "Laptop",
-          "Desktop"
-        ],
-        "default_value": "Never",
-        "label": "Icon as Logo"
-      }
-    },
     "link": {
       "type": "Link",
       "config": {
@@ -63,7 +74,7 @@
     }
   },
   "Menu": {
-    "header_burger_menu_breakpoint": {
+    "burger_menu_breakpoint": {
       "type": "Select",
       "config": {
         "options": [

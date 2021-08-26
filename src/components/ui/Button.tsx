@@ -1,9 +1,9 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { ThemeButtonType, ThemeTextType, ThemeButtonHoverEffectType } from '../theme'
+import { ThemeButtonType, ThemeTextType, ThemeButtonHoverEffectType } from '../../theme'
 import { Link } from 'gatsby'
-import { linkResolver } from '../utils/LinkResolver'
-import { PrismicLinkType, PrismicLinkTypeEnum } from '../types/PrismicLink'
+import { linkResolver } from '../../utils/LinkResolver'
+import { PrismicLinkType, PrismicLinkTypeEnum } from '../../types/PrismicLink'
 import tinycolor from 'tinycolor2'
 
 export interface ButtonProps {

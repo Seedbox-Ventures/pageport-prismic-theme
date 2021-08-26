@@ -6,7 +6,7 @@ import { SEO } from '../components/pageStructure/Seo'
 import { WithPrismicPreviewProps } from 'gatsby-plugin-prismic-previews/src/withPrismicPreview'
 import { Theme, ThemeData, ThemeWrapper } from '../theme'
 import { linkResolver } from '../utils/LinkResolver'
-import { Footer, Header, SliceData, SliceZone } from '../components/pageStructure'
+import { Footer, Header, HeaderData, SliceData, SliceZone } from '../components/pageStructure'
 import { TextSection } from '../sections'
 
 interface DynamicPageProps extends UnknownRecord {
@@ -16,6 +16,11 @@ interface DynamicPageProps extends UnknownRecord {
   prismicPageDynamic: {
     data: {
       page_title: string,
+      header_ref: {
+        document: {
+          data: HeaderData
+        }
+      },
       body: Array<SliceData>
     }
   }
@@ -23,13 +28,17 @@ interface DynamicPageProps extends UnknownRecord {
 
 const DynamicPage: React.ComponentType<gatsby.PageProps<DynamicPageProps> & WithPrismicPreviewProps<DynamicPageProps>> = ({ data }) => {
   if (!data) return null
-  const { page_title: title, body: slices } = data.prismicPageDynamic.data
+  const {
+    page_title: title,
+    body: slices,
+    header_ref: { document: { data: headerData } },
+  } = data.prismicPageDynamic.data
   const themeProps = Theme.mapDataToProps(data.prismicTheme.data)
 
   return (
     <ThemeWrapper themeProps={themeProps} isRootTheme={true}>
       <SEO title={title} />
-      <Header />
+      <Header {...Header.mapDataToProps(headerData)} />
       <SliceZone slicesData={slices} sliceComponentMap={
         { text: TextSection }
       } />
