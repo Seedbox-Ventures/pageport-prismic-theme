@@ -49,7 +49,7 @@ export class StyleHelper {
   }
 
   static mergeContainerSpacings = (...spacings: Array<ContainerSpacing>): string => {
-    const breakPointSpacings = _.omitBy(_.map(spacings, (spacing) => {
+    const breakPointSpacings = _.map(_.omitBy(_.map(spacings, (spacing) => {
       if (typeof spacing === 'string') {
         return _.mapValues(StyleHelper.extractResponsiveAttributeMap(spacing), StyleHelper.spacingStringToObject)
       }
@@ -58,7 +58,19 @@ export class StyleHelper {
         _lastSpacings = _.merge(_lastSpacings, v)
         return _lastSpacings
       })
-    }), _.isEmpty)
+    }), _.isEmpty), (breakPointSpacing) => {
+      const resultSpacings: Partial<Record<BreakPointName, SpacingObject>> = {}
+      let lastBreakPointName: BreakPointName
+      _.each(breakPoints, ({ name: breakPointName }) => {
+        if (!lastBreakPointName) {
+          resultSpacings[breakPointName] = breakPointSpacing[breakPointName]
+        } else {
+          resultSpacings[breakPointName] = breakPointSpacing[breakPointName] ?? resultSpacings[lastBreakPointName]
+        }
+        lastBreakPointName = breakPointName
+      })
+      return resultSpacings
+    })
 
     const mergedBreakPointSpacings: Array<string> = []
     let _lastMergedSpacings: SpacingObject = { top: '0', right: '0', bottom: '0', left: '0' }
