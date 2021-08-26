@@ -8,16 +8,20 @@ export interface SectionProps {
   paddingTop: string
   paddingBottom: string
   as?: React.ElementType
+  isSticky?: boolean
 }
 
-const StyledSection = styled.div<{ as?: React.ElementType, backgroundColor: ThemeColorType }>(
+const StyledSection = styled.div<{ as?: React.ElementType, backgroundColor: ThemeColorType, isSticky: boolean }>(
   ({
      backgroundColor,
+     isSticky,
      theme,
    }) => (
     `
     color: ${theme.getTextColorValueByBackground(backgroundColor)};
     background-color: ${theme.getColorValueByType(backgroundColor)};
+    position: ${isSticky ? 'sticky' : 'static'};
+    width: 100%;
   `
   ))
 
@@ -44,11 +48,12 @@ export const Section: React.FC<SectionProps> =
      isFullWidth = false,
      paddingTop,
      paddingBottom,
+     isSticky = false,
      children,
      as = 'section',
    }) => {
 
-    return <StyledSection {...{ as, backgroundColor }}>
+    return <StyledSection {...{ as, backgroundColor, isSticky }}>
       <ContentContainer {...{ className: 'contentContainer', isFullWidth, paddingTop, paddingBottom }}>
         {children}
       </ContentContainer>

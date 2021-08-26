@@ -127,6 +127,7 @@ export default {
       'icon_as_logo_breakpoint': 'Never',
       'logo_position': false,
       'logo_width': '120px',
+      'isSticky': false,
       'padding_bottom': '1rem',
       'padding_top': '1rem',
     },

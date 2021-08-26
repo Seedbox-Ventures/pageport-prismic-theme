@@ -23,6 +23,7 @@ export interface HeaderData {
     gatsbyImageData?: ImageDataLike,
     alt?: string
   },
+  is_sticky: boolean,
   padding_bottom: string
   padding_top: string
 }
@@ -36,6 +37,7 @@ export interface HeaderProps {
     image?: IGatsbyImageData,
     alt: string
   },
+  isSticky?: boolean,
   paddingTop: string,
   paddingBottom: string
 }
@@ -44,12 +46,13 @@ export const Header: DataComponent<HeaderProps, HeaderData> = (
   {
     backgroundColor = ThemeColorType.Primary,
     logo,
+    isSticky = false,
     paddingTop,
     paddingBottom,
   },
 ) => {
   return (
-    <Section as='header' backgroundColor={backgroundColor} paddingTop={paddingTop} paddingBottom={paddingBottom}>
+    <Section as='header' {...{ backgroundColor, isSticky, paddingTop, paddingBottom }}>
       {logo?.image && <GatsbyImage image={logo.image!} alt={logo.alt} />}
     </Section>
   )
@@ -63,13 +66,15 @@ Header.mapDataToProps = (headerData) => {
     logo_width,
     padding_top,
     padding_bottom,
-  } = _.merge(headerDefaults as Partial<HeaderData>, _.omitBy(headerData, _.isEmpty))
+    is_sticky,
+  } = _.merge(headerDefaults as Partial<HeaderData>, headerData)
 
   const props: HeaderProps = {
     backgroundColor: background_color,
     logoWidth: logo_width,
     paddingTop: padding_top ?? '1rem',
     paddingBottom: padding_bottom ?? '1rem',
+    isSticky: is_sticky,
   }
 
   if (!_.isEmpty(logo?.gatsbyImageData)) {
@@ -93,6 +98,7 @@ export const query = graphql`
                 alt
                 gatsbyImageData(placeholder: BLURRED, height: 60)
             }
+            is_sticky
             padding_bottom
             padding_top
         }

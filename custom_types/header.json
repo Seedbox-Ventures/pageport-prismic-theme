@@ -20,6 +20,13 @@
         "label": "Background Color"
       }
     },
+    "is_sticky": {
+      "type": "Boolean",
+      "config": {
+        "default_value": false,
+        "label": "Is Sticky"
+      }
+    },
     "padding_top": {
       "type": "Text",
       "config": {
