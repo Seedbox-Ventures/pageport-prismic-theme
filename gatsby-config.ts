@@ -27,6 +27,7 @@ export default {
           page_dynamic: require('./custom_types/page_dynamic.json'),
           page_imprint: require('./custom_types/page_imprint.json'),
           page_legal: require('./custom_types/page_legal.json'),
+          header: require('./custom_types/header.json'),
           theme: require('./custom_types/theme.json'),
         },
       },

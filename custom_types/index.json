@@ -6,6 +6,12 @@
     "value": "theme.json"
   },
   {
+    "id": "header",
+    "name": "Header",
+    "repeatable": true,
+    "value": "header.json"
+  },
+  {
     "id": "page_dynamic",
     "name": "Page - Dynamic",
     "repeatable": true,

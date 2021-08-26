@@ -1,0 +1,122 @@
+{
+  "General": {
+    "background_color": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Primary",
+          "Accent",
+          "Info",
+          "Warn",
+          "Danger",
+          "Success",
+          "Light Text",
+          "Dark Text",
+          "Background Default",
+          "Background Alternative",
+          "Background Emphasize"
+        ],
+        "default_value": "Primary",
+        "label": "Background Color"
+      }
+    }
+  },
+  "Logo": {
+    "logo_position": {
+      "type": "Boolean",
+      "config": {
+        "placeholder_false": "Left",
+        "placeholder_true": "Right",
+        "default_value": false,
+        "label": "Logo Position"
+      }
+    },
+    "logo_width": {
+      "type": "Text",
+      "config": {
+        "label": "Logo Width",
+        "placeholder": "120px"
+      }
+    },
+    "icon_as_logo_breakpoint": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Never",
+          "Smartphone",
+          "Tablet",
+          "Laptop",
+          "Desktop"
+        ],
+        "default_value": "Never",
+        "label": "Icon as Logo"
+      }
+    },
+    "link": {
+      "type": "Link",
+      "config": {
+        "allowTargetBlank": true,
+        "label": "Header Logo Link",
+        "placeholder": "/",
+        "select": null
+      }
+    }
+  },
+  "Menu": {
+    "header_burger_menu_breakpoint": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Never",
+          "Smartphone",
+          "Tablet",
+          "Laptop",
+          "Desktop"
+        ],
+        "default_value": "Never",
+        "label": "Burger Menu"
+      }
+    },
+    "links": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "link": {
+            "type": "Link",
+            "config": {
+              "allowTargetBlank": true,
+              "label": "Link",
+              "placeholder": "https://pageport.io",
+              "select": null
+            }
+          },
+          "text": {
+            "type": "Text",
+            "config": {
+              "label": "Text",
+              "placeholder": "Link Text"
+            }
+          },
+          "style": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "Link",
+                "Button - Default",
+                "Button - Primary",
+                "Button - Secondary",
+                "Button - Submit",
+                "Button - Success",
+                "Button - Danger",
+                "Button - Cancel"
+              ],
+              "default_value": "Link",
+              "label": "Style"
+            }
+          }
+        },
+        "label": "Header Menu"
+      }
+    }
+  }
+}
