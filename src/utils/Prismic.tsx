@@ -1,21 +1,15 @@
-import { linkResolver } from './LinkResolver'
-import { PrismicRepositoryConfig } from 'gatsby-plugin-prismic-previews'
+import _ from 'lodash'
 
-function createPrismicRepositoryConfig(): PrismicRepositoryConfig {
-  if (process.env.GATSBY_PRISMIC_REPO_NAME) {
-    return {
-      repositoryName: process.env.GATSBY_PRISMIC_REPO_NAME,
-      // @ts-ignore
-      accessToken: process.env.GATSBY_PRISMIC_API_KEY,
-      linkResolver,
-    }
-  }
-  return {
-    repositoryName: process.env.PRISMIC_REPO_NAME!,
-    // @ts-ignore
-    accessToken: process.env.PRISMIC_API_KEY,
-    linkResolver,
-  } //
+
+export const DataHelper = {
+  objectKeysToCamelCase: function(obj: Object): Record<string, any> {
+    let transformedObj: Record<string, any> = _.mapKeys(obj, (_v, k) => _.camelCase(k))
+    transformedObj = _.mapValues(transformedObj, (v) => {
+      if (typeof v === 'object') {
+        return DataHelper.objectKeysToCamelCase(v)
+      }
+      return v
+    }) as Record<string, any>
+    return transformedObj
+  },
 }
-
-export const previewConfig: PrismicRepositoryConfig = createPrismicRepositoryConfig()

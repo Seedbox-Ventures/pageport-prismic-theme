@@ -11,13 +11,14 @@ export enum ThemeColorType {
   DarkText = 'Dark Text',
   BackgroundDefault = 'Background Default',
   BackgroundAlternative = 'Background Alternative',
-  BackgroundEmphasize = 'Background Emphasize'
+  BackgroundEmphasize = 'Background Emphasize',
+  Transparent = 'Transparent'
 }
 
 export type ThemeBackgroundColor =
   ThemeColorType.BackgroundDefault
   | ThemeColorType.BackgroundAlternative
-  | ThemeColorType.BackgroundAlternative
+  | ThemeColorType.BackgroundEmphasize
 
 export type ThemeTextColor = ThemeColorType.DarkText | ThemeColorType.LightText
 
@@ -64,10 +65,10 @@ export enum ThemeButtonType {
 }
 
 export enum ThemeButtonHoverEffectType {
-  None = "None",
-  ChangeBackground = "Change Background",
-  ChangeBoxShadow = "Change Box Shadow",
-  DarkenLighten = "Darken / Lighten",
+  None = 'None',
+  ChangeBackground = 'Change Background',
+  ChangeBoxShadow = 'Change Box Shadow',
+  DarkenLighten = 'Darken / Lighten',
 }
 
 export interface ThemeButtonConfig {
@@ -77,7 +78,7 @@ export interface ThemeButtonConfig {
   hoverEffect: ThemeButtonHoverEffectType
 }
 
-export interface ThemeValues {
+export interface ThemeProps {
   colors: Array<ThemeColor>
   contentPadding: string
   contentMaxWidth: string
@@ -93,7 +94,7 @@ export interface ThemeValues {
   buttons: Array<ThemeButtonConfig>
 }
 
-export interface ThemePrismicData {
+export interface ThemeData {
   colors?: Array<{ color_type: string, value: string }>
   content_padding?: string
   content_max_width?: string
@@ -128,11 +129,11 @@ export interface ThemePrismicData {
 }
 
 export interface ThemeInterface {
-  values: ThemeValues
+  props: ThemeProps
   //Function Section
   getColorValueByType: (colorType: ThemeColorType) => `#${string}`
   getFontFamily: (fontFamilyType: ThemeFontFamilyType) => string
-  getTextColorValueByBackground: (background: ThemeBackgroundColor) => `#${string}`
+  getTextColorValueByBackground: (background: ThemeColorType) => `#${string}`
   getTextColorValueByBackgroundValue: (background: `#${string}`) => `#${string}`
   getType: (textType: ThemeTextType) => ThemeType | undefined
   getStandardType: () => ThemeType

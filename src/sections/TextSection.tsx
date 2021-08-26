@@ -3,12 +3,11 @@ import { graphql } from 'gatsby'
 import { RichText, RichTextBlock } from 'prismic-reactjs'
 
 import { CustomLink } from '../utils/CustomLink'
-import { SliceComponent, SliceData } from './index'
-import { Section } from '../components/Section'
 import { StyleHelper, ThemeBackgroundColor } from '../theme'
 import styled from 'styled-components'
+import { Section, SliceComponent, SliceData } from '../components/pageStructure'
 
-export interface TextProps {
+export interface TextSectionProps {
   backgroundColor: ThemeBackgroundColor
   columns: number
   content: RichTextBlock[]
@@ -23,7 +22,13 @@ const TextContainer = styled.div<{ columns: number }>(({ columns }) => {
   return ''
 })
 
-export const Text: SliceComponent<TextProps> = ({ backgroundColor, columns, content, paddingTop, paddingBottom }) => {
+export const TextSection: SliceComponent<TextSectionProps> = ({
+                                                                backgroundColor,
+                                                                columns,
+                                                                content,
+                                                                paddingTop,
+                                                                paddingBottom,
+                                                              }) => {
   return (
     <Section {...{ backgroundColor, paddingTop, paddingBottom }}>
       <TextContainer columns={columns}>
@@ -36,7 +41,7 @@ export const Text: SliceComponent<TextProps> = ({ backgroundColor, columns, cont
   )
 }
 
-Text.mapSliceDataToProps = (sliceData: SliceData) =>
+TextSection.mapDataToProps = (sliceData: SliceData) =>
   ({
       backgroundColor: sliceData.primary.background_color as ThemeBackgroundColor,
       columns: sliceData.primary.columns === '2 Columns' ? 2 : 1,
@@ -45,7 +50,6 @@ Text.mapSliceDataToProps = (sliceData: SliceData) =>
       paddingBottom: sliceData.primary.padding_bottom,
     }
   )
-
 
 export const query = graphql`
     fragment PageDynamicDataBodyText on PrismicPageDynamicDataBodyText {

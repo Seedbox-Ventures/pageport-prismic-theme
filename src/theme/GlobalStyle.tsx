@@ -15,9 +15,14 @@ const StyleComponent = createGlobalStyle<{}>(({ theme }) => {
 
 export const GlobalStyle: React.FC = () => {
   const themeContext = useContext(ThemeContext)
-  const fontLinks: ReactNodeArray = _.map(_.omitBy([themeContext.values.primaryFontImportLink, themeContext.values.secondaryFontImportLink], _.isEmpty), (link, i) => {
-    return <link key={`font-import${i}`} rel='stylesheet' href={link.url} />
-  })
+  const fontLinks: ReactNodeArray = _.map(
+    _.omitBy(
+      [themeContext.props.primaryFontImportLink, themeContext.props.secondaryFontImportLink], _.isEmpty,
+    ),
+    (link, i) => {
+      return <link key={`font-import${i}`} rel='stylesheet' href={link.url} />
+    },
+  )
 
   return <>
     {

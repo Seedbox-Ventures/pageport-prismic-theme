@@ -1,52 +1,42 @@
 import _ from 'lodash'
 import { DefaultTheme } from 'styled-components'
 import {
-  ThemeBackgroundColor,
+  ThemeButtonConfig,
+  ThemeButtonType,
   ThemeColorType,
+  ThemeData,
   ThemeFontFamilyType,
+  ThemeProps,
   ThemeTextColor,
   ThemeTextType,
   ThemeType,
-  ThemeValues,
-  ThemeButtonType,
-  ThemeButtonConfig
 } from './types'
 import { StyleHelper } from './Style'
+import { DataHelper } from '../utils/Prismic'
 
 const tinycolor = require('tinycolor2')
 
 
-const objectKeysToCamelCase = (obj: Object): Record<string, any> => {
-  let transformedObj: Record<string, any> = _.mapKeys(obj, (_v, k) => _.camelCase(k))
-  transformedObj = _.mapValues(transformedObj, (v) => {
-    if (typeof v === 'object') {
-      return objectKeysToCamelCase(v)
-    }
-    return v
-  }) as Record<string, any>
-  return transformedObj
-}
-
 export class Theme implements DefaultTheme {
-  readonly values: ThemeValues
+  readonly props: ThemeProps
 
-  constructor(themeValues: ThemeValues) {
-    this.values = themeValues
+  constructor(themeProps: ThemeProps) {
+    this.props = themeProps
   }
 
-  static mapThemingData = (themingData: Record<string, any>): Partial<ThemeValues> => {
-    return _.omitBy(objectKeysToCamelCase(themingData), _.isEmpty) as ThemeValues
+  static mapDataToProps = (themeData: ThemeData): ThemeProps => {
+    return _.omitBy(DataHelper.objectKeysToCamelCase(themeData), _.isEmpty) as ThemeProps
   }
 
   getColorValueByType = (colorType: ThemeColorType): `#${string}` => {
-    return (_.find(this.values.colors, { colorType })!).value
+    return (_.find(this.props.colors, { colorType })!).value
   }
 
   getFontFamily = (fontFamilyType: ThemeFontFamilyType): string => {
-    return fontFamilyType === ThemeFontFamilyType.Secondary ? this.values.secondaryFontFamily : this.values.primaryFontFamily
+    return fontFamilyType === ThemeFontFamilyType.Secondary ? this.props.secondaryFontFamily : this.props.primaryFontFamily
   }
 
-  getTextColorValueByBackground = (background: ThemeBackgroundColor): `#${string}` => {
+  getTextColorValueByBackground = (background: ThemeColorType): `#${string}` => {
     const backgroundColorValue: `#${string}` = this.getColorValueByType(background)
     return this.getTextColorValueByBackgroundValue(backgroundColorValue)
   }
@@ -57,7 +47,7 @@ export class Theme implements DefaultTheme {
   }
 
   getType = (textType: ThemeTextType): ThemeType | undefined => {
-    return _.find(this.values.typeDefinitions, { textType })
+    return _.find(this.props.typeDefinitions, { textType })
   }
 
   getStandardType = (): ThemeType => {
@@ -83,6 +73,6 @@ export class Theme implements DefaultTheme {
   }
 
   getButtonConfigByType = (buttonType: ThemeButtonType): ThemeButtonConfig => {
-    return (_.find(this.values.buttons, { buttonType })!)
+    return (_.find(this.props.buttons, { buttonType })!)
   }
 }

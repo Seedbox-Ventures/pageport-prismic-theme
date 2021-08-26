@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { styling as styleConfig } from '../../pageport-config'
+import PagePort from '../utils/PagePort'
 
 export enum BreakPointName {
   Phone = 'phone',
@@ -14,7 +14,7 @@ export interface BreakPoint {
 }
 
 export const breakPoints: Array<BreakPoint> = _.sortBy(
-  _.map(styleConfig.breakpoints, (value, breakPointName) => ({
+  _.map(PagePort.config.breakpoints, (value, breakPointName) => ({
     name: breakPointName as BreakPointName,
     value: value,
   })),
@@ -37,7 +37,7 @@ export interface ResponsiveStyleMap extends Partial<Record<BreakPointName, Parti
 
 export class StyleHelper {
   static getBreakPointValue = (breakPointName: BreakPointName): number => {
-    return styleConfig.breakpoints[breakPointName]
+    return PagePort.config.breakpoints[breakPointName]
   }
 
   static mergePaddings = (...paddings: Array<ContainerSpacing>): string => {

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { ThemeButtonType, ThemeTextType, ThemeButtonHoverEffectType } from '../theme/types'
+import { ThemeButtonType, ThemeTextType, ThemeButtonHoverEffectType } from '../theme'
 import { Link } from 'gatsby'
 import { linkResolver } from '../utils/LinkResolver'
 import { PrismicLinkType, PrismicLinkTypeEnum } from '../types/PrismicLink'
@@ -20,13 +20,13 @@ const StyledButton = styled.div<{ buttonType: ThemeButtonType }>(({
   const buttonColorValue = theme.getColorValueByType(buttonConfig.color)
 
   const values = {
-    padding: theme.values.buttonPadding,
-    borderRadius: theme.values.buttonBorderRadius,
+    padding: theme.props.buttonPadding,
+    borderRadius: theme.props.buttonBorderRadius,
     border: {
-      width: theme.values.buttonBorderWidth,
+      width: theme.props.buttonBorderWidth,
       color: buttonColorValue,
     },
-    boxShadow: theme.values.buttonBoxShadow,
+    boxShadow: theme.props.buttonBoxShadow,
     fontFamily: theme.getFontFamily((theme.getType(ThemeTextType.Button) || theme.getStandardType()).fontFamily),
     bgColor: !(buttonConfig.fillBackground) ? 'transparent' : buttonColorValue,
     textColor: !(buttonConfig.fillBackground) ? buttonColorValue : theme.getTextColorValueByBackgroundValue(buttonColorValue),

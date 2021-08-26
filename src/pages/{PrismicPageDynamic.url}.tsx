@@ -2,18 +2,16 @@ import * as React from 'react'
 import * as gatsby from 'gatsby'
 import { graphql } from 'gatsby'
 import { UnknownRecord, withPrismicPreview } from 'gatsby-plugin-prismic-previews'
-import { Layout } from '../components/Layout'
-import { SEO } from '../components/Seo'
-import { SliceZone } from '../components/SliceZone'
-import { SliceData } from '../sections'
+import { SEO } from '../components/pageStructure/Seo'
 import { WithPrismicPreviewProps } from 'gatsby-plugin-prismic-previews/src/withPrismicPreview'
-import { ThemePrismicData } from '../theme/types'
-import { ThemeWrapper } from '../theme/ThemeWrapper'
+import { Theme, ThemeData, ThemeWrapper } from '../theme'
 import { linkResolver } from '../utils/LinkResolver'
+import { Footer, Header, SliceData, SliceZone } from '../components/pageStructure'
+import { TextSection } from '../sections'
 
 interface DynamicPageProps extends UnknownRecord {
   prismicTheme: {
-    data: ThemePrismicData
+    data: ThemeData
   },
   prismicPageDynamic: {
     data: {
@@ -25,15 +23,17 @@ interface DynamicPageProps extends UnknownRecord {
 
 const DynamicPage: React.ComponentType<gatsby.PageProps<DynamicPageProps> & WithPrismicPreviewProps<DynamicPageProps>> = ({ data }) => {
   if (!data) return null
-  const page = data.prismicPageDynamic
-  const themeValues = data.prismicTheme.data as ThemePrismicData
+  const { page_title: title, body: slices } = data.prismicPageDynamic.data
+  const themeProps = Theme.mapDataToProps(data.prismicTheme.data)
 
   return (
-    <ThemeWrapper themeValues={themeValues} isRootTheme={true}>
-      <Layout>
-        <SEO title={page.data.page_title} />
-        <SliceZone sliceZone={page.data.body} />
-      </Layout>
+    <ThemeWrapper themeProps={themeProps} isRootTheme={true}>
+      <SEO title={title} />
+      <Header />
+      <SliceZone slicesData={slices} sliceComponentMap={
+        { text: TextSection }
+      } />
+      <Footer />
     </ThemeWrapper>
   )
 }
@@ -57,11 +57,15 @@ export const query = graphql`
                         id
                     }
                 }
+                header_ref {
+                    document {
+                        ...PageHeader
+                    }
+                }
             }
         }
         ...Theme
     }
-
 `
 
 export default withPrismicPreview(DynamicPage, [
