@@ -146,11 +146,11 @@ export class StyleHelper {
   }
 
   static extractResponsiveAttributeMap = (attributeValue: string | undefined): Partial<Record<BreakPointName, string>> => {
-    if (_.isEmpty(attributeValue)) {
+    if (typeof attributeValue !== 'string' || attributeValue === '') {
       return {}
     }
     const responsiveAttributeMap: Partial<Record<BreakPointName, string>> = {}
-    const attrValues = attributeValue?.split('|')
+    const attrValues = StyleHelper.splitResponsiveValue(attributeValue)
     _.each(attrValues, (v, i) => {
       if (i >= breakPoints.length) {
         return
@@ -161,4 +161,54 @@ export class StyleHelper {
     })
     return responsiveAttributeMap
   }
+
+  static splitResponsiveValue = (responsiveValue: string): Array<string> => {
+    return responsiveValue ? responsiveValue.split('|') : []
+  }
+
+  static toPixelNumber = (cssSize: string, bodyFontSize: number = 16, localFontSize: number = 16): number => {
+    const supportedUnits: Record<string, (value: number) => number> = {
+      'px': (value: number) => value,
+      'rem': (value: number) => value * bodyFontSize,
+      'em': (value: number) => value * localFontSize,
+    }
+    console.log('CSS SIZE', cssSize)
+
+    const pattern = new RegExp(`^([\-\+]?(?:\\d+(?:\\.\\d+)?))(${ Object.keys( supportedUnits ).join( '|' ) })?$`, 'i')
+
+    const matches = cssSize.trim().match(pattern)
+
+    if (matches) {
+      const value = Number(matches[1])
+      if (matches!.length < 3) {
+        return value
+      }
+      const unit = matches[2].toLocaleLowerCase()
+
+      if (unit === '') {
+        return value
+      }
+
+      // Sanity check, make sure unit conversion function exists
+      if (unit in supportedUnits) {
+        return supportedUnits[unit](value)
+      }
+    }
+
+    throw new Error('Unsupported css value. Pleas use only px, rem or em values with this function')
+  }
+
+  static arrayToImageSizes(sizes: Array<number>): string {
+    const stringParts: Array<string> = _.reverse(_.map<number, string>(sizes, (size, i) => {
+      const sizeParts = []
+      const breakPoint = breakPoints[i]
+      if (breakPoint.value !== 0) {
+        sizeParts.unshift(`(min-width: ${breakPoint.value}px)`)
+      }
+      sizeParts.push(`${size}px`)
+      return sizeParts.join(' ')
+    }))
+    return stringParts.join(',')
+  }
+
 }
