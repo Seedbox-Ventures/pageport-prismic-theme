@@ -27,7 +27,7 @@ interface DynamicPageProps extends UnknownRecord {
 }
 
 const DynamicPage: React.ComponentType<gatsby.PageProps<DynamicPageProps> & WithPrismicPreviewProps<DynamicPageProps>> = ({ data }) => {
-  if (!data) return null
+  if (!data?.prismicPageDynamic?.data?.header_ref?.document) return null
   const {
     page_title: title,
     body: slices,

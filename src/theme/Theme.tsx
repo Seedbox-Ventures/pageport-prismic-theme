@@ -29,7 +29,11 @@ export class Theme implements DefaultTheme {
   }
 
   getColorValueByType = (colorType: ThemeColorType): `#${string}` => {
-    return (_.find(this.props.colors, { colorType })!).value
+    try {
+      return (_.find(this.props.colors, { colorType })!).value
+    } catch (e) {
+      throw `Cannot get color value for color type ${colorType}. `
+    }
   }
 
   getFontFamily = (fontFamilyType: ThemeFontFamilyType): string => {

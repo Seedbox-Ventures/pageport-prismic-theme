@@ -18,7 +18,8 @@ export const defaultValues: ThemeProps = Theme.mapDataToProps(PagePort.config.th
 
 export const ThemeWrapper: React.FC<ThemeWrapperProps> = ({ themeProps, children, isRootTheme = false }) => {
 
-  const mergedThemeValues: ThemeProps = _.merge(defaultValues, themeProps)
+  const mergedThemeValues: ThemeProps = _.merge({}, defaultValues, themeProps)
+  mergedThemeValues.colors = themeProps?.colors ? _.unionBy(Object.values(defaultValues.colors), Object.values(themeProps.colors), 'colorType') : defaultValues.colors
   const theme = new Theme(mergedThemeValues)
 
   return (
