@@ -105,6 +105,8 @@
                 "Small Title",
                 "Small Text",
                 "Big Text",
+                "Header",
+                "Footer",
                 "Footnote",
                 "Button"
               ],
@@ -130,6 +132,35 @@
               "placeholder": "16px"
             }
           },
+          "font_weight": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "400",
+                "100",
+                "200",
+                "300",
+                "500",
+                "600",
+                "700",
+                "800",
+                "900"
+              ],
+              "default_value": "400",
+              "label": "Font Weight"
+            }
+          },
+          "font_style": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "normal",
+                "italic"
+              ],
+              "default_value": "normal",
+              "label": "Font Style"
+            }
+          },
           "line_height": {
             "type": "Text",
             "config": {
@@ -142,6 +173,36 @@
             "config": {
               "label": "Letter Spacing",
               "placeholder": "normal"
+            }
+          },
+          "link_color": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "Primary",
+                "Accent",
+                "Info",
+                "Warn",
+                "Danger",
+                "Success",
+                "Light Text",
+                "Dark Text",
+                "Background Default",
+                "Background Alternative",
+                "Background Emphasize"
+              ],
+              "label": "Link Color"
+            }
+          },
+          "link_hover_effect": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "Darken / Lighten",
+                "None",
+                "Underscore"
+              ],
+              "label": "Link Hover Effect"
             }
           }
         },
