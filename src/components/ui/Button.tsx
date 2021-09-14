@@ -1,11 +1,10 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { ThemeButtonHoverEffectType, ThemeButtonType, ThemeTextType } from '../../theme'
-import tinycolor from 'tinycolor2'
+import { StyleHelper, ThemeButtonHoverEffectType, ThemeButtonType, ThemeTextType } from '../../theme'
 import { Link, LinkProps } from './Link'
 
 export interface ButtonProps extends LinkProps {
-  type: ThemeButtonType
+  type?: ThemeButtonType
 }
 
 const StyledButton = styled.div<{ buttonType: ThemeButtonType }>(({
@@ -28,9 +27,8 @@ const StyledButton = styled.div<{ buttonType: ThemeButtonType }>(({
     textColor: !(buttonConfig.fillBackground) ? buttonColorValue : theme.getTextColorValueByBackgroundValue(buttonColorValue),
   }
 
-  const lightenDarken = (colorValue: `#${string}`, amount = 10): `${string}` => `${(tinycolor(colorValue).isDark() ? tinycolor(colorValue).brighten(amount) : tinycolor(colorValue).darken(amount)).toHexString()}`
 
-  const buttonHoverEffects: Record<ThemeButtonHoverEffectType, any> = {
+  const buttonHoverEffects: Record<ThemeButtonHoverEffectType, string> = {
     [ThemeButtonHoverEffectType.None]: `
       
     `,
@@ -42,8 +40,8 @@ const StyledButton = styled.div<{ buttonType: ThemeButtonType }>(({
       /* TODO: implement ChangeBoxShadow effect */
     `,
     [ThemeButtonHoverEffectType.DarkenLighten]: `
-      background-color: ${lightenDarken(buttonColorValue)};
-      border-color: ${lightenDarken(buttonColorValue)};
+      background-color: ${StyleHelper.lightenDarken(buttonColorValue)};
+      border-color: ${StyleHelper.lightenDarken(buttonColorValue)};
     `,
   }
 
@@ -69,7 +67,7 @@ const StyledButton = styled.div<{ buttonType: ThemeButtonType }>(({
 })
 
 export const Button: React.FC<ButtonProps> =
-  ({ type, url, target, internal, children }) => {
+  ({ type = ThemeButtonType.Default, url, target, internal, children }) => {
     return (
       <StyledButton as={Link} buttonType={type} url={url} target={target} internal={internal}>
         {children}

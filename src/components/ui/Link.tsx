@@ -2,10 +2,10 @@ import * as React from 'react'
 import { Link as GatsbyLink } from 'gatsby'
 
 export enum LinkTarget {
-  SELF = '_self',
-  BLANK = '_blank',
-  PARENT = '_parent',
-  TOP = '_top',
+  Self = '_self',
+  Blank = '_blank',
+  Parent = '_parent',
+  Top = '_top',
 }
 
 export interface LinkProps {

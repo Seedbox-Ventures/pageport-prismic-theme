@@ -10,7 +10,7 @@ import { graphql } from 'gatsby'
 import { PPGatsbyImage } from '../ui/Image'
 import { DataHelper, PrismicLinkData } from '../../utils/Prismic'
 import { Link, LinkProps } from '../ui/Link'
-
+import { Navigation, NavigationItemProps, NavItemStyle } from '../ui/Navigation'
 
 export enum LogoPosition {
   Left = 'Left',
@@ -34,6 +34,11 @@ export interface HeaderData {
     gatsbyImageData?: ImageDataLike,
     alt?: string
   },
+  links: Array<{
+    text?: string,
+    style?: NavItemStyle,
+    link?: PrismicLinkData
+  } | null>
   is_sticky: boolean,
   padding_bottom: string
   padding_top: string
@@ -46,7 +51,8 @@ export interface HeaderProps {
   menuBreakPoint?: BreakPoint
   isSticky?: boolean,
   paddingTop: string,
-  paddingBottom: string
+  paddingBottom: string,
+  links?: Array<NavigationItemProps>
 }
 
 export const Header: DataComponent<HeaderProps, HeaderData> = (
@@ -57,6 +63,7 @@ export const Header: DataComponent<HeaderProps, HeaderData> = (
     paddingBottom,
     logo,
     logoPosition = LogoPosition.Left,
+    links,
   },
 ) => (
   <Section as='header' {...{
@@ -67,6 +74,7 @@ export const Header: DataComponent<HeaderProps, HeaderData> = (
     flexDirection: logoPosition === LogoPosition.Right ? 'row-reverse' : 'row',
   }}>
     {renderLogo(logo)}
+    {renderNavigation(links)}
   </Section>
 )
 
@@ -82,6 +90,7 @@ Header.mapDataToProps = (headerData) => {
     padding_top,
     padding_bottom,
     is_sticky,
+    links,
   } = _.merge(headerDefaults as Partial<HeaderData>, headerData)
 
   const props: HeaderProps = {
@@ -90,6 +99,25 @@ Header.mapDataToProps = (headerData) => {
     paddingTop: padding_top ?? '1rem',
     paddingBottom: padding_bottom ?? '1rem',
     isSticky: is_sticky,
+    links: links && links.length ? _.compact(_.map(links, (navItem) => {
+      if (!navItem?.link) {
+        return undefined
+      }
+      const linkProps = DataHelper.prismicLinkToLinkProps(navItem.link)
+      if (!linkProps) {
+        return undefined
+      }
+
+      const { style, text } = navItem
+
+      return {
+        ...linkProps,
+        ...{
+          children: text,
+          style: style ?? 'Link',
+        },
+      }
+    })) : undefined,
   }
 
   if (!_.isEmpty(logo?.gatsbyImageData)) {
@@ -104,7 +132,7 @@ Header.mapDataToProps = (headerData) => {
   return props
 }
 
-const renderLogo = (headerLogoProps: HeaderLogoProps | undefined): React.ReactFragment | null => {
+function renderLogo(headerLogoProps: HeaderLogoProps | undefined): React.ReactFragment | null {
   if (!headerLogoProps?.image) {
     return null
   }
@@ -122,6 +150,13 @@ const renderLogo = (headerLogoProps: HeaderLogoProps | undefined): React.ReactFr
   return logo
 }
 
+function renderNavigation(navigationItems?: Array<NavigationItemProps>): React.ReactFragment | null {
+  if (!navigationItems || navigationItems.length === 0) {
+    return null
+  }
+  return <Navigation items={navigationItems} />
+}
+
 export const query = graphql`
     fragment PageHeader on PrismicHeader {
         data {
@@ -136,6 +171,14 @@ export const query = graphql`
             }
             logo {
                 gatsbyImageData(placeholder: BLURRED)
+            }
+            links {
+                style
+                text
+                link {
+                    url
+                    target
+                }
             }
             is_sticky
             padding_bottom

@@ -6,8 +6,8 @@ import * as CSS from 'csstype'
 export interface SectionProps {
   backgroundColor: ThemeColorType
   isFullWidth?: boolean
-  paddingTop: string
-  paddingBottom: string
+  paddingTop?: string
+  paddingBottom?: string
   as?: React.ElementType
   isSticky?: boolean
   flexDirection?: CSS.Property.FlexDirection

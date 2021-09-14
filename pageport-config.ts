@@ -60,13 +60,25 @@ export default {
       },
       'primary_font_family': 'Roboto,"Open Sans","Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"',
       'secondary_font_family': 'Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol',
-      'type_definitions': [{
-        'font_family': 'Primary',
-        'font_size': '16px',
-        'letter_spacing': 'normal',
-        'line_height': '1.5em',
-        'text_type': 'Standard Text',
-      }],
+      'type_definitions': [
+        {
+          'font_family': 'Primary',
+          'font_size': '16px',
+          'letter_spacing': 'normal',
+          'line_height': '1.5em',
+          'text_type': 'Standard Text',
+          'link_color': 'Dark Text',
+          'link_hover_effect': 'Darken / Lighten'
+        }, {
+          'font_family': 'Primary',
+          'font_size': '24px',
+          'letter_spacing': 'normal',
+          'line_height': '1.5em',
+          'text_type': 'Header',
+          'link_color': 'Dark Text',
+          'link_hover_effect': 'Darken / Lighten'
+        },
+      ],
       'button_padding': '.5em .75em',
       'button_border_radius': '99999px',
       'button_border_width': '.125em',

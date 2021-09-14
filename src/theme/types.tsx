@@ -1,3 +1,4 @@
+import * as CSS from 'csstype'
 import { FilledLinkToWebField } from '@prismicio/types'
 
 export enum ThemeColorType {
@@ -40,16 +41,39 @@ export enum ThemeTextType {
   SmallTitle = 'Small Title',
   SmallText = 'Small Text',
   BigText = 'Big Text',
+  Header = 'Header',
+  Footer = 'Footer',
   Footnote = 'Footnote',
   Button = 'Button'
 }
 
-export interface ThemeType {
+export enum ThemeLinkHoverEffekt {
+  None = 'None',
+  DarkenLighten = 'Darken / Lighten',
+  Underline = 'Underline'
+}
+
+export interface ThemeTypeStyle {
   fontFamily: ThemeFontFamilyType
   fontSize: string
   letterSpacing: string
   lineHeight: string
+  fontWeight: string
+  fontStyle: string
   textType: ThemeTextType
+  linkColor: ThemeColorType
+  linkHoverEffekt: ThemeLinkHoverEffekt
+}
+
+export interface ThemeLinkConfig {
+  fontFamily: ThemeFontFamilyType
+  fontSize: CSS.Property.FontSize
+  fontWeight: CSS.Property.FontWeight
+  fontStyle: CSS.Property.FontStyle
+  letterSpacing: CSS.Property.LetterSpacing
+  lineHeight: CSS.Property.LineHeight
+  color: ThemeColorType
+  hoverEffekt: ThemeLinkHoverEffekt
 }
 
 export enum ThemeButtonType {
@@ -86,7 +110,7 @@ export interface ThemeProps {
   primaryFontImportLink: FilledLinkToWebField
   secondaryFontFamily: string
   secondaryFontImportLink: FilledLinkToWebField
-  typeDefinitions: Array<ThemeType>
+  typeDefinitions: Array<ThemeTypeStyle>
   buttonPadding: string
   buttonBorderRadius: string
   buttonBorderWidth: string
@@ -135,10 +159,10 @@ export interface ThemeInterface {
   getFontFamily: (fontFamilyType: ThemeFontFamilyType) => string
   getTextColorValueByBackground: (background: ThemeColorType) => `#${string}`
   getTextColorValueByBackgroundValue: (background: `#${string}`) => `#${string}`
-  getType: (textType: ThemeTextType) => ThemeType | undefined
-  getStandardType: () => ThemeType
+  getType: (textType: ThemeTextType) => ThemeTypeStyle | undefined
+  getStandardType: () => ThemeTypeStyle
   renderTextTypeCss: (themeTextType: ThemeTextType) => string
-  renderTypeCss: (themeTextType: ThemeType) => string
+  renderTypeCss: (themeTextType: ThemeTypeStyle) => string
   getButtonConfigByType: (buttonType: ThemeButtonType) => ThemeButtonConfig
 }
 

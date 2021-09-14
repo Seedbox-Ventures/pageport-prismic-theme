@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import PagePort from '../utils/PagePort'
+import tinycolor from 'tinycolor2'
 
 export enum BreakPointName {
   Phone = 'phone',
@@ -208,5 +209,7 @@ export class StyleHelper {
     }))
     return stringParts.join(',')
   }
+
+  static lightenDarken = (colorValue: `#${string}`, amount = 10): `${string}` => `${(tinycolor(colorValue).isDark() ? tinycolor(colorValue).brighten(amount) : tinycolor(colorValue).darken(amount)).toHexString()}`
 
 }

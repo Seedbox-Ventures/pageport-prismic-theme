@@ -11,8 +11,9 @@ export interface TextSectionProps {
   backgroundColor: ThemeBackgroundColor
   columns: number
   content: RichTextBlock[]
-  paddingTop?: string
+  paddingTop: string
   paddingBottom?: string
+  children?: React.ReactChildren
 }
 
 const TextContainer = styled.div<{ columns: number }>(({ columns }) => {

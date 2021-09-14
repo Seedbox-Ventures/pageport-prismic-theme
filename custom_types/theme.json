@@ -200,7 +200,7 @@
               "options": [
                 "Darken / Lighten",
                 "None",
-                "Underscore"
+                "Underline"
               ],
               "label": "Link Hover Effect"
             }

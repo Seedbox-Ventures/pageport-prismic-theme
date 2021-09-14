@@ -6,10 +6,11 @@ import {
   ThemeColorType,
   ThemeData,
   ThemeFontFamilyType,
+  ThemeLinkHoverEffekt,
   ThemeProps,
   ThemeTextColor,
   ThemeTextType,
-  ThemeType,
+  ThemeTypeStyle,
 } from './types'
 import { StyleHelper } from './Style'
 import { DataHelper } from '../utils/Prismic'
@@ -50,11 +51,11 @@ export class Theme implements DefaultTheme {
     return this.getColorValueByType(textColor)
   }
 
-  getType = (textType: ThemeTextType): ThemeType | undefined => {
+  getType = (textType: ThemeTextType): ThemeTypeStyle | undefined => {
     return _.find(this.props.typeDefinitions, { textType })
   }
 
-  getStandardType = (): ThemeType => {
+  getStandardType = (): ThemeTypeStyle => {
     return this.getType(ThemeTextType.StandardText)!
   }
 
@@ -68,12 +69,47 @@ export class Theme implements DefaultTheme {
     return this.renderTypeCss(themeType)
   }
 
-  renderTypeCss = (themeType: ThemeType): string => {
-    return StyleHelper.renderCssFromObject({
-      'font-size': themeType.fontSize,
-      'line-height': themeType.lineHeight,
+  renderTypeCss = (themeType: ThemeTypeStyle): string => {
+    const linkColor = this.getColorValueByType(themeType.linkColor)
+    let linkHoverCSS: string = ''
+
+    if (themeType.linkHoverEffekt && themeType.linkHoverEffekt !== ThemeLinkHoverEffekt.None) {
+      const linkHoverEffects: Record<ThemeLinkHoverEffekt, string> = {
+        [ThemeLinkHoverEffekt.None]: '',
+        [ThemeLinkHoverEffekt.Underline]: `
+          text-decoration: underline;
+        `,
+        [ThemeLinkHoverEffekt.DarkenLighten]: `
+          color: ${StyleHelper.mergePaddings(linkColor)}
+        `,
+      }
+
+      linkHoverCSS = `
+        &:hover, &:focus {
+          ${linkHoverEffects[themeType.linkHoverEffekt]}
+        }
+      `
+    }
+
+
+    return `
+      ${StyleHelper.renderCssFromObject({
       'font-family': this.getFontFamily(themeType.fontFamily),
-    })
+      'font-size': themeType.fontSize,
+      'letter-spacing': themeType.letterSpacing,
+      'line-height': themeType.lineHeight,
+      'font-weight': themeType.fontWeight,
+      'font-style': themeType.fontStyle,
+    })}
+
+    a {
+      color: ${linkColor};
+      
+      ${linkHoverCSS}
+    }
+    `
+
+
   }
 
   getButtonConfigByType = (buttonType: ThemeButtonType): ThemeButtonConfig => {
