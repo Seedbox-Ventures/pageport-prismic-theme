@@ -70,7 +70,7 @@
         "placeholder": "120px"
       }
     },
-    "link": {
+    "logo_link": {
       "type": "Link",
       "config": {
         "allowTargetBlank": true,

@@ -172,10 +172,8 @@ export class StyleHelper {
       'rem': (value: number) => value * bodyFontSize,
       'em': (value: number) => value * localFontSize,
     }
-    console.log('CSS SIZE', cssSize)
 
     const pattern = new RegExp(`^([\-\+]?(?:\\d+(?:\\.\\d+)?))(${ Object.keys( supportedUnits ).join( '|' ) })?$`, 'i')
-
     const matches = cssSize.trim().match(pattern)
 
     if (matches) {

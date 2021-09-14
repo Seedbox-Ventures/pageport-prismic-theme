@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { StyleHelper, ThemeColorType } from '../../theme'
+import * as CSS from 'csstype'
 
 export interface SectionProps {
   backgroundColor: ThemeColorType
@@ -9,6 +10,7 @@ export interface SectionProps {
   paddingBottom: string
   as?: React.ElementType
   isSticky?: boolean
+  flexDirection?: CSS.Property.FlexDirection
 }
 
 const StyledSection = styled.div<{ as?: React.ElementType, backgroundColor: ThemeColorType, isSticky: boolean }>(
@@ -26,14 +28,17 @@ const StyledSection = styled.div<{ as?: React.ElementType, backgroundColor: Them
   ))
 
 
-const ContentContainer = styled.div<{ isFullWidth: boolean, paddingTop?: string, paddingBottom?: string }>
+const ContentContainer = styled.div<{ isFullWidth: boolean, paddingTop?: string, paddingBottom?: string, flexDirection?: CSS.Property.FlexDirection }>
 (({
     isFullWidth,
     paddingTop,
     paddingBottom,
+    flexDirection = 'column',
     theme,
   }) => {
   const styleObj: Record<string, string> = {
+    display: 'flex',
+    'flex-direction': flexDirection,
     position: 'relative',
     margin: '0 auto',
     'max-width': isFullWidth ? '100%' : theme.props.contentMaxWidth,
@@ -48,13 +53,14 @@ export const Section: React.FC<SectionProps> =
      isFullWidth = false,
      paddingTop,
      paddingBottom,
+     flexDirection,
      isSticky = false,
      children,
      as = 'section',
    }) => {
 
     return <StyledSection {...{ as, backgroundColor, isSticky }}>
-      <ContentContainer {...{ className: 'contentContainer', isFullWidth, paddingTop, paddingBottom }}>
+      <ContentContainer {...{ className: 'contentContainer', isFullWidth, paddingTop, paddingBottom, flexDirection }}>
         {children}
       </ContentContainer>
     </StyledSection>

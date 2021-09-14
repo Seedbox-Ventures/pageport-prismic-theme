@@ -1,21 +1,17 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { ThemeButtonType, ThemeTextType, ThemeButtonHoverEffectType } from '../../theme'
-import { Link } from 'gatsby'
-import { linkResolver } from '../../utils/LinkResolver'
-import { PrismicLinkType, PrismicLinkTypeEnum } from '../../types/PrismicLink'
+import { ThemeButtonHoverEffectType, ThemeButtonType, ThemeTextType } from '../../theme'
 import tinycolor from 'tinycolor2'
+import { Link, LinkProps } from './Link'
 
-export interface ButtonProps {
-  text: string
+export interface ButtonProps extends LinkProps {
   type: ThemeButtonType
-  link: PrismicLinkType
 }
 
 const StyledButton = styled.div<{ buttonType: ThemeButtonType }>(({
-  buttonType,
-  theme,
-}) => {
+                                                                    buttonType,
+                                                                    theme,
+                                                                  }) => {
   const buttonConfig = theme.getButtonConfigByType(buttonType)
   const buttonColorValue = theme.getColorValueByType(buttonConfig.color)
 
@@ -32,7 +28,7 @@ const StyledButton = styled.div<{ buttonType: ThemeButtonType }>(({
     textColor: !(buttonConfig.fillBackground) ? buttonColorValue : theme.getTextColorValueByBackgroundValue(buttonColorValue),
   }
 
-  const lightenDarken = (colorValue: `#${string}`, amount = 10): `${string}` => `${(tinycolor(colorValue).isDark() ? tinycolor(colorValue).brighten(amount) : tinycolor(colorValue).darken(amount)).toHexString()}`;
+  const lightenDarken = (colorValue: `#${string}`, amount = 10): `${string}` => `${(tinycolor(colorValue).isDark() ? tinycolor(colorValue).brighten(amount) : tinycolor(colorValue).darken(amount)).toHexString()}`
 
   const buttonHoverEffects: Record<ThemeButtonHoverEffectType, any> = {
     [ThemeButtonHoverEffectType.None]: `
@@ -48,7 +44,7 @@ const StyledButton = styled.div<{ buttonType: ThemeButtonType }>(({
     [ThemeButtonHoverEffectType.DarkenLighten]: `
       background-color: ${lightenDarken(buttonColorValue)};
       border-color: ${lightenDarken(buttonColorValue)};
-    `
+    `,
   }
 
   return `
@@ -73,25 +69,10 @@ const StyledButton = styled.div<{ buttonType: ThemeButtonType }>(({
 })
 
 export const Button: React.FC<ButtonProps> =
-  ({
-    text,
-    type,
-    link
-   }) => {
-    if (link.link_type === PrismicLinkTypeEnum.Document) {
-      return (
-        <StyledButton as={Link} buttonType={type} to={linkResolver(link)} key={link.id}>
-          {text}
-        </StyledButton>
-      )
-    }
-
-    if (link.link_type === PrismicLinkTypeEnum.Web) {
-      return (
-        <StyledButton as="a" buttonType={type} id={link.id} href={link.url} target={link.target}>
-          {text}
-        </StyledButton>
-      )
-    }
-    return null
+  ({ type, url, target, internal, children }) => {
+    return (
+      <StyledButton as={Link} buttonType={type} url={url} target={target} internal={internal}>
+        {children}
+      </StyledButton>
+    )
   }
