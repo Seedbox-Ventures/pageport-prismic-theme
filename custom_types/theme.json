@@ -174,36 +174,6 @@
               "label": "Letter Spacing",
               "placeholder": "normal"
             }
-          },
-          "link_color": {
-            "type": "Select",
-            "config": {
-              "options": [
-                "Primary",
-                "Accent",
-                "Info",
-                "Warn",
-                "Danger",
-                "Success",
-                "Light Text",
-                "Dark Text",
-                "Background Default",
-                "Background Alternative",
-                "Background Emphasize"
-              ],
-              "label": "Link Color"
-            }
-          },
-          "link_hover_effect": {
-            "type": "Select",
-            "config": {
-              "options": [
-                "Darken / Lighten",
-                "None",
-                "Underline"
-              ],
-              "label": "Link Hover Effect"
-            }
           }
         },
         "label": "Type Definitions"

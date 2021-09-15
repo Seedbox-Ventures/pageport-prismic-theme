@@ -6,7 +6,6 @@ import {
   ThemeColorType,
   ThemeData,
   ThemeFontFamilyType,
-  ThemeLinkHoverEffekt,
   ThemeProps,
   ThemeTextColor,
   ThemeTextType,
@@ -70,46 +69,14 @@ export class Theme implements DefaultTheme {
   }
 
   renderTypeCss = (themeType: ThemeTypeStyle): string => {
-    const linkColor = this.getColorValueByType(themeType.linkColor)
-    let linkHoverCSS: string = ''
-
-    if (themeType.linkHoverEffekt && themeType.linkHoverEffekt !== ThemeLinkHoverEffekt.None) {
-      const linkHoverEffects: Record<ThemeLinkHoverEffekt, string> = {
-        [ThemeLinkHoverEffekt.None]: '',
-        [ThemeLinkHoverEffekt.Underline]: `
-          text-decoration: underline;
-        `,
-        [ThemeLinkHoverEffekt.DarkenLighten]: `
-          color: ${StyleHelper.mergePaddings(linkColor)}
-        `,
-      }
-
-      linkHoverCSS = `
-        &:hover, &:focus {
-          ${linkHoverEffects[themeType.linkHoverEffekt]}
-        }
-      `
-    }
-
-
-    return `
-      ${StyleHelper.renderCssFromObject({
+    return StyleHelper.renderCssFromObject({
       'font-family': this.getFontFamily(themeType.fontFamily),
       'font-size': themeType.fontSize,
       'letter-spacing': themeType.letterSpacing,
       'line-height': themeType.lineHeight,
       'font-weight': themeType.fontWeight,
       'font-style': themeType.fontStyle,
-    })}
-
-    a {
-      color: ${linkColor};
-      
-      ${linkHoverCSS}
-    }
-    `
-
-
+    })
   }
 
   getButtonConfigByType = (buttonType: ThemeButtonType): ThemeButtonConfig => {
