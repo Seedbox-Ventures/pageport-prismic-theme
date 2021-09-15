@@ -115,7 +115,7 @@
               "placeholder": "Link Text"
             }
           },
-          "style": {
+          "type": {
             "type": "Select",
             "config": {
               "options": [
@@ -129,7 +129,7 @@
                 "Button - Cancel"
               ],
               "default_value": "Link",
-              "label": "Style"
+              "label": "Type"
             }
           }
         },

@@ -10,7 +10,7 @@ import { graphql } from 'gatsby'
 import { PPGatsbyImage } from '../ui/Image'
 import { DataHelper, PrismicLinkData } from '../../utils/Prismic'
 import { Link, LinkProps } from '../ui/Link'
-import { Navigation, NavigationItemProps, NavItemStyle } from '../ui/Navigation'
+import { Navigation, NavigationItemProps, NavItemType } from '../ui/Navigation'
 
 export enum LogoPosition {
   Left = 'Left',
@@ -36,7 +36,7 @@ export interface HeaderData {
   },
   links: Array<{
     text?: string,
-    style?: NavItemStyle,
+    type?: NavItemType,
     link?: PrismicLinkData
   } | null>
   is_sticky: boolean,
@@ -108,13 +108,13 @@ Header.mapDataToProps = (headerData) => {
         return undefined
       }
 
-      const { style, text } = navItem
+      const { type, text } = navItem
 
       return {
         ...linkProps,
         ...{
           children: text,
-          style: style ?? 'Link',
+          type: type ?? 'Link',
         },
       }
     })) : undefined,
@@ -173,7 +173,7 @@ export const query = graphql`
                 gatsbyImageData(placeholder: BLURRED)
             }
             links {
-                style
+                type
                 text
                 link {
                     url
