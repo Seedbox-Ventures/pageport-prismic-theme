@@ -67,16 +67,12 @@ export default {
           'letter_spacing': 'normal',
           'line_height': '1.5em',
           'text_type': 'Standard Text',
-          'link_color': 'Dark Text',
-          'link_hover_effect': 'Darken / Lighten'
         }, {
           'font_family': 'Primary',
           'font_size': '24px',
           'letter_spacing': 'normal',
           'line_height': '1.5em',
           'text_type': 'Header',
-          'link_color': 'Dark Text',
-          'link_hover_effect': 'Darken / Lighten'
         },
       ],
       'button_padding': '.5em .75em',
