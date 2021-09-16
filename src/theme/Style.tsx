@@ -3,10 +3,10 @@ import PagePort from '../utils/PagePort'
 import tinycolor from 'tinycolor2'
 
 export enum BreakPointName {
-  Phone = 'phone',
-  Tablet = 'tablet',
-  Laptop = 'laptop',
-  Desktop = 'desktop'
+  Phone = 'Phone',
+  Tablet = 'Tablet',
+  Laptop = 'Laptop',
+  Desktop = 'Desktop'
 }
 
 export interface BreakPoint {

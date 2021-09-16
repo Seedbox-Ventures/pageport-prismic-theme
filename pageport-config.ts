@@ -1,9 +1,9 @@
 export default {
   breakpoints: {
-    phone: 0,
-    tablet: 640,
-    laptop: 1024,
-    desktop: 1280,
+    Phone: 0,
+    Tablet: 640,
+    Laptop: 1024,
+    Desktop: 1280,
   },
   theme: {
     defaultData: {
