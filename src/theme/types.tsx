@@ -13,11 +13,11 @@ export enum ThemeColorType {
   BackgroundDefault = 'Background Default',
   BackgroundAlternative = 'Background Alternative',
   BackgroundEmphasize = 'Background Emphasize',
-  Transparent = 'Transparent'
+  Transparent = 'Transparent',
 }
 
 export type ThemeBackgroundColor =
-  ThemeColorType.BackgroundDefault
+  | ThemeColorType.BackgroundDefault
   | ThemeColorType.BackgroundAlternative
   | ThemeColorType.BackgroundEmphasize
 
@@ -30,7 +30,7 @@ export interface ThemeColor {
 
 export enum ThemeFontFamilyType {
   Primary = 'Primary',
-  Secondary = 'Secondary'
+  Secondary = 'Secondary',
 }
 
 export enum ThemeTextType {
@@ -44,13 +44,13 @@ export enum ThemeTextType {
   Header = 'Header',
   Footer = 'Footer',
   Footnote = 'Footnote',
-  Button = 'Button'
+  Button = 'Button',
 }
 
 export enum ThemeLinkHoverEffekt {
   None = 'None',
   DarkenLighten = 'Darken / Lighten',
-  Underline = 'Underline'
+  Underline = 'Underline',
 }
 
 export interface ThemeTypeStyle {
@@ -97,7 +97,7 @@ export enum ThemeButtonHoverEffectType {
 
 export interface ThemeButtonConfig {
   buttonType: ThemeButtonType
-  color: ThemeColorType,
+  color: ThemeColorType
   fillBackground: boolean
   hoverEffect: ThemeButtonHoverEffectType
 }
@@ -119,13 +119,13 @@ export interface ThemeProps {
 }
 
 export interface ThemeData {
-  colors?: Array<{ color_type: string, value: string }>
+  colors?: Array<{ color_type: string; value: string }>
   content_padding?: string
   content_max_width?: string
   primary_font_import_link?: { url: string }
-  primary_font_family?: string,
+  primary_font_family?: string
   secondary_font_import_link?: { url: string }
-  secondary_font_family?: string,
+  secondary_font_family?: string
   icon?: {
     alt?: string | null
     url: string
@@ -133,22 +133,22 @@ export interface ThemeData {
   logo?: {
     alt?: string | null
   }
-  'type_definitions': Array<{
-    'font_family': string
-    'font_size': string
-    'letter_spacing': string
-    'line_height': string
-    'text_type': string
-  }>,
+  type_definitions: Array<{
+    font_family: string
+    font_size: string
+    letter_spacing: string
+    line_height: string
+    text_type: string
+  }>
   button_padding?: string
   button_border_radius?: string
   button_border_width?: string
   button_box_shadow?: string
   buttons?: Array<{
-    'button_type': string
-    'color': string
-    'fill_background': boolean
-    'hover_effect': string
+    button_type: string
+    color: string
+    fill_background: boolean
+    hover_effect: string
   }>
 }
 

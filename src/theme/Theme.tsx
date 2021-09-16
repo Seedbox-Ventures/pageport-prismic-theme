@@ -16,7 +16,6 @@ import { DataHelper } from '../utils/Prismic'
 
 const tinycolor = require('tinycolor2')
 
-
 export class Theme implements DefaultTheme {
   readonly props: ThemeProps
 
@@ -30,14 +29,16 @@ export class Theme implements DefaultTheme {
 
   getColorValueByType = (colorType: ThemeColorType): `#${string}` => {
     try {
-      return (_.find(this.props.colors, { colorType })!).value
+      return _.find(this.props.colors, { colorType })!.value
     } catch (e) {
       throw `Cannot get color value for color type ${colorType}. `
     }
   }
 
   getFontFamily = (fontFamilyType: ThemeFontFamilyType): string => {
-    return fontFamilyType === ThemeFontFamilyType.Secondary ? this.props.secondaryFontFamily : this.props.primaryFontFamily
+    return fontFamilyType === ThemeFontFamilyType.Secondary
+      ? this.props.secondaryFontFamily
+      : this.props.primaryFontFamily
   }
 
   getTextColorValueByBackground = (background: ThemeColorType): `#${string}` => {
@@ -46,7 +47,9 @@ export class Theme implements DefaultTheme {
   }
 
   getTextColorValueByBackgroundValue = (background: `#${string}`): `#${string}` => {
-    const textColor: ThemeTextColor = tinycolor(background).isDark() ? ThemeColorType.LightText : ThemeColorType.DarkText
+    const textColor: ThemeTextColor = tinycolor(background).isDark()
+      ? ThemeColorType.LightText
+      : ThemeColorType.DarkText
     return this.getColorValueByType(textColor)
   }
 
@@ -80,6 +83,6 @@ export class Theme implements DefaultTheme {
   }
 
   getButtonConfigByType = (buttonType: ThemeButtonType): ThemeButtonConfig => {
-    return (_.find(this.props.buttons, { buttonType })!)
+    return _.find(this.props.buttons, { buttonType })!
   }
 }

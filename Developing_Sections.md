@@ -59,7 +59,6 @@ Add the name of your GraphQL query to the dynamic page in `src/pages/{PrismicPag
 
 If your Section component GraphQL query looks something like this:
 
-
 you will need to append `...PageDynamicBodyYourSectionComponent` to the query inside `prismicPageDynamic.data.body` which should look something like this:
 
 ```

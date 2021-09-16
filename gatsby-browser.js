@@ -5,6 +5,4 @@ import 'gatsby-plugin-prismic-previews/dist/styles.css'
 
 import './src/theme/reset.css'
 
-export const wrapRootElement = ({ element }) => (
-  <PrismicPreviewProvider>{element}</PrismicPreviewProvider>
-)
+export const wrapRootElement = ({ element }) => <PrismicPreviewProvider>{element}</PrismicPreviewProvider>

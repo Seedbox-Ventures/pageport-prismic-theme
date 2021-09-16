@@ -84,13 +84,7 @@
     "burger_menu_breakpoint": {
       "type": "Select",
       "config": {
-        "options": [
-          "Never",
-          "Smartphone",
-          "Tablet",
-          "Laptop",
-          "Desktop"
-        ],
+        "options": ["Never", "Smartphone", "Tablet", "Laptop", "Desktop"],
         "default_value": "Never",
         "label": "Burger Menu"
       }
