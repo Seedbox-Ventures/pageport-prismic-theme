@@ -90,11 +90,10 @@ export class Theme implements DefaultTheme {
     linkHoverStyle: ThemeLinkInteractiveStyle = ThemeLinkInteractiveStyle.ChangeColor,
     linkHoverColor: ThemeColorType = ThemeColorType.Accent,
   ): string => {
-    console.log('RENDER LINK COLOR', linkColor)
     return `
       color: ${this.getColorValueByType(linkColor)};
       
-      &:active {
+      &:active, &[aria-current=page] {
         ${this.renderLinkInteractionCSS(linkActiveStyle, linkActiveColor)}
       }
       
