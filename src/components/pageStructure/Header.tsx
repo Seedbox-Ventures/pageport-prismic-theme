@@ -51,6 +51,7 @@ export interface HeaderData {
 }
 
 export interface HeaderProps {
+  burgerMenuBreakPoint?: BreakPointName | 'Never'
   backgroundColor?: ThemeColorType
   logoPosition?: LogoPosition
   logo?: HeaderLogoProps
@@ -68,6 +69,7 @@ export interface HeaderProps {
 }
 
 export const Header: DataComponent<HeaderProps, HeaderData> = ({
+  burgerMenuBreakPoint = 'Never',
   backgroundColor = ThemeColorType.Primary,
   isSticky = false,
   paddingTop,
@@ -93,17 +95,20 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
     }}
   >
     {renderLogo(logo)}
-    {renderNavigation({
-      items: links,
-      textType: linkTextType,
-      linkColor,
-      linkActiveStyle,
-      linkActiveColor,
-      linkHoverStyle,
-      linkHoverColor,
-      align: 'horizontal',
-      customCss: { padding: '0 2rem' },
-    })}
+    {renderNavigation(
+      {
+        items: links,
+        textType: linkTextType,
+        linkColor,
+        linkActiveStyle,
+        linkActiveColor,
+        linkHoverStyle,
+        linkHoverColor,
+        align: 'horizontal',
+        customCss: { display: getNavDisplayAttr(burgerMenuBreakPoint), padding: '0 2rem' },
+      },
+      burgerMenuBreakPoint,
+    )}
   </Section>
 )
 
@@ -115,6 +120,7 @@ Header.mapDataToProps = (headerData) => {
   } = PagePort.config
 
   const {
+    burger_menu_breakpoint,
     background_color,
     logo,
     logo_width = '40px|60px',
@@ -133,6 +139,7 @@ Header.mapDataToProps = (headerData) => {
   } = _.merge(headerDefaults as Partial<HeaderData>, _.omitBy(_.omitBy(headerData, _.isNull), _.isUndefined))
 
   const props: HeaderProps = {
+    burgerMenuBreakPoint: burger_menu_breakpoint,
     backgroundColor: background_color,
     logoPosition: logo_position === true ? LogoPosition.Right : LogoPosition.Left,
     paddingTop: padding_top ?? '1rem',
@@ -182,6 +189,46 @@ Header.mapDataToProps = (headerData) => {
   return props
 }
 
+function getNavDisplayAttr(breakPoint: BreakPointName | 'Never'): string {
+  if (breakPoint === BreakPointName.Desktop) {
+    return 'none'
+  }
+
+  const attributeParts: Array<string> = []
+
+  switch (breakPoint) {
+    case BreakPointName.Phone:
+      attributeParts.push('none')
+    case BreakPointName.Tablet:
+      attributeParts.push('none')
+    case BreakPointName.Laptop:
+      attributeParts.push('none')
+  }
+
+  attributeParts.push('flex')
+  return attributeParts.join('|')
+}
+
+// function getBurgerNavDisplayAttr(breakPoint: BreakPointName | 'Never'): string {
+//   if (breakPoint === 'Never') {
+//     return 'none'
+//   }
+//
+//   const attributeParts: Array<string> = []
+//
+//   switch (breakPoint) {
+//     case BreakPointName.Laptop:
+//       attributeParts.push('none')
+//     case BreakPointName.Tablet:
+//       attributeParts.push('none')
+//     case BreakPointName.Phone:
+//       attributeParts.push('none')
+//   }
+//
+//   attributeParts.push('flex')
+//   return attributeParts.join('|')
+// }
+
 function renderLogo(headerLogoProps: HeaderLogoProps | undefined): React.ReactFragment | null {
   if (!headerLogoProps?.image) {
     return null
@@ -196,8 +243,15 @@ function renderLogo(headerLogoProps: HeaderLogoProps | undefined): React.ReactFr
   return logo
 }
 
-function renderNavigation(navigationProps: NavigationProps): React.ReactFragment | null {
-  if (!navigationProps?.items || navigationProps.items.length === 0) {
+function renderNavigation(
+  navigationProps: NavigationProps,
+  burgerMenuBreakpoint: BreakPointName | 'Never',
+): React.ReactFragment | null {
+  if (
+    !navigationProps?.items ||
+    navigationProps.items.length === 0 ||
+    burgerMenuBreakpoint === BreakPointName.Desktop
+  ) {
     return null
   }
   return <Navigation {...navigationProps} />
@@ -206,8 +260,8 @@ function renderNavigation(navigationProps: NavigationProps): React.ReactFragment
 export const query = graphql`
   fragment PageHeader on PrismicHeader {
     data {
-      background_color
       burger_menu_breakpoint
+      background_color
       logo_position
       logo_width
       logo_link {

@@ -94,11 +94,11 @@ export class Theme implements DefaultTheme {
       color: ${this.getColorValueByType(linkColor)};
       
       &:active, &[aria-current=page] {
-        ${this.renderLinkInteractionCSS(linkActiveStyle, linkActiveColor)}
+        ${this.renderLinkInteractionCSS(linkActiveStyle, linkActiveColor, linkColor)}
       }
       
       &:hover, &:focus {
-        ${this.renderLinkInteractionCSS(linkHoverStyle, linkHoverColor)}
+        ${this.renderLinkInteractionCSS(linkHoverStyle, linkHoverColor, linkColor)}
       }
     `
   }
@@ -106,6 +106,7 @@ export class Theme implements DefaultTheme {
   renderLinkInteractionCSS = (
     linkInteractionStyle: ThemeLinkInteractiveStyle,
     linkInteractionColor: ThemeColorType,
+    linkBaseColor: ThemeColorType
   ): string => {
     switch (linkInteractionStyle) {
       case ThemeLinkInteractiveStyle.None:
@@ -113,7 +114,7 @@ export class Theme implements DefaultTheme {
       case ThemeLinkInteractiveStyle.ChangeColor:
         return `color: ${this.getColorValueByType(linkInteractionColor)};`
       case ThemeLinkInteractiveStyle.DarkenLighten:
-        return `color: ${StyleHelper.lightenDarken(this.getColorValueByType(linkInteractionColor))};`
+        return `color: ${StyleHelper.lightenDarken(this.getColorValueByType(linkBaseColor), 20)};`
       case ThemeLinkInteractiveStyle.Underline:
       default:
         return `text-decoration: underline;`
