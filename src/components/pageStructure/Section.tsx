@@ -13,7 +13,7 @@ export interface SectionProps {
   flexDirection?: CSS.Property.FlexDirection
 }
 
-const StyledSection = styled.div<{ as?: React.ElementType, backgroundColor: ThemeColorType, isSticky: boolean }>(
+export const StyledSection = styled.div<{ as?: React.ElementType, backgroundColor: ThemeColorType, isSticky: boolean }>(
   ({
      backgroundColor,
      isSticky,

@@ -102,6 +102,13 @@ export interface ThemeButtonConfig {
   hoverEffect: ThemeButtonHoverEffectType
 }
 
+export enum ThemeLinkInteractiveStyle {
+  None = 'None',
+  ChangeColor = 'Change Color',
+  DarkenLighten = 'Darken / Lighten',
+  Underline = 'Underline',
+}
+
 export interface ThemeProps {
   colors: Array<ThemeColor>
   contentPadding: string
@@ -161,8 +168,14 @@ export interface ThemeInterface {
   getTextColorValueByBackgroundValue: (background: `#${string}`) => `#${string}`
   getType: (textType: ThemeTextType) => ThemeTypeStyle | undefined
   getStandardType: () => ThemeTypeStyle
-  renderTextTypeCss: (themeTextType: ThemeTextType) => string
+  renderTextTypeCss: (themeTextType?: ThemeTextType) => string
   renderTypeCss: (themeTextType: ThemeTypeStyle) => string
+  renderLinkCss: (
+    linkColor?: ThemeColorType,
+    linkActiveStyle?: ThemeLinkInteractiveStyle,
+    linkActiveColor?: ThemeColorType,
+    linkHoverStyle?: ThemeLinkInteractiveStyle,
+    linkHoverColor?: ThemeColorType,
+  ) => string
   getButtonConfigByType: (buttonType: ThemeButtonType) => ThemeButtonConfig
 }
-

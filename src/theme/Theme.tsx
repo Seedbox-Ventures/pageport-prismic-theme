@@ -6,6 +6,7 @@ import {
   ThemeColorType,
   ThemeData,
   ThemeFontFamilyType,
+  ThemeLinkInteractiveStyle,
   ThemeProps,
   ThemeTextColor,
   ThemeTextType,
@@ -61,11 +62,11 @@ export class Theme implements DefaultTheme {
     return this.getType(ThemeTextType.StandardText)!
   }
 
-  renderTextTypeCss = (themeTextType: ThemeTextType): string => {
+  renderTextTypeCss = (themeTextType: ThemeTextType = ThemeTextType.StandardText): string => {
     const themeType = this.getType(themeTextType)
 
     if (!themeType) {
-      return ''
+      throw `Could not get type definition for text type ${themeTextType}`
     }
 
     return this.renderTypeCss(themeType)
@@ -80,6 +81,44 @@ export class Theme implements DefaultTheme {
       'font-weight': themeType.fontWeight,
       'font-style': themeType.fontStyle,
     })
+  }
+
+  renderLinkCss = (
+    linkColor: ThemeColorType = ThemeColorType.DarkText,
+    linkActiveStyle: ThemeLinkInteractiveStyle = ThemeLinkInteractiveStyle.ChangeColor,
+    linkActiveColor: ThemeColorType = ThemeColorType.Accent,
+    linkHoverStyle: ThemeLinkInteractiveStyle = ThemeLinkInteractiveStyle.ChangeColor,
+    linkHoverColor: ThemeColorType = ThemeColorType.Accent,
+  ): string => {
+    console.log('RENDER LINK COLOR', linkColor)
+    return `
+      color: ${this.getColorValueByType(linkColor)};
+      
+      &:active {
+        ${this.renderLinkInteractionCSS(linkActiveStyle, linkActiveColor)}
+      }
+      
+      &:hover, &:focus {
+        ${this.renderLinkInteractionCSS(linkHoverStyle, linkHoverColor)}
+      }
+    `
+  }
+
+  renderLinkInteractionCSS = (
+    linkInteractionStyle: ThemeLinkInteractiveStyle,
+    linkInteractionColor: ThemeColorType,
+  ): string => {
+    switch (linkInteractionStyle) {
+      case ThemeLinkInteractiveStyle.None:
+        return ''
+      case ThemeLinkInteractiveStyle.ChangeColor:
+        return `color: ${this.getColorValueByType(linkInteractionColor)};`
+      case ThemeLinkInteractiveStyle.DarkenLighten:
+        return `color: ${StyleHelper.lightenDarken(this.getColorValueByType(linkInteractionColor))};`
+      case ThemeLinkInteractiveStyle.Underline:
+      default:
+        return `text-decoration: underline;`
+    }
   }
 
   getButtonConfigByType = (buttonType: ThemeButtonType): ThemeButtonConfig => {

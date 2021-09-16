@@ -84,9 +84,117 @@
     "burger_menu_breakpoint": {
       "type": "Select",
       "config": {
-        "options": ["Never", "Smartphone", "Tablet", "Laptop", "Desktop"],
+        "options": [
+          "Never",
+          "Smartphone",
+          "Tablet",
+          "Laptop",
+          "Desktop"
+        ],
         "default_value": "Never",
         "label": "Burger Menu"
+      }
+    },
+    "link_text_type": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Standard Text",
+          "Page Title",
+          "Section Title",
+          "Sub Title",
+          "Small Title",
+          "Small Text",
+          "Big Text",
+          "Footnote",
+          "Header",
+          "Footer",
+          "Button"
+        ],
+        "label": "Link Text Type"
+      }
+    },
+    "link_color": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Primary",
+          "Accent",
+          "Info",
+          "Warn",
+          "Danger",
+          "Success",
+          "Light Text",
+          "Dark Text",
+          "Background Default",
+          "Background Alternative",
+          "Background Emphasize"
+        ],
+        "label": "Link Color"
+      }
+    },
+    "link_active_style": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Change Color",
+          "Darken / Lighten",
+          "Underline",
+          "None"
+        ],
+        "default_value": "Change Color",
+        "label": "Link Active Style"
+      }
+    },
+    "link_active_color": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Primary",
+          "Accent",
+          "Info",
+          "Warn",
+          "Danger",
+          "Success",
+          "Light Text",
+          "Dark Text",
+          "Background Default",
+          "Background Alternative",
+          "Background Emphasize"
+        ],
+        "label": "Link Active Color"
+      }
+    },
+    "link_hover_style": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Change Color",
+          "Darken / Lighten",
+          "Underline",
+          "None"
+        ],
+        "default_value": "Change Color",
+        "label": "Link Hover Style"
+      }
+    },
+    "link_hover_color": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Primary",
+          "Accent",
+          "Info",
+          "Warn",
+          "Danger",
+          "Success",
+          "Light Text",
+          "Dark Text",
+          "Background Default",
+          "Background Alternative",
+          "Background Emphasize"
+        ],
+        "label": "Link Hover Color"
       }
     },
     "links": {
