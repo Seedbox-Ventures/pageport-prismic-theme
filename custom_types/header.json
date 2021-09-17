@@ -216,23 +216,6 @@
               "label": "Text",
               "placeholder": "Link Text"
             }
-          },
-          "type": {
-            "type": "Select",
-            "config": {
-              "options": [
-                "Link",
-                "Button - Default",
-                "Button - Primary",
-                "Button - Secondary",
-                "Button - Submit",
-                "Button - Success",
-                "Button - Danger",
-                "Button - Cancel"
-              ],
-              "default_value": "Link",
-              "label": "Type"
-            }
           }
         },
         "label": "Header Menu"
