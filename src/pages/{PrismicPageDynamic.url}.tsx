@@ -2,11 +2,11 @@ import * as React from 'react'
 import * as gatsby from 'gatsby'
 import { graphql } from 'gatsby'
 import { UnknownRecord, withPrismicPreview } from 'gatsby-plugin-prismic-previews'
-import { SEO } from '../components/pageStructure/Seo'
+import { SEO } from '../components/page/Seo'
 import { WithPrismicPreviewProps } from 'gatsby-plugin-prismic-previews/src/withPrismicPreview'
 import { Theme, ThemeData, ThemeWrapper } from '../theme'
 import { linkResolver } from '../utils/LinkResolver'
-import { Footer, Header, HeaderData, SliceData, SliceZone } from '../components/pageStructure'
+import { Footer, Header, HeaderData, SliceData, SliceZone } from '../components/page'
 import { TextSection } from '../sections'
 
 interface DynamicPageProps extends UnknownRecord {

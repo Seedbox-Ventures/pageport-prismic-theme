@@ -5,7 +5,7 @@ import { RichText, RichTextBlock } from 'prismic-reactjs'
 import { CustomLink } from '../utils/CustomLink'
 import { StyleHelper, ThemeBackgroundColor } from '../theme'
 import styled from 'styled-components'
-import { Section, SliceComponent, SliceData } from '../components/pageStructure'
+import { Section, SliceComponent, SliceData } from '../components/page'
 
 export interface TextSectionProps {
   backgroundColor: ThemeBackgroundColor
