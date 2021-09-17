@@ -1,13 +1,14 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { StyleHelper, ThemeButtonHoverEffectType, ThemeButtonType, ThemeTextType } from '../../theme'
-import { Link, LinkProps } from './Link'
+import { Link } from 'gatsby'
+import { LinkProps } from './Link'
 
 export interface ButtonProps extends LinkProps {
   type?: ThemeButtonType
 }
 
-const StyledButton = styled.button<{ buttonType: ThemeButtonType }>(({ buttonType, theme }) => {
+const StyledButton = styled.button<{ buttonType: ThemeButtonType; as: React.ElementType }>(({ buttonType, theme }) => {
   const buttonConfig = theme.getButtonConfigByType(buttonType)
   const buttonColorValue = theme.getColorValueByType(buttonConfig.color)
 
@@ -67,8 +68,15 @@ const StyledButton = styled.button<{ buttonType: ThemeButtonType }>(({ buttonTyp
 })
 
 export const Button: React.FC<ButtonProps> = ({ type = ThemeButtonType.Default, url, target, internal, children }) => {
+  if (internal) {
+    return (
+      <StyledButton as={Link} to={url} target={target} buttonType={type}>
+        {children}
+      </StyledButton>
+    )
+  }
   return (
-    <StyledButton as={Link} buttonType={type} url={url} target={target} internal={internal}>
+    <StyledButton as="a" href={url} target={target} buttonType={type}>
       {children}
     </StyledButton>
   )

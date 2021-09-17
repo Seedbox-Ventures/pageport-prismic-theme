@@ -221,5 +221,47 @@
         "label": "Header Menu"
       }
     }
+  },
+  "CTA": {
+    "cta_display": {
+      "type": "Boolean",
+      "config": {
+        "placeholder_false": "No",
+        "placeholder_true": "Yes",
+        "default_value": false,
+        "label": "Display CTA"
+      }
+    },
+    "cta_text": {
+      "type": "Text",
+      "config": {
+        "label": "Text"
+      }
+    },
+    "cta_button_type": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Default",
+          "Primary",
+          "Secondary",
+          "Submit",
+          "Cancel",
+          "Info",
+          "Success",
+          "Warn",
+          "Danger"
+        ],
+        "default_value": "Default",
+        "label": "Button Type"
+      }
+    },
+    "cta_link": {
+      "type": "Link",
+      "config": {
+        "label": "CTA Link",
+        "select": null
+      }
+    }
   }
 }

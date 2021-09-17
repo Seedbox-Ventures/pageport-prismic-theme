@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { ReactNode } from 'react'
 import { Link as GatsbyLink } from 'gatsby'
 
 export enum LinkTarget {
@@ -9,30 +10,24 @@ export enum LinkTarget {
 }
 
 export interface LinkProps {
-  internal: boolean,
-  url: string,
-  target?: LinkTarget,
-  children?: React.ReactNode,
+  internal: boolean
+  url: string
+  target?: LinkTarget
+  children?: ReactNode | string
 }
 
-export const Link: React.FC<LinkProps> =
-  ({
-     url,
-     target,
-     internal,
-     children,
-   }) => {
-    if (internal) {
-      return (
-        <GatsbyLink to={url} target={target}>
-          {children}
-        </GatsbyLink>
-      )
-    }
-
+export const Link: React.FC<LinkProps> = ({ url, target, internal, children }) => {
+  if (internal) {
     return (
-      <a href={url} target={target}>
+      <GatsbyLink to={url} target={target}>
         {children}
-      </a>
+      </GatsbyLink>
     )
   }
+
+  return (
+    <a href={url} target={target}>
+      {children}
+    </a>
+  )
+}

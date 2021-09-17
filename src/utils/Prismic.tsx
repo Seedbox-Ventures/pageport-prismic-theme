@@ -18,7 +18,7 @@ export interface PrismicLinkData {
 }
 
 export const DataHelper = {
-  objectKeysToCamelCase: function(obj: Object): Record<string, any> {
+  objectKeysToCamelCase: function (obj: Object): Record<string, any> {
     let transformedObj: Record<string, any> = _.mapKeys(obj, (_v, k) => _.camelCase(k))
     transformedObj = _.mapValues(transformedObj, (v) => {
       if (typeof v === 'object') {
@@ -29,10 +29,12 @@ export const DataHelper = {
     return transformedObj
   },
 
-  prismicLinkToLinkProps: function({ url, target, link_type }: PrismicLinkData): LinkProps | undefined {
-    if (!url || url === '') {
+  prismicLinkToLinkProps: function (prismicLinkData?: PrismicLinkData): LinkProps | undefined {
+    if (!prismicLinkData?.url || prismicLinkData.url === '') {
       return undefined
     }
+
+    const { url, target, link_type } = prismicLinkData
 
     return {
       url,

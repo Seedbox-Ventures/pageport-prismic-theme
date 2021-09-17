@@ -1,6 +1,13 @@
 import * as React from 'react'
 import _ from 'lodash'
-import { BreakPoint, BreakPointName, ThemeColorType, ThemeLinkInteractiveStyle, ThemeTextType } from '../../theme'
+import {
+  BreakPoint,
+  BreakPointName,
+  ThemeButtonType,
+  ThemeColorType,
+  ThemeLinkInteractiveStyle,
+  ThemeTextType,
+} from '../../theme'
 import { Section } from './Section'
 import { DataComponent } from './types'
 import { getImage, ImageDataLike } from 'gatsby-plugin-image'
@@ -10,7 +17,9 @@ import { graphql } from 'gatsby'
 import { PPGatsbyImage } from '../ui/Image'
 import { DataHelper, PrismicLinkData } from '../../utils/Prismic'
 import { Link, LinkProps } from '../ui/Link'
-import { Navigation, NavigationItemProps, NavigationProps, NavItemType } from '../ui/Navigation'
+import { Navigation, NavigationProps } from '../ui/Navigation'
+import { Button } from '../ui/Button'
+import styled from 'styled-components'
 
 export enum LogoPosition {
   Left = 'Left',
@@ -42,9 +51,12 @@ export interface HeaderData {
   link_hover_style: ThemeLinkInteractiveStyle
   links: Array<{
     text?: string
-    type?: NavItemType
     link?: PrismicLinkData
   } | null>
+  cta_display?: boolean
+  cta_text?: string
+  cta_button_type?: ThemeButtonType
+  cta_link?: PrismicLinkData
   is_sticky: boolean
   padding_bottom: string
   padding_top: string
@@ -59,14 +71,22 @@ export interface HeaderProps {
   isSticky?: boolean
   paddingTop: string
   paddingBottom: string
-  links?: Array<NavigationItemProps>
+  links?: Array<LinkProps>
   linkTextType: ThemeTextType
   linkColor: ThemeColorType
   linkActiveColor: ThemeColorType
   linkActiveStyle: ThemeLinkInteractiveStyle
   linkHoverColor: ThemeColorType
   linkHoverStyle: ThemeLinkInteractiveStyle
+  ctaDisplay: boolean
+  ctaText?: string
+  ctaButtonType?: ThemeButtonType
+  ctaLink?: LinkProps
 }
+
+export interface CTAProps {}
+
+const customSectionContainerStyle = { 'flex-direction': 'row', 'justify-content': 'space-between' }
 
 export const Header: DataComponent<HeaderProps, HeaderData> = ({
   burgerMenuBreakPoint = 'Never',
@@ -83,18 +103,23 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
   linkActiveColor,
   linkHoverStyle,
   linkHoverColor,
+  ctaDisplay,
+  ctaText,
+  ctaButtonType,
+  ctaLink,
 }) => (
   <Section
     as="header"
     backgroundColor={backgroundColor}
+    customContainerStyle={customSectionContainerStyle}
     {...{
       isSticky,
       paddingTop,
       paddingBottom,
-      flexDirection: logoPosition === LogoPosition.Right ? 'row-reverse' : 'row',
+      flexDirection: 'row',
     }}
   >
-    {renderLogo(logo)}
+    {logoPosition === LogoPosition.Left && renderLogo(logo)}
     {renderNavigation(
       {
         items: links,
@@ -105,10 +130,17 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
         linkHoverStyle,
         linkHoverColor,
         align: 'horizontal',
-        customCss: { display: getNavDisplayAttr(burgerMenuBreakPoint), padding: '0 2rem' },
+        customCss: {
+          display: getNavDisplayAttr(burgerMenuBreakPoint),
+          padding: '0 2rem',
+          'flex-grow': '1',
+          'justify-content': 'start',
+        },
       },
       burgerMenuBreakPoint,
     )}
+    {renderCTA(ctaDisplay, ctaText, ctaLink, ctaButtonType)}
+    {logoPosition === LogoPosition.Right && renderLogo(logo)}
   </Section>
 )
 
@@ -136,6 +168,10 @@ Header.mapDataToProps = (headerData) => {
     link_active_color = ThemeColorType.Accent,
     link_hover_style = ThemeLinkInteractiveStyle.ChangeColor,
     link_hover_color = ThemeColorType.Accent,
+    cta_display = false,
+    cta_text,
+    cta_button_type,
+    cta_link,
   } = _.merge(headerDefaults as Partial<HeaderData>, _.omitBy(_.omitBy(headerData, _.isNull), _.isUndefined))
 
   const props: HeaderProps = {
@@ -163,18 +199,21 @@ Header.mapDataToProps = (headerData) => {
                 return undefined
               }
 
-              const { type, text } = navItem
+              const { text } = navItem
 
               return {
                 ...linkProps,
                 ...{
                   children: text,
-                  type: type ?? 'Link',
                 },
               }
             }),
           )
         : undefined,
+    ctaDisplay: cta_display,
+    ctaText: cta_text,
+    ctaLink: DataHelper.prismicLinkToLinkProps(cta_link),
+    ctaButtonType: cta_button_type,
   }
 
   if (!_.isEmpty(logo?.gatsbyImageData)) {
@@ -257,6 +296,31 @@ function renderNavigation(
   return <Navigation {...navigationProps} />
 }
 
+function renderCTA(
+  doDisplay: boolean,
+  text?: string,
+  link?: LinkProps,
+  buttonType?: ThemeButtonType,
+): React.ReactFragment | null {
+  if (!(doDisplay && text && link && buttonType)) {
+    return null
+  }
+
+  const StyledCTAContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  `
+
+  return (
+    <StyledCTAContainer>
+      <Button internal={link.internal} url={link.url} type={buttonType}>
+        {text}
+      </Button>
+    </StyledCTAContainer>
+  )
+}
+
 export const query = graphql`
   fragment PageHeader on PrismicHeader {
     data {
@@ -279,12 +343,19 @@ export const query = graphql`
       link_hover_color
       link_hover_style
       links {
-        type
         text
         link {
           url
           target
         }
+      }
+      cta_display
+      cta_text
+      cta_button_type
+      cta_link {
+        url
+        target
+        link_type
       }
       is_sticky
       padding_bottom

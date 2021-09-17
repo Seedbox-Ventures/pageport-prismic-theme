@@ -75,7 +75,7 @@ export default {
           'text_type': 'Header',
         },
       ],
-      'button_padding': '.5em .75em',
+      'button_padding': '.75em 1.5em',
       'button_border_radius': '99999px',
       'button_border_width': '.125em',
       'button_box_shadow': 'none',
