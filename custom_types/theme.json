@@ -131,10 +131,7 @@
           "font_family": {
             "type": "Select",
             "config": {
-              "options": [
-                "Primary",
-                "Secondary"
-              ],
+              "options": ["Primary", "Secondary"],
               "default_value": "Primary",
               "label": "Font Family"
             }
