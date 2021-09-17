@@ -7,10 +7,7 @@ export interface ButtonProps extends LinkProps {
   type?: ThemeButtonType
 }
 
-const StyledButton = styled.div<{ buttonType: ThemeButtonType }>(({
-                                                                    buttonType,
-                                                                    theme,
-                                                                  }) => {
+const StyledButton = styled.button<{ buttonType: ThemeButtonType }>(({ buttonType, theme }) => {
   const buttonConfig = theme.getButtonConfigByType(buttonType)
   const buttonColorValue = theme.getColorValueByType(buttonConfig.color)
 
@@ -23,18 +20,21 @@ const StyledButton = styled.div<{ buttonType: ThemeButtonType }>(({
     },
     boxShadow: theme.props.buttonBoxShadow,
     fontFamily: theme.getFontFamily((theme.getType(ThemeTextType.Button) || theme.getStandardType()).fontFamily),
-    bgColor: !(buttonConfig.fillBackground) ? 'transparent' : buttonColorValue,
-    textColor: !(buttonConfig.fillBackground) ? buttonColorValue : theme.getTextColorValueByBackgroundValue(buttonColorValue),
+    bgColor: !buttonConfig.fillBackground ? 'transparent' : buttonColorValue,
+    textColor: !buttonConfig.fillBackground
+      ? buttonColorValue
+      : theme.getTextColorValueByBackgroundValue(buttonColorValue),
   }
-
 
   const buttonHoverEffects: Record<ThemeButtonHoverEffectType, string> = {
     [ThemeButtonHoverEffectType.None]: `
       
     `,
     [ThemeButtonHoverEffectType.ChangeBackground]: `
-      background-color: ${!(buttonConfig.fillBackground) ? buttonColorValue : 'transparent'};
-      color: ${!(buttonConfig.fillBackground) ? theme.getTextColorValueByBackgroundValue(buttonColorValue) : buttonColorValue};
+      background-color: ${!buttonConfig.fillBackground ? buttonColorValue : 'transparent'};
+      color: ${
+        !buttonConfig.fillBackground ? theme.getTextColorValueByBackgroundValue(buttonColorValue) : buttonColorValue
+      };
     `,
     [ThemeButtonHoverEffectType.ChangeBoxShadow]: `
       /* TODO: implement ChangeBoxShadow effect */
@@ -66,11 +66,10 @@ const StyledButton = styled.div<{ buttonType: ThemeButtonType }>(({
   `
 })
 
-export const Button: React.FC<ButtonProps> =
-  ({ type = ThemeButtonType.Default, url, target, internal, children }) => {
-    return (
-      <StyledButton as={Link} buttonType={type} url={url} target={target} internal={internal}>
-        {children}
-      </StyledButton>
-    )
-  }
+export const Button: React.FC<ButtonProps> = ({ type = ThemeButtonType.Default, url, target, internal, children }) => {
+  return (
+    <StyledButton as={Link} buttonType={type} url={url} target={target} internal={internal}>
+      {children}
+    </StyledButton>
+  )
+}

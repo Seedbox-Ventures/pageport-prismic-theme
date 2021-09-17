@@ -106,7 +106,7 @@ export class Theme implements DefaultTheme {
   renderLinkInteractionCSS = (
     linkInteractionStyle: ThemeLinkInteractiveStyle,
     linkInteractionColor: ThemeColorType,
-    linkBaseColor: ThemeColorType
+    linkBaseColor: ThemeColorType,
   ): string => {
     switch (linkInteractionStyle) {
       case ThemeLinkInteractiveStyle.None:

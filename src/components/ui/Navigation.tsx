@@ -1,15 +1,8 @@
 import * as React from 'react'
 import _ from 'lodash'
-import { StyleHelper, ThemeButtonType, ThemeColorType, ThemeLinkInteractiveStyle, ThemeTextType } from '../../theme'
+import { StyleHelper, ThemeColorType, ThemeLinkInteractiveStyle, ThemeTextType } from '../../theme'
 import { Link, LinkProps } from './Link'
-import { Button } from './Button'
 import styled from 'styled-components'
-
-export type NavItemType = ThemeButtonType | 'Link'
-
-export interface NavigationItemProps extends LinkProps {
-  type: NavItemType
-}
 
 interface StyledNavigationProps {
   align?: 'vertical' | 'horizontal'
@@ -24,7 +17,7 @@ interface StyledNavigationProps {
 }
 
 export interface NavigationProps extends StyledNavigationProps {
-  items: Array<NavigationItemProps>
+  items: Array<LinkProps>
 }
 
 export const StyledNavigation = styled.nav<StyledNavigationProps>(
@@ -95,22 +88,13 @@ export const Navigation: React.FC<NavigationProps> = ({
   )
 }
 
-function renderNavigationItems(items: Array<NavigationItemProps>): Array<React.ReactElement> {
-  return _.map(items, ({ internal, url, children, type }, index) => {
-    if (type === 'Link') {
-      return (
-        <li key={url + index}>
-          <Link internal={internal} url={url}>
-            {children}
-          </Link>
-        </li>
-      )
-    }
+function renderNavigationItems(items: Array<LinkProps>): Array<React.ReactElement> {
+  return _.map(items, ({ internal, url, children }, index) => {
     return (
-      <li>
-        <Button type={type} internal={internal} url={url}>
+      <li key={url + index}>
+        <Link internal={internal} url={url}>
           {children}
-        </Button>
+        </Link>
       </li>
     )
   })
