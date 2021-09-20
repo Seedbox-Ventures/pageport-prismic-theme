@@ -164,6 +164,8 @@ export interface ThemeInterface {
   //Function Section
   getColorValueByType: (colorType: ThemeColorType) => `#${string}`
   getFontFamily: (fontFamilyType: ThemeFontFamilyType) => string
+  getTextColorByBackground: (background: ThemeColorType) => ThemeColorType
+  getTextColorByBackgroundValue: (background: `#${string}`) => ThemeTextColor
   getTextColorValueByBackground: (background: ThemeColorType) => `#${string}`
   getTextColorValueByBackgroundValue: (background: `#${string}`) => `#${string}`
   getType: (textType: ThemeTextType) => ThemeTypeStyle | undefined

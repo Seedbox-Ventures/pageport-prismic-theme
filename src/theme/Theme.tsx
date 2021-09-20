@@ -47,10 +47,17 @@ export class Theme implements DefaultTheme {
     return this.getTextColorValueByBackgroundValue(backgroundColorValue)
   }
 
+  getTextColorByBackground = (background: ThemeColorType): ThemeColorType => {
+    const backgroundColorValue: `#${string}` = this.getColorValueByType(background)
+    return this.getTextColorByBackgroundValue(backgroundColorValue)
+  }
+
+  getTextColorByBackgroundValue = (background: `#${string}`): ThemeTextColor => {
+    return tinycolor(background).isDark() ? ThemeColorType.LightText : ThemeColorType.DarkText
+  }
+
   getTextColorValueByBackgroundValue = (background: `#${string}`): `#${string}` => {
-    const textColor: ThemeTextColor = tinycolor(background).isDark()
-      ? ThemeColorType.LightText
-      : ThemeColorType.DarkText
+    const textColor: ThemeTextColor = this.getTextColorByBackgroundValue(background)
     return this.getColorValueByType(textColor)
   }
 

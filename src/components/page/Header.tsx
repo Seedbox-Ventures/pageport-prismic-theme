@@ -3,6 +3,7 @@ import _ from 'lodash'
 import {
   BreakPoint,
   BreakPointName,
+  StyleHelper,
   ThemeButtonType,
   ThemeColorType,
   ThemeLinkInteractiveStyle,
@@ -19,7 +20,9 @@ import { DataHelper, PrismicLinkData } from '../../utils/Prismic'
 import { Link, LinkProps } from '../basic/Link'
 import { Navigation, NavigationProps } from '../basic/Navigation'
 import { Button } from '../basic/Button'
-import styled from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
+import { BurgerMenu } from './burgerMenu/BurgerMenu'
+import { useContext } from 'react'
 
 export enum LogoPosition {
   Left = 'Left',
@@ -84,8 +87,6 @@ export interface HeaderProps {
   ctaLink?: LinkProps
 }
 
-export interface CTAProps {}
-
 const customSectionContainerStyle = { 'flex-direction': 'row', 'justify-content': 'space-between' }
 
 export const Header: DataComponent<HeaderProps, HeaderData> = ({
@@ -107,42 +108,50 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
   ctaText,
   ctaButtonType,
   ctaLink,
-}) => (
-  <Section
-    as="header"
-    backgroundColor={backgroundColor}
-    customContainerStyle={customSectionContainerStyle}
-    {...{
-      isSticky,
-      paddingTop,
-      paddingBottom,
-      flexDirection: 'row',
-    }}
-  >
-    {logoPosition === LogoPosition.Left && renderLogo(logo)}
-    {renderNavigation(
-      {
-        items: links,
-        textType: linkTextType,
-        linkColor,
-        linkActiveStyle,
-        linkActiveColor,
-        linkHoverStyle,
-        linkHoverColor,
-        align: 'horizontal',
-        customCss: {
-          display: getNavDisplayAttr(burgerMenuBreakPoint),
-          padding: '0 2rem',
-          'flex-grow': '1',
-          'justify-content': 'start',
+}) => {
+  const navigationPropsPartial = {
+    items: links,
+    textType: linkTextType,
+    linkColor,
+    linkActiveStyle,
+    linkActiveColor,
+    linkHoverStyle,
+    linkHoverColor,
+  }
+
+  return (
+    <Section
+      as="header"
+      backgroundColor={backgroundColor}
+      customContainerStyle={customSectionContainerStyle}
+      {...{
+        isSticky,
+        paddingTop,
+        paddingBottom,
+        flexDirection: 'row',
+      }}
+    >
+      {logoPosition === LogoPosition.Right && renderBurgerMenu(links, burgerMenuBreakPoint, backgroundColor)}
+      {logoPosition === LogoPosition.Left && renderLogo(logo)}
+      {renderNavigation(
+        {
+          align: 'horizontal',
+          customCss: {
+            display: getNavDisplayAttr(burgerMenuBreakPoint),
+            padding: '0 2rem',
+            'flex-grow': '1',
+            'justify-content': 'start',
+          },
+          ...navigationPropsPartial,
         },
-      },
-      burgerMenuBreakPoint,
-    )}
-    {renderCTA(ctaDisplay, ctaText, ctaLink, ctaButtonType)}
-    {logoPosition === LogoPosition.Right && renderLogo(logo)}
-  </Section>
-)
+        burgerMenuBreakPoint,
+      )}
+      {renderCTA(ctaDisplay, ctaText, ctaLink, ctaButtonType, burgerMenuBreakPoint)}
+      {logoPosition === LogoPosition.Left && renderBurgerMenu(links, burgerMenuBreakPoint, backgroundColor)}
+      {logoPosition === LogoPosition.Right && renderLogo(logo)}
+    </Section>
+  )
+}
 
 //items={navigationItems} align="horizontal" customCss={}
 
@@ -248,26 +257,6 @@ function getNavDisplayAttr(breakPoint: BreakPointName | 'Never'): string {
   return attributeParts.join('|')
 }
 
-// function getBurgerNavDisplayAttr(breakPoint: BreakPointName | 'Never'): string {
-//   if (breakPoint === 'Never') {
-//     return 'none'
-//   }
-//
-//   const attributeParts: Array<string> = []
-//
-//   switch (breakPoint) {
-//     case BreakPointName.Laptop:
-//       attributeParts.push('none')
-//     case BreakPointName.Tablet:
-//       attributeParts.push('none')
-//     case BreakPointName.Phone:
-//       attributeParts.push('none')
-//   }
-//
-//   attributeParts.push('flex')
-//   return attributeParts.join('|')
-// }
-
 function renderLogo(headerLogoProps: HeaderLogoProps | undefined): React.ReactFragment | null {
   if (!headerLogoProps?.image) {
     return null
@@ -301,15 +290,18 @@ function renderCTA(
   text?: string,
   link?: LinkProps,
   buttonType?: ThemeButtonType,
+  breakPoint: BreakPointName | 'Never' = 'Never',
 ): React.ReactFragment | null {
   if (!(doDisplay && text && link && buttonType)) {
     return null
   }
 
   const StyledCTAContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    ${StyleHelper.renderCssFromObject({
+      display: getNavDisplayAttr(breakPoint),
+      'flex-direction': 'column',
+      'justify-content': 'center',
+    })}
   `
 
   return (
@@ -318,6 +310,43 @@ function renderCTA(
         {text}
       </Button>
     </StyledCTAContainer>
+  )
+}
+
+function renderBurgerMenu(items: Array<LinkProps>, breakPoint: BreakPointName | 'Never', headerColor: ThemeColorType): React.ReactFragment | null {
+  if (!items || items.length === 0 || breakPoint === 'Never') {
+    return null
+  }
+
+  const displayAttributeParts: Array<string> = []
+
+  if (breakPoint === BreakPointName.Desktop) {
+    displayAttributeParts.push('flex')
+  } else {
+    switch (breakPoint) {
+      case BreakPointName.Laptop:
+        displayAttributeParts.push('flex')
+      case BreakPointName.Tablet:
+        displayAttributeParts.push('flex')
+      case BreakPointName.Phone:
+        displayAttributeParts.push('flex')
+    }
+
+    displayAttributeParts.push('none')
+  }
+  const iconColor = useContext(ThemeContext).getTextColorByBackground(headerColor);
+  const StyledBurgerNavContainer = styled.div`
+    ${StyleHelper.renderCssFromObject({
+      display: displayAttributeParts.join('|'),
+      'flex-direction': 'column',
+      'justify-content': 'center',
+    })}
+  `
+
+  return (
+    <StyledBurgerNavContainer>
+      <BurgerMenu links={items} iconColor={iconColor}></BurgerMenu>
+    </StyledBurgerNavContainer>
   )
 }
 
