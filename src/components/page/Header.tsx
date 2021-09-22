@@ -141,7 +141,7 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
         burgerMenuBreakPoint,
       )}
       {renderCTA(ctaDisplay, ctaText, ctaLink, ctaButtonType, burgerMenuBreakPoint)}
-      {logoPosition === LogoPosition.Left && renderBurgerMenu(links, burgerMenuBreakPoint, backgroundColor, linkColor)}
+      {logoPosition === LogoPosition.Left && renderBurgerMenu(links, burgerMenuBreakPoint, backgroundColor, linkColor, padding)}
       {logoPosition === LogoPosition.Right && <Logo {...logo} />}
     </Section>
   )
