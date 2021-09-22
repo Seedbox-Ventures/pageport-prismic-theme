@@ -5,12 +5,12 @@ import { PPGatsbyImage } from './Image'
 
 export interface LogoProps {
   image?: IGatsbyImageData
-  alt: string
-  width: string
+  alt?: string
+  width?: string
   link?: LinkProps
 }
 
-export const Logo: React.FC<LogoProps> = ({ image, alt, width, link }) => {
+export const Logo: React.FC<LogoProps> = ({ image, alt = '', width = '120px', link }) => {
   if (!image) {
     return null
   }

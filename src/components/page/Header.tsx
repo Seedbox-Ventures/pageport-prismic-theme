@@ -20,10 +20,16 @@ import { Navigation, NavigationProps } from '../basic/Navigation'
 import styled from 'styled-components'
 import { Button } from '../basic/Button'
 import { BurgerMenu } from './burgerMenu/BurgerMenu'
+import { graphql } from 'gatsby'
 
 export enum LogoPosition {
   Left = 'Left',
   Right = 'Right',
+}
+
+interface LogoData {
+  gatsbyImageData?: ImageDataLike
+  alt?: string
 }
 
 export interface HeaderData {
@@ -32,10 +38,7 @@ export interface HeaderData {
   logo_position: boolean
   logo_width: string
   logo_link?: PrismicLinkData
-  logo: {
-    gatsbyImageData?: ImageDataLike
-    alt?: string
-  }
+  logo: LogoData
   link_text_type: ThemeTextType
   link_color: ThemeColorType
   link_active_color: ThemeColorType
@@ -59,7 +62,7 @@ export interface HeaderProps {
   burgerMenuBreakPoint?: BreakPointName | 'Never'
   backgroundColor?: ThemeColorType
   logoPosition?: LogoPosition
-  logo: LogoProps
+  logo?: LogoProps
   menuBreakPoint?: BreakPoint
   isSticky?: boolean
   paddingTop: string
@@ -173,7 +176,7 @@ Header.mapDataToProps = (headerData) => {
     cta_link,
   } = _.merge(headerDefaults as Partial<HeaderData>, _.omitBy(_.omitBy(headerData, _.isNull), _.isUndefined))
 
-  const props: Partial<HeaderProps> = {
+  return {
     burgerMenuBreakPoint: burger_menu_breakpoint,
     backgroundColor: background_color,
     logoPosition: logo_position === true ? LogoPosition.Right : LogoPosition.Left,
@@ -213,18 +216,20 @@ Header.mapDataToProps = (headerData) => {
     ctaText: cta_text,
     ctaLink: DataHelper.prismicLinkToLinkProps(cta_link),
     ctaButtonType: cta_button_type,
+    logo: mapLogoDataToProps(logo, logo_width, logo_link),
   }
+}
 
-  if (!_.isEmpty(logo?.gatsbyImageData)) {
-    props.logo = {
-      image: getImage(logo!.gatsbyImageData!),
-      alt: logo!.alt ?? '',
-      width: logo_width,
-      link: logo_link ? DataHelper.prismicLinkToLinkProps(logo_link) : undefined,
-    }
+function mapLogoDataToProps(logo?: LogoData, width?: string, link?: PrismicLinkData): LogoProps | undefined {
+  if (!logo) {
+    return undefined
   }
-
-  return props
+  return {
+    image: getImage(logo!.gatsbyImageData!),
+    alt: logo!.alt ?? '',
+    width,
+    link: link ? DataHelper.prismicLinkToLinkProps(link) : undefined,
+  }
 }
 
 function getNavDisplayAttr(breakPoint: BreakPointName | 'Never'): string {
@@ -357,6 +362,7 @@ export const query = graphql`
         link {
           url
           target
+          link_type
         }
       }
       cta_display
