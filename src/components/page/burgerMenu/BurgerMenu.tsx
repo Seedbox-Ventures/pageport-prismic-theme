@@ -47,7 +47,7 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = function ({
           }}
         />
 
-        <Navigation items={links}/>
+        <Navigation items={links} />
       </StyledOverlayContainer>
     </Overlay>
   )

@@ -112,7 +112,9 @@ export class StyleHelper {
   }
 
   static spacingStringToObject = (spacingString: string): SpacingObject => {
-    const stringParts = spacingString.split(/(\s+)/)
+    const stringParts = spacingString.split(/(\s+)/g).filter((e) => {
+      return e.trim().length > 0
+    })
 
     return {
       top: stringParts[0],
@@ -190,8 +192,15 @@ export class StyleHelper {
         return undefined
       }
       const spacingObj = StyleHelper.spacingStringToObject(value)
+      console.log('SPACING OBJ', spacingObj)
       return _.isEmpty(spacingObj) ? undefined : spacingObj[spacingPart]
     })
+    console.log('EXTRACT RESPONSIVE SPACING PART spacing', spacing)
+    console.log(
+      'EXTRACT RESPONSIVE SPACING PART responsinceAttributeMap',
+      StyleHelper.extractResponsiveAttributeMap(spacing),
+    )
+    console.log('EXTRACT RESPONSIVE SPACING PART responsiveSpacingPart', responsiveSpacingPart)
 
     return StyleHelper.responsiveAttributeMapToStyleValue(responsiveSpacingPart)
   }
