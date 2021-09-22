@@ -195,7 +195,7 @@ export class StyleHelper {
   static responsiveAttributeMapToStyleValue = (responsiveAttributeMap: ResponsiveAttributeMap): StyleValue => {
     const stringParts: Array<string> = []
     let differenceDetected: boolean = false
-    for (let i = breakPoints.length - 1; i > 1; i--) {
+    for (let i = breakPoints.length - 1; i > 0; i--) {
       if (
         !differenceDetected &&
         responsiveAttributeMap[breakPoints[i].name] &&
@@ -204,7 +204,11 @@ export class StyleHelper {
         differenceDetected = true
       }
       if (differenceDetected) {
-        stringParts.unshift(responsiveAttributeMap[breakPoints[i].name]!.toString())
+        if (responsiveAttributeMap[breakPoints[i].name]) {
+          stringParts.unshift(responsiveAttributeMap[breakPoints[i].name]!.toString())
+        } else if (stringParts[0]) {
+          stringParts.unshift(stringParts[0])
+        }
       }
     }
     stringParts.unshift(responsiveAttributeMap[breakPoints[0].name]!.toString())
