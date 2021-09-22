@@ -11,10 +11,6 @@ export interface OverlayProps {
   isOpen?: boolean
 }
 
-export interface IOverlay extends React.FC<OverlayProps> {
-  root: HTMLElement
-}
-
 export const StyledOverlayContainer = styled.div<{
   backgroundColor: ThemeColorType
   padding?: Partial<ContainerSpacing>
@@ -34,15 +30,28 @@ export const StyledOverlayContainer = styled.div<{
   })
 })
 
-export const Overlay: IOverlay = (props) => {
-  const { anchorRenderer, children, isOpen } = props
+export class Overlay extends React.PureComponent<OverlayProps> {
+  static _root: HTMLElement
 
-  return (
-    <OverlayProvider {...props}>
-      <OverlayConsumer>{typeof anchorRenderer === 'function' ? anchorRenderer : () => null}</OverlayConsumer>
-      <OverlayConsumer>{() => createPortal(<Fragment>{isOpen && children}</Fragment>, Overlay.root)}</OverlayConsumer>
-    </OverlayProvider>
-  )
+  componentDidMount() {
+    if (!Overlay._root) {
+      Overlay._root = document.body || document.createElement('div')
+    }
+  }
+
+  render = () => {
+    const { anchorRenderer, children, isOpen } = this.props
+    return (
+      <OverlayProvider {...this.props}>
+        <OverlayConsumer>{typeof anchorRenderer === 'function' ? anchorRenderer : () => null}</OverlayConsumer>
+        <OverlayConsumer>
+          {() => {
+            if (Overlay._root) {
+              return createPortal(<Fragment>{isOpen && children}</Fragment>, Overlay._root)
+            }
+          }}
+        </OverlayConsumer>
+      </OverlayProvider>
+    )
+  }
 }
-
-Overlay.root = document.body || document.createElement('div')
