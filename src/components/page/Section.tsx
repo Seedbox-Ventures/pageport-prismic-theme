@@ -1,7 +1,7 @@
 import * as React from 'react'
 import _ from 'lodash'
 import styled from 'styled-components'
-import { StyleHelper, ThemeColorType } from '../../theme'
+import { StyleHelper, StyleObject, ThemeColorType } from '../../theme'
 import * as CSS from 'csstype'
 
 export interface SectionProps {
@@ -11,14 +11,14 @@ export interface SectionProps {
   paddingBottom?: string
   as?: React.ElementType
   isSticky?: boolean
-  customContainerStyle?: Record<string, string>
+  customContainerStyle?: StyleObject
 }
 
 export const StyledSection = styled.div<{
   as?: React.ElementType
   backgroundColor: ThemeColorType
   isSticky: boolean
-  customCss?: Record<string, string>
+  customCss?: StyleObject
 }>(({ backgroundColor, isSticky, theme, customCss = {} }) =>
   StyleHelper.renderCssFromObject(
     _.merge(
@@ -38,9 +38,9 @@ const ContentContainer = styled.div<{
   paddingTop?: string
   paddingBottom?: string
   flexDirection?: CSS.Property.FlexDirection
-  customContainerStyle?: Record<string, string>
+  customContainerStyle?: StyleObject
 }>(({ isFullWidth, paddingTop, paddingBottom, flexDirection = 'column', theme, customContainerStyle = {} }) => {
-  const styleObj: Record<string, string> = _.merge(
+  const styleObj: StyleObject = _.merge(
     {},
     {
       display: 'flex',

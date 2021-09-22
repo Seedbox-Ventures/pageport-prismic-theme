@@ -1,6 +1,6 @@
 import * as React from 'react'
 import _ from 'lodash'
-import { StyleHelper, ThemeColorType, ThemeLinkInteractiveStyle, ThemeTextType } from '../../theme'
+import { StyleHelper, StyleObject, ThemeColorType, ThemeLinkInteractiveStyle, ThemeTextType } from '../../theme'
 import { Link, LinkProps } from './Link'
 import styled from 'styled-components'
 
@@ -13,7 +13,7 @@ interface StyledNavigationProps {
   linkActiveColor?: ThemeColorType
   linkHoverStyle?: ThemeLinkInteractiveStyle
   linkHoverColor?: ThemeColorType
-  customCss?: Record<string, string>
+  customCss?: StyleObject
 }
 
 export interface NavigationProps extends StyledNavigationProps {

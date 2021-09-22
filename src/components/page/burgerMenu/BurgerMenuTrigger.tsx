@@ -1,10 +1,10 @@
 import React, { MouseEventHandler } from 'react'
-import { StyleHelper, ThemeColorType } from '../../../theme'
+import { StyleHelper, StyleObject, ThemeColorType } from '../../../theme'
 import styled from 'styled-components'
 import _ from 'lodash'
 
 export interface StyledBurgerMenuTriggerProps {
-  customCss?: Record<string, string>
+  customCss?: StyleObject
   iconColor?: ThemeColorType
   animate?: boolean
 }

@@ -36,6 +36,10 @@ export class Theme implements DefaultTheme {
     }
   }
 
+  getContentPadding = (): string => {
+    return this.props.contentPadding
+  }
+
   getFontFamily = (fontFamilyType: ThemeFontFamilyType): string => {
     return fontFamilyType === ThemeFontFamilyType.Secondary
       ? this.props.secondaryFontFamily

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { GatsbyImageProps, IGatsbyImageData } from 'gatsby-plugin-image/dist/src/components/gatsby-image.browser'
 import { GatsbyImage } from 'gatsby-plugin-image'
-import { StyleHelper } from '../../theme'
+import { StyleHelper, StyleObject } from '../../theme'
 import styled from 'styled-components'
 import _ from 'lodash'
 
@@ -16,7 +16,7 @@ interface StyledImageProps extends GatsbyImageProps {
 }
 
 const StyledImage = styled(GatsbyImage)<StyledImageProps>(({ width }) => {
-  const styleObj: Record<string, string> = {
+  const styleObj: StyleObject = {
     width,
   }
   const result = StyleHelper.renderCssFromObject(styleObj)
