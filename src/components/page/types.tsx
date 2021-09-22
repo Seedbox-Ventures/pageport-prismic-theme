@@ -1,6 +1,5 @@
 import React from 'react'
 
 export interface DataComponent<P, D> extends React.FC<P> {
-  mapDataToProps: (data: D) => P
+  mapDataToProps: (data: D) => Partial<P>
 }
-

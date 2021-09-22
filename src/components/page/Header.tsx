@@ -12,28 +12,18 @@ import {
 import { Section } from './Section'
 import { DataComponent } from './types'
 import { getImage, ImageDataLike } from 'gatsby-plugin-image'
-import { IGatsbyImageData } from 'gatsby-plugin-image/dist/src/components/gatsby-image.browser'
-import PagePort from '../../utils/PagePort'
-import { graphql } from 'gatsby'
-import { PPGatsbyImage } from '../basic/Image'
 import { DataHelper, PrismicLinkData } from '../../utils/Prismic'
-import { Link, LinkProps } from '../basic/Link'
+import { LinkProps } from '../basic/Link'
+import { Logo, LogoProps } from '../basic/Logo'
+import PagePort from '../../utils/PagePort'
 import { Navigation, NavigationProps } from '../basic/Navigation'
+import styled from 'styled-components'
 import { Button } from '../basic/Button'
-import styled, { ThemeContext } from 'styled-components'
 import { BurgerMenu } from './burgerMenu/BurgerMenu'
-import { useContext } from 'react'
 
 export enum LogoPosition {
   Left = 'Left',
   Right = 'Right',
-}
-
-interface HeaderLogoProps {
-  image?: IGatsbyImageData
-  alt: string
-  width: string
-  link?: LinkProps
 }
 
 export interface HeaderData {
@@ -69,7 +59,7 @@ export interface HeaderProps {
   burgerMenuBreakPoint?: BreakPointName | 'Never'
   backgroundColor?: ThemeColorType
   logoPosition?: LogoPosition
-  logo?: HeaderLogoProps
+  logo: LogoProps
   menuBreakPoint?: BreakPoint
   isSticky?: boolean
   paddingTop: string
@@ -131,8 +121,8 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
         flexDirection: 'row',
       }}
     >
-      {logoPosition === LogoPosition.Right && renderBurgerMenu(links, burgerMenuBreakPoint, backgroundColor)}
-      {logoPosition === LogoPosition.Left && renderLogo(logo)}
+      {logoPosition === LogoPosition.Right && renderBurgerMenu(links, burgerMenuBreakPoint, backgroundColor, linkColor)}
+      {logoPosition === LogoPosition.Left && <Logo {...logo} />}
       {renderNavigation(
         {
           align: 'horizontal',
@@ -147,8 +137,8 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
         burgerMenuBreakPoint,
       )}
       {renderCTA(ctaDisplay, ctaText, ctaLink, ctaButtonType, burgerMenuBreakPoint)}
-      {logoPosition === LogoPosition.Left && renderBurgerMenu(links, burgerMenuBreakPoint, backgroundColor)}
-      {logoPosition === LogoPosition.Right && renderLogo(logo)}
+      {logoPosition === LogoPosition.Left && renderBurgerMenu(links, burgerMenuBreakPoint, backgroundColor, linkColor)}
+      {logoPosition === LogoPosition.Right && <Logo {...logo} />}
     </Section>
   )
 }
@@ -183,7 +173,7 @@ Header.mapDataToProps = (headerData) => {
     cta_link,
   } = _.merge(headerDefaults as Partial<HeaderData>, _.omitBy(_.omitBy(headerData, _.isNull), _.isUndefined))
 
-  const props: HeaderProps = {
+  const props: Partial<HeaderProps> = {
     burgerMenuBreakPoint: burger_menu_breakpoint,
     backgroundColor: background_color,
     logoPosition: logo_position === true ? LogoPosition.Right : LogoPosition.Left,
@@ -257,20 +247,6 @@ function getNavDisplayAttr(breakPoint: BreakPointName | 'Never'): string {
   return attributeParts.join('|')
 }
 
-function renderLogo(headerLogoProps: HeaderLogoProps | undefined): React.ReactFragment | null {
-  if (!headerLogoProps?.image) {
-    return null
-  }
-  const { image, alt, width, link } = headerLogoProps
-  const logo = <PPGatsbyImage {...{ image, alt, width }} />
-
-  if (link?.url) {
-    return <Link {...link}>{logo}</Link>
-  }
-
-  return logo
-}
-
 function renderNavigation(
   navigationProps: NavigationProps,
   burgerMenuBreakpoint: BreakPointName | 'Never',
@@ -285,6 +261,14 @@ function renderNavigation(
   return <Navigation {...navigationProps} />
 }
 
+const StyledCTAContainer = styled.div<{ breakPoint: BreakPointName | 'Never' }>(({ breakPoint }) =>
+  StyleHelper.renderCssFromObject({
+    display: getNavDisplayAttr(breakPoint),
+    'flex-direction': 'column',
+    'justify-content': 'center',
+  }),
+)
+
 function renderCTA(
   doDisplay: boolean,
   text?: string,
@@ -296,16 +280,8 @@ function renderCTA(
     return null
   }
 
-  const StyledCTAContainer = styled.div`
-    ${StyleHelper.renderCssFromObject({
-      display: getNavDisplayAttr(breakPoint),
-      'flex-direction': 'column',
-      'justify-content': 'center',
-    })}
-  `
-
   return (
-    <StyledCTAContainer>
+    <StyledCTAContainer breakPoint={breakPoint}>
       <Button internal={link.internal} url={link.url} type={buttonType}>
         {text}
       </Button>
@@ -313,7 +289,20 @@ function renderCTA(
   )
 }
 
-function renderBurgerMenu(items: Array<LinkProps>, breakPoint: BreakPointName | 'Never', headerColor: ThemeColorType): React.ReactFragment | null {
+const StyledBurgerNavContainer = styled.div<{ displayAttributeParts: Array<string> }>(({ displayAttributeParts }) =>
+  StyleHelper.renderCssFromObject({
+    display: displayAttributeParts.join('|'),
+    'flex-direction': 'column',
+    'justify-content': 'center',
+  }),
+)
+
+function renderBurgerMenu(
+  items: Array<LinkProps>,
+  breakPoint: BreakPointName | 'Never',
+  headerColor: ThemeColorType,
+  iconColor: ThemeColorType,
+): React.ReactFragment | null {
   if (!items || items.length === 0 || breakPoint === 'Never') {
     return null
   }
@@ -334,18 +323,10 @@ function renderBurgerMenu(items: Array<LinkProps>, breakPoint: BreakPointName | 
 
     displayAttributeParts.push('none')
   }
-  const iconColor = useContext(ThemeContext).getTextColorByBackground(headerColor);
-  const StyledBurgerNavContainer = styled.div`
-    ${StyleHelper.renderCssFromObject({
-      display: displayAttributeParts.join('|'),
-      'flex-direction': 'column',
-      'justify-content': 'center',
-    })}
-  `
 
   return (
-    <StyledBurgerNavContainer>
-      <BurgerMenu links={items} iconColor={iconColor}></BurgerMenu>
+    <StyledBurgerNavContainer displayAttributeParts={displayAttributeParts}>
+      <BurgerMenu links={items} overlayBackgroundColor={headerColor} iconColor={iconColor}></BurgerMenu>
     </StyledBurgerNavContainer>
   )
 }
