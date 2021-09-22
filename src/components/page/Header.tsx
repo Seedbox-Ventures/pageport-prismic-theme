@@ -3,6 +3,7 @@ import _ from 'lodash'
 import {
   BreakPoint,
   BreakPointName,
+  ContainerSpacing,
   StyleHelper,
   ThemeButtonType,
   ThemeColorType,
@@ -65,8 +66,7 @@ export interface HeaderProps {
   logo?: LogoProps
   menuBreakPoint?: BreakPoint
   isSticky?: boolean
-  paddingTop: string
-  paddingBottom: string
+  padding?: Partial<ContainerSpacing>
   links?: Array<LinkProps>
   linkTextType: ThemeTextType
   linkColor: ThemeColorType
@@ -86,8 +86,7 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
   burgerMenuBreakPoint = 'Never',
   backgroundColor = ThemeColorType.Primary,
   isSticky = false,
-  paddingTop,
-  paddingBottom,
+  padding,
   logo,
   logoPosition = LogoPosition.Left,
   links = [],
@@ -119,12 +118,12 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
       customContainerStyle={customSectionContainerStyle}
       {...{
         isSticky,
-        paddingTop,
-        paddingBottom,
+        padding,
         flexDirection: 'row',
       }}
     >
-      {logoPosition === LogoPosition.Right && renderBurgerMenu(links, burgerMenuBreakPoint, backgroundColor, linkColor)}
+      {logoPosition === LogoPosition.Right &&
+        renderBurgerMenu(links, burgerMenuBreakPoint, backgroundColor, linkColor, padding)}
       {logoPosition === LogoPosition.Left && <Logo {...logo} />}
       {renderNavigation(
         {
@@ -307,6 +306,7 @@ function renderBurgerMenu(
   breakPoint: BreakPointName | 'Never',
   headerColor: ThemeColorType,
   iconColor: ThemeColorType,
+  overlayPadding?: Partial<ContainerSpacing>,
 ): React.ReactFragment | null {
   if (!items || items.length === 0 || breakPoint === 'Never') {
     return null
@@ -331,7 +331,12 @@ function renderBurgerMenu(
 
   return (
     <StyledBurgerNavContainer displayAttributeParts={displayAttributeParts}>
-      <BurgerMenu links={items} overlayBackgroundColor={headerColor} iconColor={iconColor} />
+      <BurgerMenu
+        links={items}
+        overlayBackgroundColor={headerColor}
+        iconColor={iconColor}
+        overlayPadding={overlayPadding}
+      />
     </StyledBurgerNavContainer>
   )
 }

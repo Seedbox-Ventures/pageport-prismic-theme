@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { StyleHelper, ThemeColorType } from '../../../theme'
+import { ContainerSpacing, StyleHelper, ThemeColorType } from '../../../theme'
 import { LinkProps } from '../../basic/Link'
 import { useAppDispatch, useAppSelector } from '../../../state/hooks'
 import { closeMenu, openMenu, selectIsOpen, toggleMenu } from './burgerMenuSlice'
@@ -11,17 +11,20 @@ import { ThemeContext } from 'styled-components'
 export interface BurgerMenuProps {
   links: Array<LinkProps>
   iconColor?: ThemeColorType
+  overlayPadding?: Partial<ContainerSpacing>
   overlayBackgroundColor?: ThemeColorType
 }
 
 export const BurgerMenu: React.FC<BurgerMenuProps> = function ({
   links,
   iconColor = ThemeColorType.DarkText,
+  overlayPadding,
   overlayBackgroundColor = ThemeColorType.BackgroundDefault,
 }) {
   const themeContext = useContext(ThemeContext)
   const dispatch = useAppDispatch()
   const isOpenState = useAppSelector(selectIsOpen)
+  const containerPadding = StyleHelper.mergeContainerSpacings(themeContext.props.contentPadding, overlayPadding)
 
   return (
     <Overlay
@@ -32,18 +35,19 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = function ({
         <BurgerMenuTrigger isOpen={isOpenState} iconColor={iconColor} onClick={() => dispatch(toggleMenu())} />
       )}
     >
-      <StyledOverlayContainer backgroundColor={overlayBackgroundColor}>
+      <StyledOverlayContainer backgroundColor={overlayBackgroundColor} padding={containerPadding}>
         <BurgerMenuTrigger
           isOpen={isOpenState}
           iconColor={iconColor}
           onClick={() => dispatch(toggleMenu())}
           customCss={{
             position: 'absolute',
-            top: '1rem',
-            right: StyleHelper.extractResponsiveSpacingPart(themeContext.props.contentPadding, 'right'),
+            top: StyleHelper.extractResponsiveSpacingPart(containerPadding, 'top'),
+            right: StyleHelper.extractResponsiveSpacingPart(containerPadding, 'right'),
           }}
         />
-        <Navigation items={links}></Navigation>
+
+        <Navigation items={links}/>
       </StyledOverlayContainer>
     </Overlay>
   )

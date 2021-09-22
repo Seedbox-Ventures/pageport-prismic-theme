@@ -37,7 +37,7 @@ export class StyleHelper {
     return PagePort.config.breakpoints[breakPointName]
   }
 
-  static mergePaddings = (...paddings: Array<ContainerSpacing | undefined>): string => {
+  static mergePaddings = (...paddings: Array<Partial<ContainerSpacing> | undefined>): string => {
     return StyleHelper.mergeContainerSpacings(...paddings)
   }
 
@@ -45,7 +45,7 @@ export class StyleHelper {
     return StyleHelper.mergeContainerSpacings(...margins)
   }
 
-  static mergeContainerSpacings = (...spacings: Array<ContainerSpacing | undefined>): string => {
+  static mergeContainerSpacings = (...spacings: Array<Partial<ContainerSpacing> | undefined>): string => {
     const breakPointSpacings = _.map(
       _.omitBy(
         _.map(spacings, (spacing) => {
@@ -176,9 +176,13 @@ export class StyleHelper {
     return responsiveAttributeMap
   }
 
-  static extractResponsiveSpacingPart = (spacing: StyleValue, spacingPart: SpacingPart): StyleValue => {
+  static extractResponsiveSpacingPart = (spacing: StyleValue | SpacingObject, spacingPart: SpacingPart): StyleValue => {
     if (!spacing || typeof spacing === 'number') {
       return spacing
+    }
+
+    if (typeof spacing === 'object') {
+      return spacing[spacingPart]
     }
 
     const responsiveSpacingPart = _.mapValues(StyleHelper.extractResponsiveAttributeMap(spacing), (value) => {
