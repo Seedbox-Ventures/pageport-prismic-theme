@@ -111,8 +111,6 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
     linkHoverColor,
   }
 
-  console.log('HEADER PADDING', padding)
-
   return (
     <Section
       as="header"
