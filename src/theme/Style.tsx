@@ -124,6 +124,22 @@ export class StyleHelper {
     }
   }
 
+  static spacingToObject = (spacing: Partial<ContainerSpacing>): Partial<SpacingObject> | undefined => {
+    if (typeof spacing === 'undefined' || spacing === '') {
+      return undefined
+    }
+    if (typeof spacing === 'number') {
+      return { top: spacing, right: spacing, bottom: spacing, left: spacing }
+    }
+    if (typeof spacing === 'object') {
+      return spacing
+    }
+    if (typeof spacing === 'string') {
+      return StyleHelper.spacingStringToObject(spacing)
+    }
+    return undefined
+  }
+
   static renderCssFromObject = (cssDefinitions: StyleObject): string => {
     const responsiveStyleMap = StyleHelper.extractResponsiveStyleMap(cssDefinitions)
 

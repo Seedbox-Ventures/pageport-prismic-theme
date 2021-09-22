@@ -4,6 +4,7 @@ import {
   BreakPoint,
   BreakPointName,
   ContainerSpacing,
+  SpacingObject,
   StyleHelper,
   ThemeButtonType,
   ThemeColorType,
@@ -23,7 +24,7 @@ import { Button } from '../basic/Button'
 import { BurgerMenu } from './burgerMenu/BurgerMenu'
 import { graphql } from 'gatsby'
 
-export enum LogoPosition {
+export enum Orientation {
   Left = 'Left',
   Right = 'Right',
 }
@@ -62,7 +63,7 @@ export interface HeaderData {
 export interface HeaderProps {
   burgerMenuBreakPoint?: BreakPointName | 'Never'
   backgroundColor?: ThemeColorType
-  logoPosition?: LogoPosition
+  logoPosition?: Orientation
   logo?: LogoProps
   menuBreakPoint?: BreakPoint
   isSticky?: boolean
@@ -88,7 +89,7 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
   isSticky = false,
   padding,
   logo,
-  logoPosition = LogoPosition.Left,
+  logoPosition = Orientation.Left,
   links = [],
   linkTextType,
   linkColor,
@@ -122,9 +123,9 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
         flexDirection: 'row',
       }}
     >
-      {logoPosition === LogoPosition.Right &&
-        renderBurgerMenu(links, burgerMenuBreakPoint, backgroundColor, linkColor, padding)}
-      {logoPosition === LogoPosition.Left && <Logo {...logo} />}
+      {logoPosition === Orientation.Right &&
+        renderBurgerMenu(links, burgerMenuBreakPoint, backgroundColor, linkColor, padding, logo)}
+      {logoPosition === Orientation.Left && <Logo {...logo} />}
       {renderNavigation(
         {
           align: 'horizontal',
@@ -139,8 +140,9 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
         burgerMenuBreakPoint,
       )}
       {renderCTA(ctaDisplay, ctaText, ctaLink, ctaButtonType, burgerMenuBreakPoint)}
-      {logoPosition === LogoPosition.Left && renderBurgerMenu(links, burgerMenuBreakPoint, backgroundColor, linkColor, padding)}
-      {logoPosition === LogoPosition.Right && <Logo {...logo} />}
+      {logoPosition === Orientation.Left &&
+        renderBurgerMenu(links, burgerMenuBreakPoint, backgroundColor, linkColor, padding, logo)}
+      {logoPosition === Orientation.Right && <Logo {...logo} />}
     </Section>
   )
 }
@@ -178,7 +180,7 @@ Header.mapDataToProps = (headerData) => {
   return {
     burgerMenuBreakPoint: burger_menu_breakpoint,
     backgroundColor: background_color,
-    logoPosition: logo_position === true ? LogoPosition.Right : LogoPosition.Left,
+    logoPosition: logo_position === true ? Orientation.Right : Orientation.Left,
     padding: { top: padding_top ?? '1rem', bottom: padding_bottom ?? '1rem' },
     isSticky: is_sticky,
     linkTextType: link_text_type,
@@ -300,18 +302,31 @@ const StyledBurgerNavContainer = styled.div<{ displayAttributeParts: Array<strin
   }),
 )
 
+const StyledLogoContainer = styled.div<{ position: Partial<SpacingObject> }>(({ position }) => {
+  return StyleHelper.renderCssFromObject({
+    position: 'absolute',
+    top: position.top,
+    right: position.right,
+    bottom: position.bottom,
+    left: position.left,
+  })
+})
+
 function renderBurgerMenu(
   items: Array<LinkProps>,
   breakPoint: BreakPointName | 'Never',
   headerColor: ThemeColorType,
   iconColor: ThemeColorType,
   overlayPadding?: Partial<ContainerSpacing>,
+  overlayLogo?: LogoProps,
+  orientation: Orientation = Orientation.Left,
 ): React.ReactFragment | null {
   if (!items || items.length === 0 || breakPoint === 'Never') {
     return null
   }
 
   const displayAttributeParts: Array<string> = []
+  const paddingObj = StyleHelper.spacingToObject(overlayPadding) ?? StyleHelper.spacingStringToObject('1rem')
 
   if (breakPoint === BreakPointName.Desktop) {
     displayAttributeParts.push('flex')
@@ -335,7 +350,19 @@ function renderBurgerMenu(
         overlayBackgroundColor={headerColor}
         iconColor={iconColor}
         overlayPadding={overlayPadding}
-      />
+      >
+        {overlayLogo && (
+          <StyledLogoContainer
+            position={{
+              top: paddingObj.top,
+              left: orientation === Orientation.Left ? paddingObj.left : undefined,
+              right: orientation === Orientation.Right ? paddingObj.right : undefined,
+            }}
+          >
+            <Logo {...overlayLogo} />
+          </StyledLogoContainer>
+        )}
+      </BurgerMenu>
     </StyledBurgerNavContainer>
   )
 }
