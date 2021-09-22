@@ -111,6 +111,8 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
     linkHoverColor,
   }
 
+  console.log('HEADER PADDING', padding)
+
   return (
     <Section
       as="header"
@@ -179,8 +181,7 @@ Header.mapDataToProps = (headerData) => {
     burgerMenuBreakPoint: burger_menu_breakpoint,
     backgroundColor: background_color,
     logoPosition: logo_position === true ? LogoPosition.Right : LogoPosition.Left,
-    paddingTop: padding_top ?? '1rem',
-    paddingBottom: padding_bottom ?? '1rem',
+    padding: { top: padding_top ?? '1rem', bottom: padding_bottom ?? '1rem' },
     isSticky: is_sticky,
     linkTextType: link_text_type,
     linkColor: link_color,

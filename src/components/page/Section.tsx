@@ -1,9 +1,9 @@
 import * as React from 'react'
+import { useContext } from 'react'
 import _ from 'lodash'
 import styled, { ThemeContext } from 'styled-components'
 import { ContainerSpacing, StyleHelper, StyleObject, ThemeColorType } from '../../theme'
 import * as CSS from 'csstype'
-import { useContext } from 'react'
 
 export interface SectionProps {
   backgroundColor: ThemeColorType
@@ -64,7 +64,8 @@ export const Section: React.FC<SectionProps> = ({
   as = 'section',
 }) => {
   const theme = useContext(ThemeContext)
-  const mergedPadding = StyleHelper.mergeContainerSpacings(padding, theme.props.contentPadding)
+  const mergedPadding = StyleHelper.mergeContainerSpacings(theme.props.contentPadding, padding)
+
   return (
     <StyledSection {...{ as, backgroundColor, isSticky }}>
       <ContentContainer
