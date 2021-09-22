@@ -2,7 +2,7 @@ import React, { Fragment, ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { OverlayConsumer, OverlayContext, OverlayProvider } from './OverlayContext'
 import styled from 'styled-components'
-import { ThemeColorType } from '../../../theme'
+import { ContainerSpacing, StyleHelper, ThemeColorType } from '../../../theme'
 
 export interface OverlayProps {
   open?: () => void
@@ -15,18 +15,22 @@ export interface IOverlay extends React.FC<OverlayProps> {
   root: HTMLElement
 }
 
-export const StyledOverlayContainer = styled.div<{ backgroundColor: ThemeColorType }>(
-  ({ backgroundColor, theme }) => `
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: ${theme.getColorValueByType(backgroundColor)};
-`,
+export const StyledOverlayContainer = styled.div<{ backgroundColor: ThemeColorType; padding?: ContainerSpacing }>(
+  ({ backgroundColor, padding, theme }) => {
+    return StyleHelper.renderCssFromObject({
+      position: 'fixed',
+      display: 'flex',
+      'flex-direction': 'column',
+      'justify-content': 'center',
+      top: '0',
+      left: '0',
+      width: '100vw',
+      height: '100vh',
+      background: theme.getColorValueByType(backgroundColor),
+      padding: StyleHelper.mergePaddings(theme.props.contentPadding, padding),
+      'box-sizing': 'border-box',
+    })
+  },
 )
 
 export const Overlay: IOverlay = (props) => {

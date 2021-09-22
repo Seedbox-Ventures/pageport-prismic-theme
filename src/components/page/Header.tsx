@@ -331,7 +331,7 @@ function renderBurgerMenu(
 
   return (
     <StyledBurgerNavContainer displayAttributeParts={displayAttributeParts}>
-      <BurgerMenu links={items} overlayBackgroundColor={headerColor} iconColor={iconColor}></BurgerMenu>
+      <BurgerMenu links={items} overlayBackgroundColor={headerColor} iconColor={iconColor} />
     </StyledBurgerNavContainer>
   )
 }

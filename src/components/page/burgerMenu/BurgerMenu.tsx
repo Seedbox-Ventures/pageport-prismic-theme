@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { StyleHelper, ThemeColorType } from '../../../theme'
 import { LinkProps } from '../../basic/Link'
 import { useAppDispatch, useAppSelector } from '../../../state/hooks'
 import { closeMenu, openMenu, selectIsOpen, toggleMenu } from './burgerMenuSlice'
 import { Overlay, StyledOverlayContainer } from '../overlay/Overlay'
 import { Navigation } from '../../basic/Navigation'
 import { BurgerMenuTrigger } from './BurgerMenuTrigger'
-import { ThemeColorType } from '../../../theme'
+import { ThemeContext } from 'styled-components'
 
 export interface BurgerMenuProps {
   links: Array<LinkProps>
@@ -18,8 +19,9 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = function ({
   iconColor = ThemeColorType.DarkText,
   overlayBackgroundColor = ThemeColorType.BackgroundDefault,
 }) {
-  const isOpenState = useAppSelector(selectIsOpen)
+  const themeContext = useContext(ThemeContext)
   const dispatch = useAppDispatch()
+  const isOpenState = useAppSelector(selectIsOpen)
 
   return (
     <Overlay
@@ -35,7 +37,11 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = function ({
           isOpen={isOpenState}
           iconColor={iconColor}
           onClick={() => dispatch(toggleMenu())}
-          customCss={{ position: 'absolute', top: '1rem', right: '3rem' }}
+          customCss={{
+            position: 'absolute',
+            top: '1rem',
+            right: StyleHelper.extractResponsiveSpacingPart(themeContext.props.contentPadding, 'right'),
+          }}
         />
         <Navigation items={links}></Navigation>
       </StyledOverlayContainer>

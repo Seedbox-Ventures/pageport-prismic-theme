@@ -14,7 +14,8 @@ export interface BreakPoint {
   value: number
 }
 
-export type StyleObject = Record<string, string | number | undefined>
+export type StyleValue = string | number | undefined
+export type StyleObject = Record<string, StyleValue>
 
 export const breakPoints: Array<BreakPoint> = _.sortBy(
   _.map(PagePort.config.breakpoints, (value, breakPointName) => ({
@@ -24,16 +25,12 @@ export const breakPoints: Array<BreakPoint> = _.sortBy(
   'value',
 )
 
-export interface SpacingObject extends Record<string, string | undefined> {
-  top?: string
-  right?: string
-  bottom?: string
-  left?: string
-}
+export type SpacingPart = 'top' | 'right' | 'bottom' | 'left'
+export type SpacingObject = Record<SpacingPart, StyleValue>
+export type ContainerSpacing = StyleValue | SpacingObject
 
-export type ContainerSpacing = string | SpacingObject
-
-export interface ResponsiveStyleMap extends Partial<Record<BreakPointName, Partial<StyleObject>>> {}
+export type ResponsiveAttributeMap = Partial<Record<BreakPointName, StyleValue>>
+export type ResponsiveStyleMap = Partial<Record<BreakPointName, Partial<StyleObject>>>
 
 export class StyleHelper {
   static getBreakPointValue = (breakPointName: BreakPointName): number => {
@@ -55,11 +52,11 @@ export class StyleHelper {
           if (typeof spacing === 'undefined') {
             return undefined
           }
-          if (typeof spacing === 'string') {
+          if (typeof spacing === 'string' || typeof spacing === 'number') {
             return _.mapValues(StyleHelper.extractResponsiveAttributeMap(spacing), StyleHelper.spacingStringToObject)
           }
           let _lastSpacings: Partial<SpacingObject> = {}
-          return _.mapValues(StyleHelper.extractResponsiveStyleMap(spacing), (v) => {
+          return _.mapValues(StyleHelper.extractResponsiveStyleMap(spacing as StyleObject), (v) => {
             _lastSpacings = _.merge(_lastSpacings, v)
             return _lastSpacings
           })
@@ -145,7 +142,7 @@ export class StyleHelper {
     const responsiveStyleMap: ResponsiveStyleMap = {}
 
     _.each(cssDefinitions, (values, attr) => {
-      if (_.isEmpty(values)) {
+      if (typeof values === 'undefined' || values === '' || (typeof values === 'object' && _.isEmpty(values))) {
         return {}
       }
       const responsiveAttributeStyleMap = StyleHelper.extractResponsiveAttributeMap(values)
@@ -159,16 +156,14 @@ export class StyleHelper {
     return responsiveStyleMap
   }
 
-  static extractResponsiveAttributeMap = (
-    attributeValue: string | number | undefined,
-  ): Partial<Record<BreakPointName, string>> => {
+  static extractResponsiveAttributeMap = (attributeValue: string | number | undefined): ResponsiveAttributeMap => {
     if (typeof attributeValue === 'undefined' || attributeValue === '') {
       return {}
     }
     if (typeof attributeValue === 'number') {
       return { [BreakPointName.Phone]: attributeValue!.toString() }
     }
-    const responsiveAttributeMap: Partial<Record<BreakPointName, string>> = {}
+    const responsiveAttributeMap: ResponsiveAttributeMap = {}
     const attrValues = StyleHelper.splitResponsiveValue(attributeValue)
     _.each(attrValues, (v, i) => {
       if (i >= breakPoints.length) {
@@ -179,6 +174,41 @@ export class StyleHelper {
       responsiveAttributeMap[breakPointName] = v
     })
     return responsiveAttributeMap
+  }
+
+  static extractResponsiveSpacingPart = (spacing: StyleValue, spacingPart: SpacingPart): StyleValue => {
+    if (!spacing || typeof spacing === 'number') {
+      return spacing
+    }
+
+    const responsiveSpacingPart = _.mapValues(StyleHelper.extractResponsiveAttributeMap(spacing), (value) => {
+      if (typeof value !== 'string' || value === '') {
+        return undefined
+      }
+      const spacingObj = StyleHelper.spacingStringToObject(value)
+      return _.isEmpty(spacingObj) ? undefined : spacingObj[spacingPart]
+    })
+
+    return StyleHelper.responsiveAttributeMapToStyleValue(responsiveSpacingPart)
+  }
+
+  static responsiveAttributeMapToStyleValue = (responsiveAttributeMap: ResponsiveAttributeMap): StyleValue => {
+    const stringParts: Array<string> = []
+    let differenceDetected: boolean = false
+    for (let i = breakPoints.length - 1; i > 1; i--) {
+      if (
+        !differenceDetected &&
+        responsiveAttributeMap[breakPoints[i].name] &&
+        responsiveAttributeMap[breakPoints[i].name] !== responsiveAttributeMap[breakPoints[i - 1].name]
+      ) {
+        differenceDetected = true
+      }
+      if (differenceDetected) {
+        stringParts.unshift(responsiveAttributeMap[breakPoints[i].name]!.toString())
+      }
+    }
+    stringParts.unshift(responsiveAttributeMap[breakPoints[0].name]!.toString())
+    return stringParts.join('|')
   }
 
   static splitResponsiveValue = (responsiveValue: string): Array<string> => {
