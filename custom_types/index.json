@@ -1,9 +1,9 @@
 [
   {
-    "id": "general_settings",
-    "name": "General Settings",
+    "id": "site_settings",
+    "name": "Site Settings",
     "repeatable": false,
-    "value": "general_settings.json"
+    "value": "site_settings.json"
   },
   {
     "id": "theme",
