@@ -1,5 +1,11 @@
 [
   {
+    "id": "general_settings",
+    "name": "General Settings",
+    "repeatable": false,
+    "value": "general_settings.json"
+  },
+  {
     "id": "theme",
     "name": "Theme",
     "repeatable": false,

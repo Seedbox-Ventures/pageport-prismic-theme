@@ -1,0 +1,34 @@
+{
+  "Main" : {
+    "site_name" : {
+      "type" : "Text",
+      "config" : {
+        "label" : "Site Name"
+      }
+    }
+  },
+  "Tracking" : {
+    "trackers" : {
+      "type" : "Group",
+      "config" : {
+        "fields" : {
+          "tracker_type" : {
+            "type" : "Select",
+            "config" : {
+              "options" : [ "Facebook Pixel", "Google Analytics", "Google Tag Manager", "Hotjar", "LinkedIn Insight Tag" ],
+              "label" : "Tracker Type"
+            }
+          },
+          "tracker_tag_id" : {
+            "type" : "Text",
+            "config" : {
+              "label" : "Tracker Tag Id",
+              "placeholder" : "Google Mess ID, Facebook Pixel . . ."
+            }
+          }
+        },
+        "label" : "Trackers"
+      }
+    }
+  }
+}
