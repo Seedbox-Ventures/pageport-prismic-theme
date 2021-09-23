@@ -47,6 +47,7 @@ export const StyledNavigation = styled.nav<StyledNavigationProps>(
       ${theme.renderTextTypeCss(textType)}
       a {
         display: inline-block;
+        line-height: 1.5em;
         ${theme.renderLinkCss(linkColor, linkActiveStyle, linkActiveColor, linkHoverStyle, linkHoverColor)}
         ${StyleHelper.renderCssFromObject({ padding: itemPadding })}
       }

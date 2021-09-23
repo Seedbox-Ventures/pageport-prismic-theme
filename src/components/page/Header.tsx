@@ -21,7 +21,7 @@ import PagePort from '../../utils/PagePort'
 import { Navigation, NavigationProps } from '../basic/Navigation'
 import styled from 'styled-components'
 import { Button } from '../basic/Button'
-import { BurgerMenu } from './burgerMenu/BurgerMenu'
+import { BurgerMenu, BurgerMenuProps } from './burgerMenu/BurgerMenu'
 import { graphql } from 'gatsby'
 
 export enum Orientation {
@@ -112,6 +112,20 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
     linkHoverColor,
   }
 
+  const burgerMenuProps = {
+    links,
+    textType: linkTextType,
+    linkColor,
+    linkActiveColor,
+    linkHoverColor,
+    linkHoverStyle,
+    linkActiveStyle,
+    iconColor: linkColor,
+    overlayPadding: padding,
+    overlayBackgroundColor: backgroundColor,
+    orientation: logoPosition,
+  }
+
   return (
     <Section
       as="header"
@@ -123,8 +137,7 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
         flexDirection: 'row',
       }}
     >
-      {logoPosition === Orientation.Right &&
-        renderBurgerMenu(links, burgerMenuBreakPoint, backgroundColor, linkColor, padding, logo)}
+      {logoPosition === Orientation.Right && renderBurgerMenu(burgerMenuProps, burgerMenuBreakPoint, logo)}
       {logoPosition === Orientation.Left && <Logo {...logo} />}
       {renderNavigation(
         {
@@ -140,8 +153,7 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
         burgerMenuBreakPoint,
       )}
       {renderCTA(ctaDisplay, ctaText, ctaLink, ctaButtonType, burgerMenuBreakPoint)}
-      {logoPosition === Orientation.Left &&
-        renderBurgerMenu(links, burgerMenuBreakPoint, backgroundColor, linkColor, padding, logo)}
+      {logoPosition === Orientation.Left && renderBurgerMenu(burgerMenuProps, burgerMenuBreakPoint, logo)}
       {logoPosition === Orientation.Right && <Logo {...logo} />}
     </Section>
   )
@@ -313,15 +325,12 @@ const StyledLogoContainer = styled.div<{ position: Partial<SpacingObject> }>(({ 
 })
 
 function renderBurgerMenu(
-  items: Array<LinkProps>,
+  burgerMenuProps: BurgerMenuProps,
   breakPoint: BreakPointName | 'Never',
-  headerColor: ThemeColorType,
-  iconColor: ThemeColorType,
-  overlayPadding?: Partial<ContainerSpacing>,
   overlayLogo?: LogoProps,
-  orientation: Orientation = Orientation.Left,
 ): React.ReactFragment | null {
-  if (!items || items.length === 0 || breakPoint === 'Never') {
+  const { links, orientation, overlayPadding } = burgerMenuProps
+  if (!links || links.length === 0 || breakPoint === 'Never') {
     return null
   }
 
@@ -345,12 +354,7 @@ function renderBurgerMenu(
 
   return (
     <StyledBurgerNavContainer displayAttributeParts={displayAttributeParts}>
-      <BurgerMenu
-        links={items}
-        overlayBackgroundColor={headerColor}
-        iconColor={iconColor}
-        overlayPadding={overlayPadding}
-      >
+      <BurgerMenu {...burgerMenuProps}>
         {overlayLogo && (
           <StyledLogoContainer
             position={{
