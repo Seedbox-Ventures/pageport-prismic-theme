@@ -27,10 +27,11 @@ export default {
         releaseID: process.env.PRISMIC_RELEASE_ID,
         linkResolver: require('./src/utils/LinkResolver').linkResolver,
         schemas: {
+          header: require('./custom_types/header.json'),
           page_dynamic: require('./custom_types/page_dynamic.json'),
           page_imprint: require('./custom_types/page_imprint.json'),
           page_legal: require('./custom_types/page_legal.json'),
-          header: require('./custom_types/header.json'),
+          site_settings: require('./custom_types/site_settings.json'),
           theme: require('./custom_types/theme.json'),
         },
       },

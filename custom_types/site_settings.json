@@ -1,33 +1,76 @@
 {
-  "Main" : {
-    "site_name" : {
-      "type" : "Text",
-      "config" : {
-        "label" : "Site Name"
+  "Main": {
+    "site_name": {
+      "type": "Text",
+      "config": {
+        "label": "Site Name"
       }
     }
   },
-  "Tracking" : {
-    "trackers" : {
-      "type" : "Group",
-      "config" : {
-        "fields" : {
-          "tracker_type" : {
-            "type" : "Select",
-            "config" : {
-              "options" : [ "Facebook Pixel", "Google Analytics", "Google Tag Manager", "Hotjar", "LinkedIn Insight Tag" ],
-              "label" : "Tracker Type"
+  "Tracking": {
+    "trackers": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "tracking_type": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "Facebook Pixel",
+                "Google Analytics",
+                "Google Tag Manager",
+                "Hotjar",
+                "LinkedIn Insight Tag"
+              ],
+              "label": "Tracking Type"
             }
           },
-          "tracker_tag_id" : {
-            "type" : "Text",
-            "config" : {
-              "label" : "Tracker Tag Id",
-              "placeholder" : "Google Mess ID, Facebook Pixel . . ."
+          "tracking_category": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "Essential",
+                "Marketing",
+                "Statistics"
+              ],
+              "label": "Tracking Category"
+            }
+          },
+          "tracking_tag_id": {
+            "type": "Text",
+            "config": {
+              "label": "Tracking Tag Id",
+              "placeholder": "Google Mess ID, Facebook Pixel . . ."
+            }
+          },
+          "tracking_provider": {
+            "type": "Text",
+            "config": {
+              "label": "Tracking Provider"
+            }
+          },
+          "tracking_gdpr_link": {
+            "type": "Link",
+            "config": {
+              "label": "Tracking GDPR Link",
+              "select": null
+            }
+          },
+          "tracker_purpose": {
+            "type": "Text",
+            "config": {
+              "label": "Tracking Purpose"
+            }
+          },
+          "tracking_code": {
+            "type": "StructuredText",
+            "config": {
+              "multi": "embed",
+              "label": "Tracking Code"
             }
           }
         },
-        "label" : "Trackers"
+        "label": "Trackers"
       }
     }
   }
