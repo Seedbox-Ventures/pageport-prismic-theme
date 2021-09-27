@@ -1,5 +1,5 @@
 import React, { MouseEventHandler } from 'react'
-import { StyleHelper, StyleObject, ThemeColorType } from '../../../theme'
+import { StyleHelper, StyleObject, ThemeColorType } from '../../theme'
 import styled from 'styled-components'
 import _ from 'lodash'
 

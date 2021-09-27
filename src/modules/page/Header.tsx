@@ -21,7 +21,7 @@ import PagePort from '../../utils/PagePort'
 import { Navigation, NavigationProps } from '../basic/Navigation'
 import styled from 'styled-components'
 import { Button } from '../basic/Button'
-import { BurgerMenu, BurgerMenuProps } from './burgerMenu/BurgerMenu'
+import { BurgerMenu, BurgerMenuProps } from '../burgerMenu/BurgerMenu'
 import { graphql } from 'gatsby'
 
 export enum Orientation {
@@ -251,6 +251,7 @@ function getNavDisplayAttr(breakPoint: BreakPointName | 'Never'): string {
 
   const attributeParts: Array<string> = []
 
+  // noinspection FallThroughInSwitchStatementJS
   switch (breakPoint) {
     case BreakPointName.Phone:
       attributeParts.push('none')
@@ -340,6 +341,7 @@ function renderBurgerMenu(
   if (breakPoint === BreakPointName.Desktop) {
     displayAttributeParts.push('flex')
   } else {
+    // noinspection FallThroughInSwitchStatementJS
     switch (breakPoint) {
       case BreakPointName.Laptop:
         displayAttributeParts.push('flex')

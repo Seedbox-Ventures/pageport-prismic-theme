@@ -1,5 +1,5 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit'
-import burgerMenuReducer from '../components/page/burgerMenu/burgerMenuSlice'
+import burgerMenuReducer from '../modules/burgerMenu/burgerMenuSlice'
 
 export const store = configureStore({
   reducer: {

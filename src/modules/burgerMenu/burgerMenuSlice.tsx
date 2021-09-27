@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { AppThunk, RootState } from '../../../state/store'
+import { AppThunk, RootState } from '../../state/store'
 
 export interface BurgerMenuState {
   isOpen: boolean

@@ -3,19 +3,18 @@ import { graphql } from 'gatsby'
 import { RichText, RichTextBlock } from 'prismic-reactjs'
 
 import { CustomLink } from '../utils/CustomLink'
-import { SliceComponent, SliceData } from './index'
-import { Section } from '../components/Section'
-import { ThemeBackgroundColor, ThemeButtonType } from '../theme'
+import { ContainerSpacing, ThemeBackgroundColor, ThemeButtonType, ThemeColorType } from '../theme'
 import styled from 'styled-components'
-import { Button, ButtonProps } from '../components/Button'
+import { Button, ButtonProps } from '../modules/basic/Button'
+import { Section, SliceComponent, SliceData } from '../modules/page'
+import { DataHelper, PrismicLinkData } from '../utils/Prismic'
 
 export interface CallToActionProps {
   backgroundColor: ThemeBackgroundColor
   title: string
   text?: RichTextBlock[]
   buttons: Array<ButtonProps>
-  paddingTop?: string
-  paddingBottom?: string
+  padding?: Partial<ContainerSpacing>
 }
 
 const CallToActionContainer = styled.div`
@@ -34,7 +33,7 @@ const CallToActionTextWrapper = styled.div`
     font-size: 1.25rem;
     line-height: 1.2;
   }
-  
+
   margin: 2rem 0 0;
 `
 
@@ -43,22 +42,19 @@ const CallToActionButtons = styled.div`
   margin: 3rem 0 0;
 `
 
-export const CallToAction: SliceComponent<CallToActionProps> = ({ backgroundColor, title, text, buttons, paddingTop, paddingBottom }) => {
+export const CallToAction: SliceComponent<CallToActionProps> = ({ backgroundColor, title, text, buttons, padding }) => {
   return (
-    <Section {...{ backgroundColor, paddingTop, paddingBottom }}>
+    <Section {...{ backgroundColor, padding }}>
       <CallToActionContainer>
         <CallToActionTitle>{title}</CallToActionTitle>
-        {text && text.length > 0 && text[0] && text[0].spans && text[0].spans.length > 0 &&
+        {text && text.length > 0 && text[0] && text[0].spans && text[0].spans.length > 0 && (
           <CallToActionTextWrapper>
-            <RichText
-              render={text}
-              serializeHyperlink={CustomLink}
-            />
+            <RichText render={text} serializeHyperlink={CustomLink} />
           </CallToActionTextWrapper>
-        }
+        )}
         <CallToActionButtons>
           {buttons.map((button, i) => (
-            <Button key={i} text={button.text} link={button.link} type={button.type}/>
+            <Button key={i} {...button} />
           ))}
         </CallToActionButtons>
       </CallToActionContainer>
@@ -66,48 +62,41 @@ export const CallToAction: SliceComponent<CallToActionProps> = ({ backgroundColo
   )
 }
 
-CallToAction.mapSliceDataToProps = (sliceData: SliceData) =>
-  ({
-      backgroundColor: sliceData.primary.background_color as ThemeBackgroundColor,
-      title: sliceData.primary.title,
-      text: sliceData.primary.text?.raw,
-      paddingTop: sliceData.primary.padding_top,
-      paddingBottom: sliceData.primary.padding_bottom,
-      buttons: sliceData.items.map(
-        (item: {
-          button_type: ThemeButtonType;
-          button_text: string;
-          button_link: any
-        }): ButtonProps => {
-        return {
-          type: item.button_type,
-          text: item.button_text,
-          link: item.button_link,
-        }
-      })
-    }
-  )
-
+CallToAction.mapDataToProps = (sliceData: SliceData) => {
+  return {
+    backgroundColor: sliceData.primary?.background_color ?? ThemeColorType.BackgroundDefault,
+    title: sliceData.primary.title,
+    text: sliceData.primary.text?.raw,
+    padding: { top: sliceData.primary.padding_top, bottom: sliceData.primary.padding_bottom },
+    buttons: !sliceData.items?.length
+      ? []
+      : sliceData.items.map(
+          (item: { button_type: ThemeButtonType; button_text: string; button_link: PrismicLinkData }): ButtonProps => {
+            return {
+              ...DataHelper.prismicLinkToLinkProps(item.button_link)!,
+              children: item.button_text,
+              type: item.button_type,
+            }
+          },
+        ),
+  }
+}
 
 export const query = graphql`
-    fragment PageDynamicDataBodyCallToAction on PrismicPageDynamicDataBodyCallToAction {
-        primary {
-            background_color
-            title
-            text {
-                raw
-            }
-            padding_top
-            padding_bottom
-        }
-        items {
-            button_type
-            button_text
-            button_link {
-                url
-                link_type
-                target
-            }
-        }
+  fragment PageDynamicDataBodyCallToAction on PrismicPageDynamicDataBodyCallToAction {
+    primary {
+      background_color
+      padding_top
+      padding_bottom
     }
+    items {
+      button_link {
+        url
+        target
+        link_type
+      }
+      button_text
+      button_type
+    }
+  }
 `

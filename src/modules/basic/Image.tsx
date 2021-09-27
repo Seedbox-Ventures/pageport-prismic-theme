@@ -1,14 +1,14 @@
 import * as React from 'react'
 import { GatsbyImageProps, IGatsbyImageData } from 'gatsby-plugin-image/dist/src/components/gatsby-image.browser'
 import { GatsbyImage } from 'gatsby-plugin-image'
-import { StyleHelper, StyleObject } from '../../theme'
+import { StyleHelper } from '../../theme'
 import styled from 'styled-components'
 import _ from 'lodash'
 
 interface PPGatsbyImageProps {
   alt: string
-  width: string,
-  image: IGatsbyImageData,
+  width: string
+  image: IGatsbyImageData
 }
 
 interface StyledImageProps extends GatsbyImageProps {
@@ -16,17 +16,15 @@ interface StyledImageProps extends GatsbyImageProps {
 }
 
 const StyledImage = styled(GatsbyImage)<StyledImageProps>(({ width }) => {
-  const styleObj: StyleObject = {
+  return StyleHelper.renderCssFromObject({
     width,
-  }
-  const result = StyleHelper.renderCssFromObject(styleObj)
-  return result
+  })
 })
 
 export const PPGatsbyImage: React.FC<PPGatsbyImageProps> = ({ alt, image, width }) => {
   const appliedImageData = { ...image }
 
-  if (typeof width === 'string' && width !== '') {
+  if (width !== '') {
     const pixelSizes: Array<number> = _.map<string, number>(
       StyleHelper.splitResponsiveValue(width),
       (value) => StyleHelper.toPixelNumber(value),

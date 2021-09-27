@@ -2,7 +2,7 @@ import React, { Fragment, ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { OverlayConsumer, OverlayContext, OverlayProvider } from './OverlayContext'
 import styled from 'styled-components'
-import { ContainerSpacing, StyleHelper, ThemeColorType } from '../../../theme'
+import { ContainerSpacing, StyleHelper, ThemeColorType } from '../../theme'
 
 export interface OverlayProps {
   open?: () => void

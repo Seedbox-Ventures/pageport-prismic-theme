@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { LinkProps, LinkTarget } from '../components/basic/Link'
+import { LinkProps, LinkTarget } from '../modules/basic/Link'
 
 export enum PrismicLinkType {
   Document = 'Document',

@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
-import { ContainerSpacing, StyleHelper, ThemeColorType, ThemeLinkInteractiveStyle, ThemeTextType } from '../../../theme'
-import { LinkProps } from '../../basic/Link'
-import { useAppDispatch, useAppSelector } from '../../../state/hooks'
+import { ContainerSpacing, StyleHelper, ThemeColorType, ThemeLinkInteractiveStyle, ThemeTextType } from '../../theme'
+import { LinkProps } from '../basic/Link'
+import { useAppDispatch, useAppSelector } from '../../state/hooks'
 import { closeMenu, openMenu, selectIsOpen, toggleMenu } from './burgerMenuSlice'
 import { Overlay, StyledOverlayContainer } from '../overlay/Overlay'
-import { Navigation, NavigationProps } from '../../basic/Navigation'
+import { Navigation, NavigationProps } from '../basic/Navigation'
 import { BurgerMenuTrigger } from './BurgerMenuTrigger'
 import { ThemeContext } from 'styled-components'
-import { Orientation } from '../Header'
+import { Orientation } from '../page/Header'
 
 export interface BurgerMenuProps {
   links: Array<LinkProps>
