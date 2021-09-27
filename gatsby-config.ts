@@ -1,6 +1,9 @@
+const _ = require('lodash')
 require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
 })
+const { breakpoints: pageportBreakpoints } = require('./pageport-config')
+const breakPoints = _.map(pageportBreakpoints, (nextBreakPoint: number) => (nextBreakPoint))
 
 export default {
   siteMetadata: {
@@ -27,11 +30,22 @@ export default {
           page_dynamic: require('./custom_types/page_dynamic.json'),
           page_imprint: require('./custom_types/page_imprint.json'),
           page_legal: require('./custom_types/page_legal.json'),
+          header: require('./custom_types/header.json'),
           theme: require('./custom_types/theme.json'),
         },
       },
     },
     'gatsby-plugin-image',
+    {
+      resolve: 'gatsby-plugin-sharp',
+      options: {
+        defaults: {
+          breakPoints,
+          backgroundColor: `transparent`,
+        },
+      },
+    },
+    'gatsby-transformer-sharp',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-styled-components',
     {

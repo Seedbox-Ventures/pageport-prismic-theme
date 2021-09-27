@@ -4,4 +4,4 @@ require('dotenv').config({
 
 module.exports = {
   apiEndpoint: `https://${process.env.PRISMIC_REPO_NAME}.prismic.io/api/v2`,
-};
+}

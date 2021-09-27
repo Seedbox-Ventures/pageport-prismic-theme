@@ -1,21 +1,5 @@
 {
   "General": {
-    "logo": {
-      "type": "Image",
-      "config": {
-        "constraint": {},
-        "thumbnails": [],
-        "label": "Logo"
-      }
-    },
-    "logo_inverted": {
-      "type": "Image",
-      "config": {
-        "constraint": {},
-        "thumbnails": [],
-        "label": "Logo (inverted)"
-      }
-    },
     "icon": {
       "type": "Image",
       "config": {
@@ -121,6 +105,8 @@
                 "Small Title",
                 "Small Text",
                 "Big Text",
+                "Header",
+                "Footer",
                 "Footnote",
                 "Button"
               ],
@@ -131,10 +117,7 @@
           "font_family": {
             "type": "Select",
             "config": {
-              "options": [
-                "Primary",
-                "Secondary"
-              ],
+              "options": ["Primary", "Secondary"],
               "default_value": "Primary",
               "label": "Font Family"
             }
@@ -144,6 +127,22 @@
             "config": {
               "label": "Font Size",
               "placeholder": "16px"
+            }
+          },
+          "font_weight": {
+            "type": "Select",
+            "config": {
+              "options": ["400", "100", "200", "300", "500", "600", "700", "800", "900"],
+              "default_value": "400",
+              "label": "Font Weight"
+            }
+          },
+          "font_style": {
+            "type": "Select",
+            "config": {
+              "options": ["normal", "italic"],
+              "default_value": "normal",
+              "label": "Font Style"
             }
           },
           "line_height": {
@@ -217,15 +216,7 @@
           "button_type": {
             "type": "Select",
             "config": {
-              "options": [
-                "Default",
-                "Primary",
-                "Secondary",
-                "Submit",
-                "Success",
-                "Danger",
-                "Cancel"
-              ],
+              "options": ["Default", "Primary", "Secondary", "Submit", "Success", "Danger", "Cancel"],
               "default_value": "Default",
               "label": "Button Type"
             }
@@ -262,12 +253,7 @@
           "hover_effect": {
             "type": "Select",
             "config": {
-              "options": [
-                "None",
-                "Change Background",
-                "Change Box Shadow",
-                "Darken / Lighten"
-              ],
+              "options": ["None", "Change Background", "Change Box Shadow", "Darken / Lighten"],
               "label": "Hover Effect",
               "placeholder": "none"
             }

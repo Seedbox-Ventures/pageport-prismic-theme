@@ -2,26 +2,24 @@ import * as React from 'react'
 import { ReactNode } from 'react'
 import _ from 'lodash'
 import { ThemeProvider } from 'styled-components'
-import { ThemePrismicData, ThemeValues } from './types'
 import { graphql } from 'gatsby'
-import { theme as themeConfig } from '../../pageport-config'
-import { Theme } from './Theme'
 import { GlobalStyle } from './GlobalStyle'
+import { ThemeProps } from './types'
+import { Theme } from './Theme'
+import PagePort from '../utils/PagePort'
 
 export interface ThemeWrapperProps {
   children: ReactNode | undefined
-  themeValues?: Partial<ThemeValues> | ThemePrismicData
+  themeProps?: Partial<ThemeProps>
   isRootTheme: boolean
 }
 
-export const defaultValues: ThemeValues = Theme.mapThemingData(themeConfig.defaultValues) as ThemeValues
+export const defaultValues: ThemeProps = Theme.mapDataToProps(PagePort.config.theme.defaultData) as ThemeProps
 
-export const ThemeWrapper: React.FC<ThemeWrapperProps> = ({ themeValues, children, isRootTheme = false }) => {
+export const ThemeWrapper: React.FC<ThemeWrapperProps> = ({ themeProps, children, isRootTheme = false }) => {
 
-  const prismicThemeValues: Partial<ThemeValues> = themeValues ? Theme.mapThemingData(themeValues) : {}
-  const mergedThemeValues: ThemeValues = _.merge(defaultValues, prismicThemeValues)
-
-
+  const mergedThemeValues: ThemeProps = _.merge({}, defaultValues, themeProps)
+  mergedThemeValues.colors = themeProps?.colors ? _.unionBy(Object.values(defaultValues.colors), Object.values(themeProps.colors), 'colorType') : defaultValues.colors
   const theme = new Theme(mergedThemeValues)
 
   return (
@@ -65,18 +63,10 @@ export const query = graphql`
                 button_border_width
                 button_box_shadow
                 buttons {
-                  button_type
-                  color
-                  fill_background
-                  hover_effect
-                }
-                logo_inverted {
-                    alt
-                    url
-                }
-                logo {
-                    url
-                    alt
+                    button_type
+                    color
+                    fill_background
+                    hover_effect
                 }
             }
         }

@@ -1,39 +1,48 @@
 import * as React from 'react'
 import * as gatsby from 'gatsby'
 import { graphql } from 'gatsby'
-import { Layout } from '../components/Layout'
-import { SEO } from '../components/Seo'
-import { SliceZone } from '../components/SliceZone'
-import { SliceData } from '../sections'
+import { UnknownRecord, withPrismicPreview } from 'gatsby-plugin-prismic-previews'
+import { SEO } from '../components/page/Seo'
 import { WithPrismicPreviewProps } from 'gatsby-plugin-prismic-previews/src/withPrismicPreview'
-import { ThemePrismicData } from '../theme/types'
-import { ThemeWrapper } from '../theme/ThemeWrapper'
+import { Theme, ThemeData, ThemeWrapper } from '../theme'
 import { linkResolver } from '../utils/LinkResolver'
-import { UnknownRecord } from 'gatsby-source-prismic'
+import { Footer, Header, HeaderData, SliceData, SliceZone } from '../components/page'
+import { TextSection } from '../sections'
 
 interface DynamicPageProps extends UnknownRecord {
   prismicTheme: {
-    data: ThemePrismicData
+    data: ThemeData
   },
   prismicPageDynamic: {
     data: {
       page_title: string,
+      header_ref: {
+        document: {
+          data: HeaderData
+        }
+      },
       body: Array<SliceData>
     }
   }
 }
 
 const DynamicPage: React.ComponentType<gatsby.PageProps<DynamicPageProps> & WithPrismicPreviewProps<DynamicPageProps>> = ({ data }) => {
-  if (!data) return null
-  const page = data.prismicPageDynamic
-  const themeValues = data.prismicTheme.data as ThemePrismicData
+  if (!data?.prismicPageDynamic?.data?.header_ref?.document) return null
+  const {
+    page_title: title,
+    body: slices,
+    header_ref: { document: { data: headerData } },
+  } = data.prismicPageDynamic.data
+  const themeProps = Theme.mapDataToProps(data.prismicTheme.data)
 
   return (
-    <ThemeWrapper themeValues={themeValues} isRootTheme={true}>
-      <Layout>
-        <SEO title={page.data.page_title} />
-        <SliceZone sliceZone={page.data.body} />
-      </Layout>
+    <ThemeWrapper themeProps={themeProps} isRootTheme={true}>
+      <SEO title={title} />
+      <Header {...Header.mapDataToProps(headerData)} />
+      <SliceZone slicesData={slices} sliceComponentMap={
+        { text: TextSection }
+      } />
+      <Footer />
     </ThemeWrapper>
   )
 }
@@ -53,26 +62,26 @@ export const query = graphql`
                         slice_type
                     }
                     ...PageDynamicDataBodyText
-                    ...PageDynamicDataBodyCallToAction
+                    ... on PrismicPageDynamicDataBodyCallToAction {
+                        id
+                    }
+                }
+                header_ref {
+                    document {
+                        ...PageHeader
+                    }
                 }
             }
         }
         ...Theme
     }
-
 `
 
-export default ((): React.ComponentType<gatsby.PageProps<DynamicPageProps> & WithPrismicPreviewProps<DynamicPageProps>> => {
-  if (process.env.PRISMIC_PREVIEW === '1') {
-    const { withPrismicPreview } = require('gatsby-plugin-prismic-previews')
-    return withPrismicPreview(DynamicPage, [
-      {
-        repositoryName: process.env.GATSBY_PRISMIC_REPO_NAME!,
-        // @ts-ignore
-        accessToken: process.env.GATSBY_PRISMIC_API_KEY!,
-        linkResolver,
-      },
-    ])
-  }
-  return DynamicPage
-})()
+export default withPrismicPreview(DynamicPage, [
+  {
+    repositoryName: process.env.GATSBY_PRISMIC_REPO_NAME!,
+    // @ts-ignore
+    accessToken: process.env.GATSBY_PRISMIC_API_KEY!,
+    linkResolver,
+  },
+])

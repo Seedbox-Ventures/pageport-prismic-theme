@@ -1,0 +1,241 @@
+{
+  "General": {
+    "background_color": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Primary",
+          "Accent",
+          "Info",
+          "Warn",
+          "Danger",
+          "Success",
+          "Light Text",
+          "Dark Text",
+          "Background Default",
+          "Background Alternative",
+          "Background Emphasize"
+        ],
+        "default_value": "Primary",
+        "label": "Background Color"
+      }
+    },
+    "is_sticky": {
+      "type": "Boolean",
+      "config": {
+        "default_value": false,
+        "label": "Is Sticky"
+      }
+    },
+    "padding_top": {
+      "type": "Text",
+      "config": {
+        "label": "Padding Top",
+        "placeholder": "1rem"
+      }
+    },
+    "padding_bottom": {
+      "type": "Text",
+      "config": {
+        "label": "Padding Bottom",
+        "placeholder": "1rem"
+      }
+    }
+  },
+  "Logo": {
+    "logo": {
+      "type": "Image",
+      "config": {
+        "constraint": {
+          "width": null,
+          "height": null
+        },
+        "thumbnails": [],
+        "label": "Logo"
+      }
+    },
+    "logo_position": {
+      "type": "Boolean",
+      "config": {
+        "placeholder_false": "Left",
+        "placeholder_true": "Right",
+        "default_value": false,
+        "label": "Logo Position"
+      }
+    },
+    "logo_width": {
+      "type": "Text",
+      "config": {
+        "label": "Logo Width",
+        "placeholder": "120px"
+      }
+    },
+    "logo_link": {
+      "type": "Link",
+      "config": {
+        "allowTargetBlank": true,
+        "label": "Header Logo Link",
+        "placeholder": "/",
+        "select": null
+      }
+    }
+  },
+  "Menu": {
+    "burger_menu_breakpoint": {
+      "type": "Select",
+      "config": {
+        "options": ["Never", "Phone", "Tablet", "Laptop", "Desktop"],
+        "default_value": "Never",
+        "label": "Burger Menu"
+      }
+    },
+    "link_text_type": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Standard Text",
+          "Page Title",
+          "Section Title",
+          "Sub Title",
+          "Small Title",
+          "Small Text",
+          "Big Text",
+          "Footnote",
+          "Header",
+          "Footer",
+          "Button"
+        ],
+        "label": "Link Text Type"
+      }
+    },
+    "link_color": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Primary",
+          "Accent",
+          "Info",
+          "Warn",
+          "Danger",
+          "Success",
+          "Light Text",
+          "Dark Text",
+          "Background Default",
+          "Background Alternative",
+          "Background Emphasize"
+        ],
+        "label": "Link Color"
+      }
+    },
+    "link_active_style": {
+      "type": "Select",
+      "config": {
+        "options": ["Change Color", "Darken / Lighten", "Underline", "None"],
+        "default_value": "Change Color",
+        "label": "Link Active Style"
+      }
+    },
+    "link_active_color": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Primary",
+          "Accent",
+          "Info",
+          "Warn",
+          "Danger",
+          "Success",
+          "Light Text",
+          "Dark Text",
+          "Background Default",
+          "Background Alternative",
+          "Background Emphasize"
+        ],
+        "label": "Link Active Color"
+      }
+    },
+    "link_hover_style": {
+      "type": "Select",
+      "config": {
+        "options": ["Change Color", "Darken / Lighten", "Underline", "None"],
+        "default_value": "Change Color",
+        "label": "Link Hover Style"
+      }
+    },
+    "link_hover_color": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Primary",
+          "Accent",
+          "Info",
+          "Warn",
+          "Danger",
+          "Success",
+          "Light Text",
+          "Dark Text",
+          "Background Default",
+          "Background Alternative",
+          "Background Emphasize"
+        ],
+        "label": "Link Hover Color"
+      }
+    },
+    "links": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "link": {
+            "type": "Link",
+            "config": {
+              "allowTargetBlank": true,
+              "label": "Link",
+              "placeholder": "https://pageport.io",
+              "select": null
+            }
+          },
+          "text": {
+            "type": "Text",
+            "config": {
+              "label": "Text",
+              "placeholder": "Link Text"
+            }
+          }
+        },
+        "label": "Header Menu"
+      }
+    }
+  },
+  "CTA": {
+    "cta_display": {
+      "type": "Boolean",
+      "config": {
+        "placeholder_false": "No",
+        "placeholder_true": "Yes",
+        "default_value": false,
+        "label": "Display CTA"
+      }
+    },
+    "cta_text": {
+      "type": "Text",
+      "config": {
+        "label": "Text"
+      }
+    },
+    "cta_button_type": {
+      "type": "Select",
+      "config": {
+        "options": ["Default", "Primary", "Secondary", "Submit", "Cancel", "Info", "Success", "Warn", "Danger"],
+        "default_value": "Default",
+        "label": "Button Type"
+      }
+    },
+    "cta_link": {
+      "type": "Link",
+      "config": {
+        "label": "CTA Link",
+        "select": null
+      }
+    }
+  }
+}

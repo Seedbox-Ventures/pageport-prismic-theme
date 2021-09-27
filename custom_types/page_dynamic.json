@@ -36,114 +36,16 @@
       }
     }
   },
-  "Header": {
-    "background_color": {
-      "type": "Select",
-      "config": {
-        "options": [
-          "Primary",
-          "Accent",
-          "Info",
-          "Warn",
-          "Danger",
-          "Success",
-          "Light Text",
-          "Dark Text",
-          "Background Default",
-          "Background Alternative",
-          "Background Emphasize"
-        ],
-        "default_value": "Primary",
-        "label": "Header Background Color"
-      }
-    },
-    "logo_position": {
-      "type": "Boolean",
-      "config": {
-        "placeholder_false": "Left",
-        "placeholder_true": "Right",
-        "default_value": false,
-        "label": "Logo Position"
-      }
-    },
-    "logo_width": {
-      "type": "Text",
-      "config": {
-        "label": "Logo Width",
-        "placeholder": "120px"
-      }
-    },
-    "icon_as_logo": {
-      "type": "Select",
-      "config": {
-        "options": [
-          "Never",
-          "Smartphone",
-          "Tablet",
-          "Laptop",
-          "Desktop"
-        ],
-        "default_value": "Never",
-        "label": "Icon as Logo"
-      }
-    },
-    "burger_menu": {
-      "type": "Select",
-      "config": {
-        "options": [
-          "Never",
-          "Smartphone",
-          "Tablet",
-          "Laptop",
-          "Desktop"
-        ],
-        "default_value": "Never",
-        "label": "Burger Menu"
-      }
-    },
-    "header_menu": {
-      "type": "Group",
-      "config": {
-        "fields": {
-          "link": {
-            "type": "Link",
-            "config": {
-              "allowTargetBlank": true,
-              "label": "Link",
-              "placeholder": "https://pageport.io",
-              "select": null
-            }
-          },
-          "text": {
-            "type": "Text",
-            "config": {
-              "label": "Text",
-              "placeholder": "Link Text"
-            }
-          },
-          "style": {
-            "type": "Select",
-            "config": {
-              "options": [
-                "Link",
-                "Button - Default",
-                "Button - Primary",
-                "Button - Secondary",
-                "Button - Submit",
-                "Button - Success",
-                "Button - Danger",
-                "Button - Cancel"
-              ],
-              "default_value": "Link",
-              "label": "Style"
-            }
-          }
-        },
-        "label": "Header Menu"
-      }
-    }
-  },
   "Main": {
+    "header_ref": {
+      "type": "Link",
+      "config": {
+        "select": "document",
+        "customtypes": ["header"],
+        "label": "Header Ref",
+        "placeholder": "Header To Display"
+      }
+    },
     "body": {
       "type": "Slices",
       "fieldset": "Slice zone",
@@ -241,10 +143,7 @@
               "columns": {
                 "type": "Select",
                 "config": {
-                  "options": [
-                    "1 Column",
-                    "2 Columns"
-                  ],
+                  "options": ["1 Column", "2 Columns"],
                   "default_value": "1 Column",
                   "label": "columns"
                 }
@@ -252,11 +151,7 @@
               "background_color": {
                 "type": "Select",
                 "config": {
-                  "options": [
-                    "Background Default",
-                    "Background Alternative",
-                    "Background Emphasize"
-                  ],
+                  "options": ["Background Default", "Background Alternative", "Background Emphasize"],
                   "default_value": "Background Default",
                   "label": "Background Color"
                 }
@@ -443,11 +338,7 @@
               "background_color": {
                 "type": "Select",
                 "config": {
-                  "options": [
-                    "Background Default",
-                    "Background Alternative",
-                    "Background Emphasize"
-                  ],
+                  "options": ["Background Default", "Background Alternative", "Background Emphasize"],
                   "default_value": "Background Default",
                   "label": "Background Color"
                 }
@@ -471,13 +362,7 @@
               "button_type": {
                 "type": "Select",
                 "config": {
-                  "options": [
-                    "Default",
-                    "Submit",
-                    "Success",
-                    "Danger",
-                    "Cancel"
-                  ],
+                  "options": ["Default", "Submit", "Success", "Danger", "Cancel"],
                   "default_value": "Default",
                   "label": "Button Type",
                   "placeholder": "Button Type"
@@ -509,11 +394,7 @@
     "footer_background_color": {
       "type": "Select",
       "config": {
-        "options": [
-          "Background Default",
-          "Background Alternative",
-          "Background Emphasize"
-        ],
+        "options": ["Background Default", "Background Alternative", "Background Emphasize"],
         "default_value": "Background Default",
         "label": "Background Color"
       }
@@ -565,16 +446,7 @@
           "platform": {
             "type": "Select",
             "config": {
-              "options": [
-                "Facebook",
-                "Instagram",
-                "LinkedIn",
-                "Pinterest",
-                "TikTok",
-                "Twitch",
-                "Twitter",
-                "Whatsapp"
-              ],
+              "options": ["Facebook", "Instagram", "LinkedIn", "Pinterest", "TikTok", "Twitch", "Twitter", "Whatsapp"],
               "default_value": "Facebook",
               "label": "Plattform"
             }
