@@ -85,6 +85,10 @@ CallToAction.mapDataToProps = (sliceData: SliceData) => {
 export const query = graphql`
   fragment PageDynamicDataBodyCallToAction on PrismicPageDynamicDataBodyCallToAction {
     primary {
+      title
+      text {
+        text
+      }
       background_color
       padding_top
       padding_bottom
