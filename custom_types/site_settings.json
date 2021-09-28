@@ -112,13 +112,6 @@
             "config": {
               "label": "Tracking Purpose"
             }
-          },
-          "tracking_code": {
-            "type": "StructuredText",
-            "config": {
-              "multi": "embed,rtl",
-              "label": "Tracking Code"
-            }
           }
         },
         "label": "Trackers"
