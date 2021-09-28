@@ -4,10 +4,6 @@ import { StyleHelper, ThemeButtonHoverEffectType, ThemeButtonType, ThemeTextType
 import { Link } from 'gatsby'
 import { LinkProps } from './Link'
 
-export interface ButtonProps extends LinkProps {
-  type?: ThemeButtonType
-}
-
 const StyledButton = styled.button<{ buttonType: ThemeButtonType; as: React.ElementType }>(({ buttonType, theme }) => {
   const buttonConfig = theme.getButtonConfigByType(buttonType)
   const buttonColorValue = theme.getColorValueByType(buttonConfig.color)
@@ -60,6 +56,7 @@ const StyledButton = styled.button<{ buttonType: ThemeButtonType; as: React.Elem
     text-align: center;
     transition: all 0.2s;
     line-height: 1;
+    cursor: pointer;
     
     &:hover, &:focus {
       ${buttonHoverEffects[buttonConfig.hoverEffect]}
@@ -67,7 +64,29 @@ const StyledButton = styled.button<{ buttonType: ThemeButtonType; as: React.Elem
   `
 })
 
-export const Button: React.FC<ButtonProps> = ({ type = ThemeButtonType.Default, url, target, internal, children }) => {
+export interface ButtonProps {
+  type: ThemeButtonType
+}
+
+export const Button: React.FC<ButtonProps> = ({ type, children }) => {
+  return (
+    <StyledButton buttonType={type} as={'button'}>
+      {children}
+    </StyledButton>
+  )
+}
+
+export interface ButtonLinkProps extends LinkProps {
+  type?: ThemeButtonType
+}
+
+export const ButtonLink: React.FC<ButtonLinkProps> = ({
+  type = ThemeButtonType.Default,
+  url,
+  target,
+  internal,
+  children,
+}) => {
   if (internal) {
     return (
       <StyledButton as={Link} to={url} target={target} buttonType={type}>
