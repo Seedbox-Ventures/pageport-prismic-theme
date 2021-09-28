@@ -56,8 +56,9 @@ export class StyleHelper {
       return spacing.toString()
     }
     if (typeof spacing === 'object') {
-      return StyleHelper.spacingO
+      return StyleHelper.spacingObjectToString(spacing)
     }
+    return '0'
   }
 
   static mergePaddings = (...paddings: Array<Partial<ContainerSpacing> | undefined>): string => {
