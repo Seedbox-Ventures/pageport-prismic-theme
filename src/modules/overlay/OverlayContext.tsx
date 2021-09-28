@@ -20,6 +20,10 @@ export class OverlayProvider extends Component<OverlayProps, OverlayContext> {
   open: () => void
   state = { ...initialState }
 
+  static getDerivedStateFromProps({ isOpen = false }) {
+    return { isOpen }
+  }
+
   constructor(props: OverlayProps) {
     super(props)
     const { open, close } = props
@@ -27,17 +31,13 @@ export class OverlayProvider extends Component<OverlayProps, OverlayContext> {
     this.close =
       close ??
       (() => {
-        if (this.props.isOpen === undefined) {
-          this.setState({ isOpen: false })
-        }
+        this.setState({ isOpen: false })
       })
 
     this.open =
       open ??
       (() => {
-        if (this.props.isOpen === undefined) {
-          this.setState({ isOpen: true })
-        }
+        this.setState({ isOpen: true })
       })
 
     this.state = {
