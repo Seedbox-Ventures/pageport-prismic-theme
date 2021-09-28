@@ -56,8 +56,10 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = function ({
   orientation = Orientation.Left,
   children,
 }) {
-  const themeContext = useContext(ThemeContext)
   const dispatch = useAppDispatch()
+  const openingFunc = () => dispatch(openMenu())
+  const closingFunc = () => dispatch(closeMenu())
+  const themeContext = useContext(ThemeContext)
   const isOpenState = useAppSelector(selectIsOpen)
   const mergedContainerPadding = StyleHelper.mergeContainerSpacings(themeContext.props.contentPadding, containerPadding)
   const paddingTop = StyleHelper.extractResponsiveSpacingPart(mergedContainerPadding, 'top')
@@ -71,12 +73,13 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = function ({
     linkActiveColor,
     linkHoverStyle,
     linkHoverColor,
+    onItemClick: closingFunc,
   }
 
   return (
     <Overlay
-      open={() => dispatch(openMenu())}
-      close={() => dispatch(closeMenu())}
+      open={openingFunc}
+      close={closingFunc}
       isOpen={isOpenState}
       anchorRenderer={() => (
         <BurgerMenuTrigger isOpen={isOpenState} iconColor={iconColor} onClick={() => dispatch(toggleMenu())} />

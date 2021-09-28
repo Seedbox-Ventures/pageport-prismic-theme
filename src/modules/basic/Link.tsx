@@ -14,19 +14,20 @@ export interface LinkProps {
   url: string
   target?: LinkTarget
   children?: ReactNode | string
+  onClick?: () => void
 }
 
-export const Link: React.FC<LinkProps> = ({ url, target, internal, children }) => {
+export const Link: React.FC<LinkProps> = ({ url, target, internal, onClick, children }) => {
   if (internal) {
     return (
-      <GatsbyLink to={url} target={target}>
+      <GatsbyLink to={url} target={target} onClick={onClick}>
         {children}
       </GatsbyLink>
     )
   }
 
   return (
-    <a href={url} target={target}>
+    <a href={url} target={target} onClick={onClick}>
       {children}
     </a>
   )

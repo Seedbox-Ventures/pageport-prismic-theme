@@ -18,6 +18,7 @@ interface StyledNavigationProps {
 
 export interface NavigationProps extends StyledNavigationProps {
   items: Array<LinkProps>
+  onItemClick?: () => void
 }
 
 export const StyledNavigation = styled.nav<StyledNavigationProps>(
@@ -70,6 +71,7 @@ export const Navigation: React.FC<NavigationProps> = ({
   linkHoverColor,
   linkHoverStyle,
   textType,
+  onItemClick,
 }: NavigationProps) => {
   return (
     <StyledNavigation
@@ -84,16 +86,16 @@ export const Navigation: React.FC<NavigationProps> = ({
         customCss,
       }}
     >
-      <ul>{renderNavigationItems(items)}</ul>
+      <ul>{renderNavigationItems(items, onItemClick)}</ul>
     </StyledNavigation>
   )
 }
 
-function renderNavigationItems(items: Array<LinkProps>): Array<React.ReactElement> {
+function renderNavigationItems(items: Array<LinkProps>, onItemClick?: () => void): Array<React.ReactElement> {
   return _.map(items, ({ internal, url, children }, index) => {
     return (
       <li key={url + index}>
-        <Link internal={internal} url={url}>
+        <Link internal={internal} url={url} onClick={onItemClick}>
           {children}
         </Link>
       </li>
