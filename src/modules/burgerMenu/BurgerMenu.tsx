@@ -3,10 +3,10 @@ import { ContainerSpacing, StyleHelper, ThemeColorType, ThemeLinkInteractiveStyl
 import { LinkProps } from '../basic/Link'
 import { useAppDispatch, useAppSelector } from '../../state/hooks'
 import { closeMenu, openMenu, selectIsOpen, toggleMenu } from './burgerMenuSlice'
-import { Overlay, StyledOverlayContainer } from '../overlay/Overlay'
+import { Overlay } from '../overlay/Overlay'
 import { Navigation, NavigationProps } from '../basic/Navigation'
 import { BurgerMenuTrigger } from './BurgerMenuTrigger'
-import { ThemeContext } from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
 import { Orientation } from '../page/Header'
 
 export interface BurgerMenuProps {
@@ -18,10 +18,29 @@ export interface BurgerMenuProps {
   linkActiveColor?: ThemeColorType
   linkHoverStyle?: ThemeLinkInteractiveStyle
   linkHoverColor?: ThemeColorType
-  overlayPadding?: Partial<ContainerSpacing>
-  overlayBackgroundColor?: ThemeColorType
+  containerPadding?: Partial<ContainerSpacing>
+  backgroundColor?: ThemeColorType
   orientation?: Orientation
 }
+
+const StyledContentContainer = styled.div<{
+  backgroundColor: ThemeColorType
+  padding?: ContainerSpacing
+}>(({ backgroundColor, padding, theme }) => {
+  return StyleHelper.renderCssFromObject({
+    position: 'fixed',
+    display: 'flex',
+    'flex-direction': 'column',
+    'justify-content': 'center',
+    top: '0',
+    left: '0',
+    width: '100vw',
+    height: '100vh',
+    background: theme.getColorValueByType(backgroundColor),
+    padding: padding ? StyleHelper.paddingToString(padding) : 0,
+    'box-sizing': 'border-box',
+  })
+})
 
 export const BurgerMenu: React.FC<BurgerMenuProps> = function ({
   links,
@@ -32,18 +51,18 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = function ({
   linkActiveColor = ThemeColorType.Accent,
   linkHoverStyle = ThemeLinkInteractiveStyle.ChangeColor,
   linkHoverColor = ThemeColorType.Accent,
-  overlayPadding,
-  overlayBackgroundColor = ThemeColorType.BackgroundDefault,
+  containerPadding,
+  backgroundColor = ThemeColorType.BackgroundDefault,
   orientation = Orientation.Left,
   children,
 }) {
   const themeContext = useContext(ThemeContext)
   const dispatch = useAppDispatch()
   const isOpenState = useAppSelector(selectIsOpen)
-  const containerPadding = StyleHelper.mergeContainerSpacings(themeContext.props.contentPadding, overlayPadding)
-  const paddingTop = StyleHelper.extractResponsiveSpacingPart(containerPadding, 'top')
-  const paddingLeft = StyleHelper.extractResponsiveSpacingPart(containerPadding, 'left')
-  const paddingRight = StyleHelper.extractResponsiveSpacingPart(containerPadding, 'right')
+  const mergedContainerPadding = StyleHelper.mergeContainerSpacings(themeContext.props.contentPadding, containerPadding)
+  const paddingTop = StyleHelper.extractResponsiveSpacingPart(mergedContainerPadding, 'top')
+  const paddingLeft = StyleHelper.extractResponsiveSpacingPart(mergedContainerPadding, 'left')
+  const paddingRight = StyleHelper.extractResponsiveSpacingPart(mergedContainerPadding, 'right')
   const navigationProps: NavigationProps = {
     items: links,
     textType,
@@ -63,7 +82,7 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = function ({
         <BurgerMenuTrigger isOpen={isOpenState} iconColor={iconColor} onClick={() => dispatch(toggleMenu())} />
       )}
     >
-      <StyledOverlayContainer backgroundColor={overlayBackgroundColor} padding={containerPadding}>
+      <StyledContentContainer backgroundColor={backgroundColor} padding={mergedContainerPadding}>
         <BurgerMenuTrigger
           isOpen={isOpenState}
           iconColor={iconColor}
@@ -77,7 +96,7 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = function ({
         />
         <Navigation {...navigationProps} />
         {children}
-      </StyledOverlayContainer>
+      </StyledContentContainer>
     </Overlay>
   )
 }

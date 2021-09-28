@@ -8,7 +8,7 @@ import * as CSS from 'csstype'
 export interface SectionProps {
   backgroundColor: ThemeColorType
   isFullWidth?: boolean
-  padding: Partial<ContainerSpacing>
+  padding?: Partial<ContainerSpacing>
   as?: React.ElementType
   isSticky?: boolean
   customContainerStyle?: StyleObject
@@ -64,7 +64,9 @@ export const Section: React.FC<SectionProps> = ({
   as = 'section',
 }) => {
   const theme = useContext(ThemeContext)
-  const mergedPadding = StyleHelper.mergeContainerSpacings(theme.props.contentPadding, padding)
+  const mergedPadding = padding
+    ? StyleHelper.mergeContainerSpacings(theme.props.contentPadding, padding)
+    : theme.props.contentPadding
 
   return (
     <StyledSection {...{ as, backgroundColor, isSticky }}>
