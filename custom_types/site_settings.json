@@ -7,24 +7,75 @@
       }
     }
   },
-  "Tracking": {
+  "Consent Banner & Data Protection": {
+    "banner_explanation_text": {
+      "type": "Text",
+      "config": {
+        "label": "Explanation Text"
+      }
+    },
+    "banner_text_type": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Standard Text",
+          "Page Title",
+          "Section Title",
+          "Sub Title",
+          "Small Title",
+          "Small Text",
+          "Big Text",
+          "Footnote",
+          "Header",
+          "Footer",
+          "Button"
+        ],
+        "default_value": "Standard Text",
+        "label": "Text Type"
+      }
+    },
+    "banner_button_type": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Default",
+          "Primary",
+          "Secondary",
+          "Submit",
+          "Cancel",
+          "Info",
+          "Success",
+          "Warn",
+          "Danger"
+        ],
+        "default_value": "Default",
+        "label": "Button Type"
+      }
+    },
+    "banner_background_color": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Primary",
+          "Accent",
+          "Info",
+          "Warn",
+          "Danger",
+          "Success",
+          "Light Text",
+          "Dark Text",
+          "Background Default",
+          "Background Alternative",
+          "Background Emphasize"
+        ],
+        "default_value": "Primary",
+        "label": "Background Color"
+      }
+    },
     "trackers": {
       "type": "Group",
       "config": {
         "fields": {
-          "tracking_type": {
-            "type": "Select",
-            "config": {
-              "options": [
-                "Facebook Pixel",
-                "Google Analytics",
-                "Google Tag Manager",
-                "Hotjar",
-                "LinkedIn Insight Tag"
-              ],
-              "label": "Tracking Type"
-            }
-          },
           "tracking_category": {
             "type": "Select",
             "config": {
@@ -65,7 +116,7 @@
           "tracking_code": {
             "type": "StructuredText",
             "config": {
-              "multi": "embed",
+              "multi": "embed,rtl",
               "label": "Tracking Code"
             }
           }
