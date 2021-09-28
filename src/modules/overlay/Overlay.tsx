@@ -5,8 +5,8 @@ import { OverlayConsumer, OverlayContext, OverlayProvider } from './OverlayConte
 import styled from 'styled-components'
 
 export interface OverlayProps {
-  open?: () => void
-  close?: () => void
+  open: () => void
+  close: () => void
   anchorRenderer?: (overlayContext: OverlayContext) => ReactNode
   isOpen?: boolean
   backdropBackground?: string
@@ -38,13 +38,19 @@ export class Overlay extends React.PureComponent<OverlayProps> {
   }
 
   render = () => {
-    const { anchorRenderer, backdropBackground = 'transparent', children, closeOnOutsideClick = false } = this.props
+    const {
+      anchorRenderer,
+      backdropBackground = 'transparent',
+      children,
+      closeOnOutsideClick = false,
+      isOpen,
+    } = this.props
     return (
       <OverlayProvider {...this.props}>
         <OverlayConsumer>{typeof anchorRenderer === 'function' ? anchorRenderer : () => null}</OverlayConsumer>
         <OverlayConsumer>
-          {({ isOpen, close }) => {
-            if (Overlay._root && isOpen) {
+          {({ close }) => {
+            if (Overlay._root) {
               const handleBackdropClick = () => {
                 if (closeOnOutsideClick) {
                   close()
@@ -53,8 +59,8 @@ export class Overlay extends React.PureComponent<OverlayProps> {
 
               return createPortal(
                 <Fragment>
-                  <StyledBackdrop background={backdropBackground} onClick={handleBackdropClick} />
-                  {children}
+                  {isOpen && <StyledBackdrop background={backdropBackground} onClick={handleBackdropClick} />}
+                  {isOpen && children}
                 </Fragment>,
                 Overlay._root,
               )
