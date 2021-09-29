@@ -1,19 +1,22 @@
 import * as React from 'react'
+import { useEffect } from 'react'
 import * as gatsby from 'gatsby'
 import { graphql } from 'gatsby'
 import { UnknownRecord, withPrismicPreview } from 'gatsby-plugin-prismic-previews'
-import { Footer, Header, HeaderData, SEO, SliceData, SliceZone } from '../modules/page'
 import { WithPrismicPreviewProps } from 'gatsby-plugin-prismic-previews/src/withPrismicPreview'
 import { Theme, ThemeData, ThemeWrapper } from '../theme'
 import { linkResolver } from '../utils/LinkResolver'
-import { SiteSettings, SiteSettingsData } from '../siteSettings/SiteSettings'
-import { SiteContextProvider } from '../siteSettings/SiteContext'
 import { CallToAction } from '../sections/CallToAction'
 import { TextSection } from '../sections/TextSection'
+import { Footer, Header, HeaderData, SEO, SliceData, SliceZone } from '../modules/page'
+import { ConsentBanner } from '../modules/dataProtection/ConsentBanner'
+import { DataProtectionData } from '../modules/dataProtection/types'
+import { useAppDispatch } from '../state/hooks'
+import { receiveDataProtectionData } from '../modules/dataProtection/dataProtectionSlice'
 
 interface DynamicPageProps extends UnknownRecord {
   prismicSiteSettings: {
-    data: SiteSettingsData
+    data: DataProtectionData
   }
   prismicTheme: {
     data: ThemeData
@@ -41,24 +44,27 @@ const DynamicPage: React.ComponentType<gatsby.PageProps<DynamicPageProps> & With
         document: { data: headerData },
       },
     } = data.prismicPageDynamic.data
-    const siteSettings = SiteSettings.mapDataToProps(data.prismicSiteSettings.data)
     const themeProps = Theme.mapDataToProps(data.prismicTheme.data)
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+      dispatch(receiveDataProtectionData(data.prismicSiteSettings.data))
+    })
 
     return (
-      <SiteContextProvider siteSettings={siteSettings}>
-        <ThemeWrapper themeProps={themeProps} isRootTheme={true}>
-          <SEO title={title} />
-          <Header {...Header.mapDataToProps(headerData)} />
-          <SliceZone
-            slicesData={slices}
-            sliceComponentMap={{
-              call_to_action: CallToAction,
-              text: TextSection,
-            }}
-          />
-          <Footer />
-        </ThemeWrapper>
-      </SiteContextProvider>
+      <ThemeWrapper themeProps={themeProps} isRootTheme={true}>
+        <SEO title={title} />
+        <Header {...Header.mapDataToProps(headerData)} />
+        <SliceZone
+          slicesData={slices}
+          sliceComponentMap={{
+            call_to_action: CallToAction,
+            text: TextSection,
+          }}
+        />
+        <Footer />
+        <ConsentBanner />
+      </ThemeWrapper>
     )
   }
 
@@ -89,7 +95,7 @@ export const query = graphql`
       }
     }
     ...Theme
-    ...SiteSettings
+    ...DataProtection
   }
 `
 

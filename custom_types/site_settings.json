@@ -37,17 +37,7 @@
     "banner_button_type": {
       "type": "Select",
       "config": {
-        "options": [
-          "Default",
-          "Primary",
-          "Secondary",
-          "Submit",
-          "Cancel",
-          "Info",
-          "Success",
-          "Warn",
-          "Danger"
-        ],
+        "options": ["Default", "Primary", "Secondary", "Submit", "Cancel", "Info", "Success", "Warn", "Danger"],
         "default_value": "Default",
         "label": "Button Type"
       }
@@ -76,38 +66,48 @@
       "type": "Group",
       "config": {
         "fields": {
-          "tracking_category": {
+          "type": {
             "type": "Select",
             "config": {
               "options": [
-                "Essential",
-                "Marketing",
-                "Statistics"
+                "Facebook Pixel",
+                "Google Tag Manager",
+                "Google Analytics",
+                "Hotjar",
+                "LinkedIn Insight Tag",
+                "VWO"
               ],
+              "label": "Tracking Type"
+            }
+          },
+          "category": {
+            "type": "Select",
+            "config": {
+              "options": ["Essential", "Marketing", "Statistics"],
               "label": "Tracking Category"
             }
           },
-          "tracking_tag_id": {
+          "tag_id": {
             "type": "Text",
             "config": {
               "label": "Tracking Tag Id",
               "placeholder": "Google Mess ID, Facebook Pixel . . ."
             }
           },
-          "tracking_provider": {
+          "provider": {
             "type": "Text",
             "config": {
               "label": "Tracking Provider"
             }
           },
-          "tracking_gdpr_link": {
+          "gdpr_link": {
             "type": "Link",
             "config": {
               "label": "Tracking GDPR Link",
               "select": null
             }
           },
-          "tracker_purpose": {
+          "purpose": {
             "type": "Text",
             "config": {
               "label": "Tracking Purpose"

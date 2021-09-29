@@ -1,9 +1,11 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit'
 import burgerMenuReducer from '../modules/burgerMenu/burgerMenuSlice'
+import dataProtectionReducer from '../modules/dataProtection/dataProtectionSlice'
 
 export const store = configureStore({
   reducer: {
     burgerMenu: burgerMenuReducer,
+    dataProtection: dataProtectionReducer,
   },
 })
 
