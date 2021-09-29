@@ -27,7 +27,14 @@ export const dataProtectionSlice = createSlice({
       return { ...state, ...mapConsentDataToState(action.payload, state) }
     },
     updateDataProtectionState: (state, action: PayloadAction<Partial<DataProtectionState>>) => {
-      return { ...state, ...action.payload }
+      const { dataSinks: formerDataSinks, banner: formerBanner } = state
+      const { dataSinks = formerDataSinks, banner = {} } = action.payload
+      const newState = {
+        isInitialized: true,
+        dataSinks,
+        banner: { ...formerBanner, ...banner, isOpen: !!_.find(dataSinks, { accepted: undefined }) },
+      }
+      return newState
     },
   },
 })
@@ -45,7 +52,6 @@ export const initializeDataProtection =
       consentData = []
     }
     const extractedStatePartial = mapConsentDataToState(consentData, mapDataToState(dataProtectionData))
-
     // const dataProtectionCookieData = Cookies.get('dataProtection')
     dispatch(updateDataProtectionState({ isInitialized: true, ...extractedStatePartial }))
   }
