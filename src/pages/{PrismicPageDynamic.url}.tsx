@@ -12,7 +12,7 @@ import { Footer, Header, HeaderData, SEO, SliceData, SliceZone } from '../module
 import { ConsentBanner } from '../modules/dataProtection/ConsentBanner'
 import { DataProtectionData } from '../modules/dataProtection/types'
 import { useAppDispatch } from '../state/hooks'
-import { receiveDataProtectionData } from '../modules/dataProtection/dataProtectionSlice'
+import { initializeDataProtection } from '../modules/dataProtection/dataProtectionSlice'
 
 interface DynamicPageProps extends UnknownRecord {
   prismicSiteSettings: {
@@ -48,7 +48,7 @@ const DynamicPage: React.ComponentType<gatsby.PageProps<DynamicPageProps> & With
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-      dispatch(receiveDataProtectionData(data.prismicSiteSettings.data))
+      dispatch(initializeDataProtection(data.prismicSiteSettings.data))
     })
 
     return (

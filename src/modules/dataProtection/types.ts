@@ -27,6 +27,14 @@ export interface DataSink {
   integrationCode?: string
 }
 
+export type DataProtectionConsentItem = {
+  type: string
+  id: string
+  accepted?: boolean
+}
+
+export type DataProtectionConsentData = Array<DataProtectionConsentItem>
+
 export interface DataProtectionData {
   trackers?: Array<{
     type: DataSinkType
@@ -50,6 +58,7 @@ export interface ConsentBannerState {
 }
 
 export interface DataProtectionState {
+  isInitialized: boolean
   dataSinks: Array<DataSink>
   banner: ConsentBannerState
 }
