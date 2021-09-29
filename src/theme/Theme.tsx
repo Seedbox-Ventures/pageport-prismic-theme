@@ -12,7 +12,7 @@ import {
   ThemeTextType,
   ThemeTypeStyle,
 } from './types'
-import { StyleHelper } from './Style'
+import { StyleHelper, StyleObject } from './Style'
 import { DataHelper } from '../utils/Prismic'
 
 const tinycolor = require('tinycolor2')
@@ -69,6 +69,27 @@ export class Theme implements DefaultTheme {
     return this.getType(ThemeTextType.StandardText)!
   }
 
+  getTextTypeStyleObject = (themeTextType: ThemeTextType = ThemeTextType.StandardText): StyleObject => {
+    const themeType = this.getType(themeTextType)
+
+    if (!themeType) {
+      throw `Could not get type definition for text type ${themeTextType}`
+    }
+
+    return this.getTextTypeStyleObject(themeTextType)
+  }
+
+  getTypeStyleObject = (themeType: ThemeTypeStyle): StyleObject => {
+    return {
+      'font-family': this.getFontFamily(themeType.fontFamily),
+      'font-size': themeType.fontSize,
+      'letter-spacing': themeType.letterSpacing,
+      'line-height': themeType.lineHeight,
+      'font-weight': themeType.fontWeight,
+      'font-style': themeType.fontStyle,
+    }
+  }
+
   renderTextTypeCss = (themeTextType: ThemeTextType = ThemeTextType.StandardText): string => {
     const themeType = this.getType(themeTextType)
 
@@ -80,14 +101,7 @@ export class Theme implements DefaultTheme {
   }
 
   renderTypeCss = (themeType: ThemeTypeStyle): string => {
-    return StyleHelper.renderCssFromObject({
-      'font-family': this.getFontFamily(themeType.fontFamily),
-      'font-size': themeType.fontSize,
-      'letter-spacing': themeType.letterSpacing,
-      'line-height': themeType.lineHeight,
-      'font-weight': themeType.fontWeight,
-      'font-style': themeType.fontStyle,
-    })
+    return StyleHelper.renderCssFromObject(this.getTypeStyleObject(themeType))
   }
 
   renderLinkCss = (
