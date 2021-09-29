@@ -12,6 +12,7 @@ export interface SectionProps {
   as?: React.ElementType
   isSticky?: boolean
   customContainerStyle?: StyleObject
+  className?: string
 }
 
 export const StyledSection = styled.div<{
@@ -61,6 +62,7 @@ export const Section: React.FC<SectionProps> = ({
   isSticky = false,
   children,
   customContainerStyle,
+  className,
   as = 'section',
 }) => {
   const theme = useContext(ThemeContext)
@@ -69,7 +71,7 @@ export const Section: React.FC<SectionProps> = ({
     : theme.props.contentPadding
 
   return (
-    <StyledSection {...{ as, backgroundColor, isSticky }}>
+    <StyledSection {...{ as, backgroundColor, className, isSticky }}>
       <ContentContainer
         {...{
           className: 'contentContainer',
