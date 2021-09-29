@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { ReactNode } from 'react'
 import { Link as GatsbyLink } from 'gatsby'
+import styled from 'styled-components'
 
 export enum LinkTarget {
   Self = '_self',
@@ -10,25 +10,31 @@ export enum LinkTarget {
 }
 
 export interface LinkProps {
-  internal: boolean
-  url: string
+  internal?: boolean
+  url?: string
   target?: LinkTarget
-  children?: ReactNode | string
   onClick?: () => void
 }
 
+const StyledLink = styled.div<{
+  as?: React.ElementType
+}>`
+  cursor: pointer;
+  text-decoration: underline;
+`
+
 export const Link: React.FC<LinkProps> = ({ url, target, internal, onClick, children }) => {
-  if (internal) {
+  if (internal && url) {
     return (
-      <GatsbyLink to={url} target={target} onClick={onClick}>
+      <StyledLink as={GatsbyLink} to={url} target={target} onClick={onClick}>
         {children}
-      </GatsbyLink>
+      </StyledLink>
     )
   }
 
   return (
-    <a href={url} target={target} onClick={onClick}>
+    <StyledLink as="a" href={url} target={target} onClick={onClick}>
       {children}
-    </a>
+    </StyledLink>
   )
 }
