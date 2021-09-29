@@ -23,23 +23,24 @@ export const dataProtectionSlice = createSlice({
   name: 'dataProtection',
   initialState,
   reducers: {
-    updateConsent: (state, action: PayloadAction<DataProtectionConsentData>) => {
-      return { ...state, ...mapConsentDataToState(action.payload, state) }
-    },
     updateDataProtectionState: (state, action: PayloadAction<Partial<DataProtectionState>>) => {
       const { dataSinks: formerDataSinks, banner: formerBanner } = state
       const { dataSinks = formerDataSinks, banner = {} } = action.payload
-      const newState = {
+      return {
         isInitialized: true,
         dataSinks,
         banner: { ...formerBanner, ...banner, isOpen: !!_.find(dataSinks, { accepted: undefined }) },
       }
-      return newState
     },
   },
 })
 
-const { updateConsent, updateDataProtectionState } = dataProtectionSlice.actions
+const { updateDataProtectionState } = dataProtectionSlice.actions
+
+export const acceptAll = (): AppThunk => (dispatch, getState) => {
+  const dataSinks = selectDataSinks(getState())
+  dispatch(updateDataProtectionConsent(_.map(dataSinks, ({ type, tagId }) => ({ type, tagId, accepted: true }))))
+}
 
 export const initializeDataProtection =
   (dataProtectionData: DataProtectionData): AppThunk =>
@@ -58,9 +59,17 @@ export const initializeDataProtection =
 
 export const updateDataProtectionConsent =
   (consentData: DataProtectionConsentData): AppThunk =>
-  (dispatch) => {
+  (dispatch, getState) => {
     Cookies.set(dataProtectionCookieName, JSON.stringify(consentData))
-    dispatch(updateConsent(consentData))
+    const dataSinks = selectDataSinks(getState())
+    const updatePartial = {
+      dataSinks: _.map(dataSinks, (dataSink) => {
+        const { type, tagId } = dataSink
+        const { accepted } = _.find(consentData, { type, tagId }) ?? {}
+        return { ...dataSink, accepted }
+      }),
+    }
+    dispatch(updateDataProtectionState(updatePartial))
   }
 
 export const selectBannerState = (state: RootState) => state.dataProtection.banner

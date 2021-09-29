@@ -66,11 +66,12 @@ const StyledButton = styled.button<{ buttonType: ThemeButtonType; as: React.Elem
 
 export interface ButtonProps {
   type: ThemeButtonType
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 
-export const Button: React.FC<ButtonProps> = ({ type, children }) => {
+export const Button: React.FC<ButtonProps> = ({ type, children, onClick }) => {
   return (
-    <StyledButton buttonType={type} as={'button'}>
+    <StyledButton buttonType={type} as={'button'} onClick={onClick}>
       {children}
     </StyledButton>
   )

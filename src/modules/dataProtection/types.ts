@@ -20,7 +20,7 @@ export interface DataSink {
   type: DataSinkType
   category: DataSinkCategory
   accepted?: boolean
-  tagId?: string
+  tagId: string
   provider?: string
   gdprLink?: string
   purpose?: string
@@ -29,7 +29,7 @@ export interface DataSink {
 
 export type DataProtectionConsentItem = {
   type: string
-  id: string
+  tagId: string
   accepted?: boolean
 }
 

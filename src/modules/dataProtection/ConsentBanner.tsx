@@ -1,12 +1,13 @@
 import React from 'react'
+import _ from 'lodash'
 import { Overlay } from '../overlay/Overlay'
 import styled from 'styled-components'
 import { Section } from '../page'
 import { ThemeButtonType, ThemeColorType } from '../../theme'
 import { Button } from '../basic/Button'
 import { ConsentBannerState, DataSink } from './types'
-import { useAppSelector } from '../../state/hooks'
-import { selectBannerState, selectDataSinks } from './dataProtectionSlice'
+import { useAppDispatch, useAppSelector } from '../../state/hooks'
+import { acceptAll, selectBannerState, selectDataSinks } from './dataProtectionSlice'
 
 interface ConsentBannerProps {}
 
@@ -23,6 +24,11 @@ const StyledLink = styled.a`
 export const ConsentBanner: React.FC<ConsentBannerProps> = () => {
   const { isOpen }: ConsentBannerState = useAppSelector(selectBannerState)
   const dataSinks: Array<DataSink> = useAppSelector(selectDataSinks)
+  const dispatch = useAppDispatch()
+  const acceptAllFunc = () => {
+    dispatch(acceptAll())
+  }
+
   return (
     <>
       {!!dataSinks?.length && (
@@ -40,7 +46,9 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = () => {
                 <StyledLink>Individuelle Datenschutzeinstellungen</StyledLink>
               </div>
               <div>
-                <Button type={ThemeButtonType.Secondary}>Alle akzeptieren</Button>
+                <Button type={ThemeButtonType.Secondary} onClick={acceptAllFunc}>
+                  Alle akzeptieren
+                </Button>
               </div>
             </Section>
           </StyledConsentBanner>
