@@ -6,7 +6,7 @@ import { Button } from '../basic/Button'
 import { ConsentBannerState, DataSink } from './types'
 import { useAppDispatch, useAppSelector } from '../../state/hooks'
 import { acceptAll, selectBannerState, selectDataSinks } from './dataProtectionSlice'
-import { ThemeTextType } from '../../theme'
+import { StyleHelper, ThemeTextType } from '../../theme'
 import { Link } from '../basic/Link'
 
 interface ConsentBannerProps {}
@@ -18,6 +18,44 @@ const StyledConsentBanner = styled.div<{ textType?: ThemeTextType }>(({ textType
     width: 100vw;
     height: auto;
     ${textType ? theme.renderTextTypeCss(textType) : ''} 
+    
+    .consentBanner {
+      &__links {
+        margin: 0 -.5em;
+        ${StyleHelper.renderCssFromObject({
+          'grid-column-start': '1',
+          'grid-column-end': '2',
+          'grid-row-start': '2',
+          'grid-row-end': '3',
+          'text-align': 'center|left',
+        })}
+      }
+      
+      &__linkWrapper {
+        display: inline-block;
+        margin: .5em;
+      }
+      
+      &__explanation {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 1:
+        grid-row-end: 2;
+      }
+      
+      &__buttons {
+        ${StyleHelper.renderCssFromObject({
+          display: 'flex',
+          'grid-column-start': '1|2',
+          'grid-column-end': '2|3',
+          'grid-row-start': '3|1',
+          'grid-row-end': '4|3',
+          'justify-self': 'center',
+          'justify-content': 'center',
+          'align-items': 'center',
+        })}
+      }
+    }
   `
 })
 
@@ -43,16 +81,21 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = () => {
                 display: 'grid',
                 'column-gap': '1rem',
                 'row-gap': '1rem',
+                'grid-template-columns': 'auto|auto 200px|680px auto',
               }}
             >
-              <div className="consentBanner_explanation">
+              <div className="consentBanner__explanation">
                 <p>{explanationText}</p>
               </div>
-              <div className="consentBanner_links">
-                <Link>Nur essenzielle Cookies akzeptieren</Link>
-                <Link>Individuelle Datenschutzeinstellungen</Link>
+              <div className="consentBanner__links">
+                <div className="consentBanner__linkWrapper">
+                  <Link>Nur essenzielle Cookies akzeptieren</Link>
+                </div>
+                <div className="consentBanner__linkWrapper">
+                  <Link>Individuelle Datenschutzeinstellungen</Link>
+                </div>
               </div>
-              <div className="consentBanner__col-2">
+              <div className="consentBanner__buttons">
                 <Button type={buttonType} onClick={acceptAllFunc}>
                   Alle akzeptieren
                 </Button>
