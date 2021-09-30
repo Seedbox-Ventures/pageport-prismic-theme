@@ -43,7 +43,7 @@ export class Overlay extends React.PureComponent<OverlayProps> {
     const { anchor, backdropBackground = 'transparent', children, closeOnOutsideClick = false, isOpen } = this.props
     return (
       <OverlayProvider {...this.props}>
-        <OverlayConsumer>{ anchor === 'function' ? anchor as OverlayAnchorRenderer : () => anchor}</OverlayConsumer>
+        <OverlayConsumer>{ typeof anchor === 'function' ? anchor as OverlayAnchorRenderer : () => anchor}</OverlayConsumer>
         <OverlayConsumer>
           {({ close }) => {
             if (Overlay._root) {
