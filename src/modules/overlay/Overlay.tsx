@@ -4,10 +4,12 @@ import { createPortal } from 'react-dom'
 import { OverlayConsumer, OverlayContext, OverlayProvider } from './OverlayContext'
 import styled from 'styled-components'
 
+type OverlayAnchorRenderer = (overlayContext: OverlayContext) => ReactNode
+
 export interface OverlayProps {
   open: () => void
   close: () => void
-  anchorRenderer?: (overlayContext: OverlayContext) => ReactNode
+  anchor?: OverlayAnchorRenderer | ReactNode
   isOpen?: boolean
   backdropBackground?: string
   closeOnOutsideClick?: boolean
@@ -38,16 +40,10 @@ export class Overlay extends React.PureComponent<OverlayProps> {
   }
 
   render = () => {
-    const {
-      anchorRenderer,
-      backdropBackground = 'transparent',
-      children,
-      closeOnOutsideClick = false,
-      isOpen,
-    } = this.props
+    const { anchor, backdropBackground = 'transparent', children, closeOnOutsideClick = false, isOpen } = this.props
     return (
       <OverlayProvider {...this.props}>
-        <OverlayConsumer>{typeof anchorRenderer === 'function' ? anchorRenderer : () => null}</OverlayConsumer>
+        <OverlayConsumer>{ anchor === 'function' ? anchor as OverlayAnchorRenderer : () => anchor}</OverlayConsumer>
         <OverlayConsumer>
           {({ close }) => {
             if (Overlay._root) {

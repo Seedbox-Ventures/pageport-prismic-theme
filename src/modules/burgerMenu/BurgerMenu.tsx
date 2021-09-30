@@ -81,7 +81,7 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = function ({
       open={openingFunc}
       close={closingFunc}
       isOpen={isOpenState}
-      anchorRenderer={() => (
+      anchor={() => (
         <BurgerMenuTrigger isOpen={isOpenState} iconColor={iconColor} onClick={() => dispatch(toggleMenu())} />
       )}
     >
