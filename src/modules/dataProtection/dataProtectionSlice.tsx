@@ -42,6 +42,11 @@ export const acceptAll = (): AppThunk => (dispatch, getState) => {
   dispatch(updateDataProtectionConsent(_.map(dataSinks, ({ type, tagId }) => ({ type, tagId, accepted: true }))))
 }
 
+export const rejectAll = (): AppThunk => (dispatch, getState) => {
+  const dataSinks = selectDataSinks(getState())
+  dispatch(updateDataProtectionConsent(_.map(dataSinks, ({ type, tagId }) => ({ type, tagId, accepted: false }))))
+}
+
 export const initializeDataProtection =
   (dataProtectionData: DataProtectionData): AppThunk =>
   (dispatch) => {
