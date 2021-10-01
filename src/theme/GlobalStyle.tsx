@@ -20,7 +20,7 @@ const StyleComponent = createGlobalStyle<{}>(
   }
   
   h3 {
-    ${theme.renderTextTypeCss(ThemeTextType.SectionTitle)}
+    ${theme.renderTextTypeCss(ThemeTextType.SubTitle)}
   }
 `,
 )

@@ -7,7 +7,7 @@ import { DataSink } from './types'
 import { acceptAll, rejectAll, selectBannerState, selectDataSinks } from './dataProtectionSlice'
 import { StyleHelper, ThemeButtonType, ThemeColorType, ThemeTextType } from '../../theme'
 import { Link } from '../basic/Link'
-import DataProtectionSettings from './DataProtectionSettings'
+import DataProtectionSettingsPanel from './DataProtectionPanel'
 import { connect } from 'react-redux'
 import { RootState } from '../../state/store'
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit'
@@ -143,7 +143,7 @@ class ConsentBanner extends React.PureComponent<ConsentBannerProps, ConsentBanne
                   </div>
                 </Section>
               )}
-              {doDisplayDataProtectionSettings && <DataProtectionSettings />}
+              {doDisplayDataProtectionSettings && <DataProtectionSettingsPanel />}
             </StyledConsentBanner>
           </Overlay>
         )}

@@ -13,6 +13,7 @@ export enum DataSinkType {
   GoogleAnalytics = 'Google Analytics',
   Hotjar = 'Hotjar',
   LinkedInInsightTag = 'LinkedIn Insight Tag',
+  PageportControl = 'pageport control',
   VWO = 'VWO',
 }
 
@@ -20,7 +21,7 @@ export interface DataSink {
   type: DataSinkType
   category: DataSinkCategory
   accepted?: boolean
-  tagId: string
+  tagId?: string
   provider?: string
   gdprLink?: string
   purpose?: string
@@ -35,14 +36,16 @@ export type DataProtectionConsentItem = {
 
 export type DataProtectionConsentData = Array<DataProtectionConsentItem>
 
+export interface TrackerData {
+  type: DataSinkType
+  purpose: string
+  category: DataSinkCategory
+  provider: string
+  tag_id?: string
+}
+
 export interface DataProtectionData {
-  trackers?: Array<{
-    type: DataSinkType
-    purpose: string
-    category: DataSinkCategory
-    provider: string
-    tag_id: string
-  }>
+  trackers?: Array<TrackerData>
   banner_background_color?: ThemeColorType
   banner_button_type?: ThemeButtonType
   banner_explanation_text?: string

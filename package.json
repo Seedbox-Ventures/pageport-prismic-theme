@@ -3,6 +3,9 @@
   "description": "Playground for pageport development",
   "version": "0.0.3",
   "dependencies": {
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
+    "@mui/material": "^5.0.2",
     "@prismicio/types": "^0.1.6",
     "@reduxjs/toolkit": "^1.6.1",
     "@types/lodash": "^4.14.172",
