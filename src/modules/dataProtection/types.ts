@@ -30,7 +30,8 @@ export interface DataSink {
 
 export type DataProtectionConsentItem = {
   type: string
-  tagId: string
+  category: string
+  tagId?: string
   accepted?: boolean
 }
 

@@ -6,6 +6,7 @@ import {
   DataProtectionConsentItem,
   DataProtectionData,
   DataProtectionState,
+  DataSink,
   TrackerData,
 } from './types'
 import { ThemeButtonType, ThemeColorType, ThemeTextType } from '../../theme'
@@ -33,6 +34,8 @@ export const dataProtectionSlice = createSlice({
     updateDataProtectionState: (state, action: PayloadAction<Partial<DataProtectionState>>) => {
       const { dataSinks: formerDataSinks, banner: formerBanner } = state
       const { dataSinks = formerDataSinks, banner = {} } = action.payload
+      console.log('UPDATE BLA BLA', !!_.find(dataSinks, { accepted: undefined }))
+      console.log('UPDATE BLA BLA DATA SINKS', dataSinks)
       return {
         isInitialized: true,
         dataSinks,
@@ -46,12 +49,30 @@ const { updateDataProtectionState } = dataProtectionSlice.actions
 
 export const acceptAll = (): AppThunk => (dispatch, getState) => {
   const dataSinks = selectDataSinks(getState())
-  dispatch(updateDataProtectionConsent(_.map(dataSinks, ({ type, tagId = '' }) => ({ type, tagId, accepted: true }))))
+  dispatch(
+    updateDataProtectionConsent(
+      _.map(dataSinks, ({ type, tagId, category }) => ({
+        type,
+        tagId,
+        accepted: true,
+        category,
+      })),
+    ),
+  )
 }
 
 export const rejectAll = (): AppThunk => (dispatch, getState) => {
   const dataSinks = selectDataSinks(getState())
-  dispatch(updateDataProtectionConsent(_.map(dataSinks, ({ type, tagId = '' }) => ({ type, tagId, accepted: false }))))
+  dispatch(
+    updateDataProtectionConsent(
+      _.map(dataSinks, ({ type, tagId, category }) => ({
+        type,
+        tagId,
+        accepted: false,
+        category,
+      })),
+    ),
+  )
 }
 
 export const initializeDataProtection =
@@ -84,8 +105,8 @@ export const updateDataProtectionConsent =
     const dataSinks = selectDataSinks(getState())
     const updatePartial = {
       dataSinks: _.map(dataSinks, (dataSink) => {
-        const { type, tagId } = dataSink
-        const { accepted } = _.find(consentData, { type, tagId }) ?? {}
+        const { type, tagId, category } = dataSink
+        const { accepted } = _.find(consentData, { type, tagId, category }) ?? {}
         return { ...dataSink, accepted }
       }),
     }
@@ -94,6 +115,7 @@ export const updateDataProtectionConsent =
 
 export const selectBannerState = (state: RootState) => state.dataProtection.banner
 export const selectDataSinks = (state: RootState) => state.dataProtection.dataSinks
+export const selectConsentData = (state: RootState) => extractConsentDataFromDataSinks(state.dataProtection.dataSinks)
 
 const mapDataToState = (data: DataProtectionData): Partial<DataProtectionState> => {
   return {
@@ -121,10 +143,16 @@ const mapConsentDataToState = (
     ...statePartial,
     dataSinks: _.map(statePartial.dataSinks, (dataSink) => {
       const { type, tagId, accepted: oldAccepted } = dataSink
-      const { accepted = oldAccepted } = (_.find(consentData, { type, tagId }) ?? {}) as DataProtectionConsentItem
+      const { accepted = oldAccepted } = (_.find(consentData, ({ type: itemType, tagId: itemTagId }) => {
+        return type === itemType && (typeof tagId === 'undefined' || tagId == itemTagId)
+      }) ?? {}) as DataProtectionConsentItem
       return { ...dataSink, accepted }
     }),
   }
+}
+
+export const extractConsentDataFromDataSinks = (dataSinks: Array<DataSink>): DataProtectionConsentData => {
+  return _.map(dataSinks, ({ type, tagId, accepted, category }) => ({ type, tagId, accepted, category }))
 }
 
 export default dataProtectionSlice.reducer

@@ -69,8 +69,8 @@ export interface ConsentBannerProps {
     isOpen: boolean
   }
   dataSinks?: Array<DataSink>
-  acceptAllFunc?: () => void
-  rejectAllFunc?: () => void
+  acceptAllFunc: () => void
+  rejectAllFunc: () => void
 }
 
 export interface ConsentBannerInternalState {
@@ -152,7 +152,7 @@ class ConsentBanner extends React.PureComponent<ConsentBannerProps, ConsentBanne
   }
 }
 
-const mapStateToProps = (state: RootState): ConsentBannerProps => ({
+const mapStateToProps = (state: RootState) => ({
   bannerSettings: selectBannerState(state),
   dataSinks: selectDataSinks(state),
 })
