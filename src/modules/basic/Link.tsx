@@ -14,6 +14,7 @@ export interface LinkProps {
   url?: string
   target?: LinkTarget
   onClick?: () => void
+  children?: React.ReactNode
 }
 
 const StyledLink = styled.div<{
@@ -23,7 +24,7 @@ const StyledLink = styled.div<{
   text-decoration: underline;
 `
 
-export const Link: React.FC<LinkProps> = ({ url, target, internal, onClick, children }) => {
+const Link: React.FC<LinkProps> = ({ url, target, internal, onClick, children }) => {
   if (internal && url) {
     return (
       <StyledLink as={GatsbyLink} to={url} target={target} onClick={onClick}>
@@ -38,3 +39,5 @@ export const Link: React.FC<LinkProps> = ({ url, target, internal, onClick, chil
     </StyledLink>
   )
 }
+
+export default Link

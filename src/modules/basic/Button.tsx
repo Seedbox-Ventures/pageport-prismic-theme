@@ -1,8 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { StyleHelper, ThemeButtonHoverEffectType, ThemeButtonType, ThemeTextType } from '../../theme'
-import { Link } from 'gatsby'
-import { LinkProps } from './Link'
+import Link, { LinkProps } from './Link'
 
 const StyledButton = styled.button<{ buttonType: ThemeButtonType; as: React.ElementType }>(({ buttonType, theme }) => {
   const buttonConfig = theme.getButtonConfigByType(buttonType)
@@ -69,7 +68,7 @@ export interface ButtonProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 
-export const Button: React.FC<ButtonProps> = ({ type, children, onClick }) => {
+const Button: React.FC<ButtonProps> = ({ type, children, onClick }) => {
   return (
     <StyledButton buttonType={type} as={'button'} onClick={onClick}>
       {children}
@@ -90,7 +89,7 @@ export const ButtonLink: React.FC<ButtonLinkProps> = ({
 }) => {
   if (internal) {
     return (
-      <StyledButton as={Link} to={url} target={target} buttonType={type}>
+      <StyledButton as={Link} url={url} target={target} buttonType={type}>
         {children}
       </StyledButton>
     )
@@ -101,3 +100,5 @@ export const ButtonLink: React.FC<ButtonLinkProps> = ({
     </StyledButton>
   )
 }
+
+export default Button

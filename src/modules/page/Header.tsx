@@ -20,7 +20,7 @@ import { Logo, LogoProps } from '../basic/Logo'
 import PagePort from '../../utils/PagePort'
 import { Navigation, NavigationProps } from '../basic/Navigation'
 import styled from 'styled-components'
-import { Button } from '../basic/Button'
+import Button from '../basic/Button'
 import { BurgerMenu, BurgerMenuProps } from '../burgerMenu/BurgerMenu'
 import { graphql } from 'gatsby'
 

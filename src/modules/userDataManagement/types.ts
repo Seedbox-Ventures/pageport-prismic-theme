@@ -25,7 +25,6 @@ export interface DataSink {
   provider?: string
   gdprLink?: string
   purpose?: string
-  integrationCode?: string
 }
 
 export type DataProtectionConsentItem = {
@@ -58,7 +57,6 @@ export interface ConsentBannerState {
   buttonType: ThemeButtonType
   explanationText: string
   textType: ThemeTextType
-  isOpen: boolean
 }
 
 export interface DataProtectionState {

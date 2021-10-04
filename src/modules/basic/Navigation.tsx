@@ -1,7 +1,7 @@
 import * as React from 'react'
 import _ from 'lodash'
 import { StyleHelper, StyleObject, ThemeColorType, ThemeLinkInteractiveStyle, ThemeTextType } from '../../theme'
-import { Link, LinkProps } from './Link'
+import Link, { LinkProps } from './Link'
 import styled from 'styled-components'
 
 interface StyledNavigationProps {
@@ -94,7 +94,7 @@ export const Navigation: React.FC<NavigationProps> = ({
 function renderNavigationItems(items: Array<LinkProps>, onItemClick?: () => void): Array<React.ReactElement> {
   return _.map(items, ({ internal, url, children }, index) => {
     return (
-      <li key={url + index}>
+      <li key={index}>
         <Link internal={internal} url={url} onClick={onItemClick}>
           {children}
         </Link>

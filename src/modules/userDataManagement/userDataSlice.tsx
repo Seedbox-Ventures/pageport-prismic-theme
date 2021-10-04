@@ -23,7 +23,6 @@ const initialState: DataProtectionState = {
     buttonType: ThemeButtonType.Default,
     explanationText: '',
     textType: ThemeTextType.StandardText,
-    isOpen: false,
   },
 }
 
@@ -34,12 +33,10 @@ export const dataProtectionSlice = createSlice({
     updateDataProtectionState: (state, action: PayloadAction<Partial<DataProtectionState>>) => {
       const { dataSinks: formerDataSinks, banner: formerBanner } = state
       const { dataSinks = formerDataSinks, banner = {} } = action.payload
-      console.log('UPDATE BLA BLA', !!_.find(dataSinks, { accepted: undefined }))
-      console.log('UPDATE BLA BLA DATA SINKS', dataSinks)
       return {
         isInitialized: true,
         dataSinks,
-        banner: { ...formerBanner, ...banner, isOpen: !!_.find(dataSinks, { accepted: undefined }) },
+        banner: { ...formerBanner, ...banner },
       }
     },
   },
@@ -120,14 +117,13 @@ export const selectConsentData = (state: RootState) => extractConsentDataFromDat
 const mapDataToState = (data: DataProtectionData): Partial<DataProtectionState> => {
   return {
     dataSinks: _.map(data.trackers, ({ type, category, tag_id, purpose, provider }) => {
-      return { type, category, tagId: tag_id, purpose, provider }
+      return { type, category, tagId: tag_id, purpose, provider, initialized: false }
     }),
     banner: {
       backgroundColor: data.banner_background_color ?? ThemeColorType.BackgroundDefault,
       buttonType: data.banner_button_type ?? ThemeButtonType.Default,
       explanationText: data.banner_explanation_text ?? '',
       textType: data.banner_text_type ?? ThemeTextType.StandardText,
-      isOpen: false,
     },
   }
 }

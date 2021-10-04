@@ -9,10 +9,9 @@ import { linkResolver } from '../utils/LinkResolver'
 import { CallToAction } from '../sections/CallToAction'
 import { TextSection } from '../sections/TextSection'
 import { Footer, Header, HeaderData, SEO, SliceData, SliceZone } from '../modules/page'
-import ConsentBanner from '../modules/dataProtection/ConsentBanner'
-import { DataProtectionData } from '../modules/dataProtection/types'
 import { useAppDispatch } from '../state/hooks'
-import { initializeDataProtection } from '../modules/dataProtection/dataProtectionSlice'
+import { DataProtectionData } from '../modules/userDataManagement/types'
+import { initializeDataProtection } from '../modules/userDataManagement/userDataSlice'
 
 interface DynamicPageProps extends UnknownRecord {
   prismicSiteSettings: {
@@ -63,7 +62,6 @@ const DynamicPage: React.ComponentType<gatsby.PageProps<DynamicPageProps> & With
           }}
         />
         <Footer />
-        <ConsentBanner />
       </ThemeWrapper>
     )
   }
