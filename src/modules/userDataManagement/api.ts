@@ -1,7 +1,7 @@
 import { graphql } from 'gatsby'
 
 export const query = graphql`
-    fragment DataProtection on Query {
+    fragment UserDataSettings on Query {
         prismicSiteSettings {
             data {
                 trackers {

@@ -4,10 +4,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import {
   DataProtectionConsentData,
   DataProtectionConsentItem,
-  DataProtectionData,
-  DataProtectionState,
   DataSink,
-  TrackerData,
+  TrackerData, UserDataSettingsData, UserDataSettingsState,
 } from './types'
 import { ThemeButtonType, ThemeColorType, ThemeTextType } from '../../theme'
 import { AppThunk, RootState } from '../../state/store'
@@ -15,7 +13,7 @@ import PagePort from '../../utils/PagePort'
 
 const dataProtectionCookieName = 'pageport_data-protection'
 
-const initialState: DataProtectionState = {
+const initialState: UserDataSettingsState = {
   isInitialized: false,
   dataSinks: [],
   banner: {
@@ -26,11 +24,11 @@ const initialState: DataProtectionState = {
   },
 }
 
-export const dataProtectionSlice = createSlice({
+export const userDataSlice = createSlice({
   name: 'dataProtection',
   initialState,
   reducers: {
-    updateDataProtectionState: (state, action: PayloadAction<Partial<DataProtectionState>>) => {
+    updateDataProtectionState: (state, action: PayloadAction<Partial<UserDataSettingsState>>) => {
       const { dataSinks: formerDataSinks, banner: formerBanner } = state
       const { dataSinks = formerDataSinks, banner = {} } = action.payload
       return {
@@ -42,7 +40,7 @@ export const dataProtectionSlice = createSlice({
   },
 })
 
-const { updateDataProtectionState } = dataProtectionSlice.actions
+const { updateDataProtectionState } = userDataSlice.actions
 
 export const acceptAll = (): AppThunk => (dispatch, getState) => {
   const dataSinks = selectDataSinks(getState())
@@ -72,8 +70,8 @@ export const rejectAll = (): AppThunk => (dispatch, getState) => {
   )
 }
 
-export const initializeDataProtection =
-  (dataProtectionData: DataProtectionData): AppThunk =>
+export const receiveUserDataSettings =
+  (dataProtectionData: UserDataSettingsData): AppThunk =>
   (dispatch) => {
     const { trackers = [] } = dataProtectionData
     // @ts-ignore
@@ -110,11 +108,11 @@ export const updateDataProtectionConsent =
     dispatch(updateDataProtectionState(updatePartial))
   }
 
-export const selectBannerState = (state: RootState) => state.dataProtection.banner
-export const selectDataSinks = (state: RootState) => state.dataProtection.dataSinks
-export const selectConsentData = (state: RootState) => extractConsentDataFromDataSinks(state.dataProtection.dataSinks)
+export const selectConsentBannerSettings = (state: RootState) => state.userDataManagement.banner
+export const selectDataSinks = (state: RootState) => state.userDataManagement.dataSinks
+export const selectConsentData = (state: RootState) => extractConsentDataFromDataSinks(state.userDataManagement.dataSinks)
 
-const mapDataToState = (data: DataProtectionData): Partial<DataProtectionState> => {
+const mapDataToState = (data: UserDataSettingsData): Partial<UserDataSettingsState> => {
   return {
     dataSinks: _.map(data.trackers, ({ type, category, tag_id, purpose, provider }) => {
       return { type, category, tagId: tag_id, purpose, provider, initialized: false }
@@ -130,8 +128,8 @@ const mapDataToState = (data: DataProtectionData): Partial<DataProtectionState> 
 
 const mapConsentDataToState = (
   consentData: DataProtectionConsentData,
-  statePartial: Partial<DataProtectionState>,
-): Partial<DataProtectionState> => {
+  statePartial: Partial<UserDataSettingsState>,
+): Partial<UserDataSettingsState> => {
   if (!statePartial.dataSinks) {
     return {}
   }
@@ -151,4 +149,4 @@ export const extractConsentDataFromDataSinks = (dataSinks: Array<DataSink>): Dat
   return _.map(dataSinks, ({ type, tagId, accepted, category }) => ({ type, tagId, accepted, category }))
 }
 
-export default dataProtectionSlice.reducer
+export default userDataSlice.reducer

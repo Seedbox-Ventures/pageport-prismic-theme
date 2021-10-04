@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { Section } from '../page'
 import { ThemeButtonType, ThemeColorType } from '../../theme'
 import styled from 'styled-components'
-import { Button } from '../basic/Button'
+import Button from '../basic/Button'
 import { DataProtectionConsentData, DataSink, DataSinkCategory } from './types'
 import { RootState } from '../../state/store'
 import {
@@ -11,7 +11,7 @@ import {
   extractConsentDataFromDataSinks,
   selectDataSinks,
   updateDataProtectionConsent,
-} from './dataProtectionSlice'
+} from './userDataSlice'
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit'
 import { connect } from 'react-redux'
 import {

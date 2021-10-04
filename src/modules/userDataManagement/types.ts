@@ -44,7 +44,7 @@ export interface TrackerData {
   tag_id?: string
 }
 
-export interface DataProtectionData {
+export interface UserDataSettingsData {
   trackers?: Array<TrackerData>
   banner_background_color?: ThemeColorType
   banner_button_type?: ThemeButtonType
@@ -52,15 +52,15 @@ export interface DataProtectionData {
   banner_text_type?: ThemeTextType
 }
 
-export interface ConsentBannerState {
+export interface ConsentBannerSettings {
   backgroundColor: ThemeColorType
   buttonType: ThemeButtonType
   explanationText: string
   textType: ThemeTextType
 }
 
-export interface DataProtectionState {
+export interface UserDataSettingsState {
   isInitialized: boolean
   dataSinks: Array<DataSink>
-  banner: ConsentBannerState
+  banner: ConsentBannerSettings
 }

@@ -10,12 +10,13 @@ import { CallToAction } from '../sections/CallToAction'
 import { TextSection } from '../sections/TextSection'
 import { Footer, Header, HeaderData, SEO, SliceData, SliceZone } from '../modules/page'
 import { useAppDispatch } from '../state/hooks'
-import { DataProtectionData } from '../modules/userDataManagement/types'
-import { initializeDataProtection } from '../modules/userDataManagement/userDataSlice'
+import { receiveUserDataSettings } from '../modules/userDataManagement/userDataSlice'
+import { UserDataSettingsData } from '../modules/userDataManagement/types'
+import UserDataManager from '../modules/userDataManagement/UserDataManager'
 
 interface DynamicPageProps extends UnknownRecord {
   prismicSiteSettings: {
-    data: DataProtectionData
+    data: UserDataSettingsData
   }
   prismicTheme: {
     data: ThemeData
@@ -47,7 +48,7 @@ const DynamicPage: React.ComponentType<gatsby.PageProps<DynamicPageProps> & With
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-      dispatch(initializeDataProtection(data.prismicSiteSettings.data))
+      dispatch(receiveUserDataSettings(data.prismicSiteSettings.data))
     })
 
     return (
@@ -62,6 +63,7 @@ const DynamicPage: React.ComponentType<gatsby.PageProps<DynamicPageProps> & With
           }}
         />
         <Footer />
+        <UserDataManager />
       </ThemeWrapper>
     )
   }
@@ -93,7 +95,7 @@ export const query = graphql`
       }
     }
     ...Theme
-    ...DataProtection
+    ...UserDataSettings
   }
 `
 
