@@ -9,8 +9,8 @@ export enum DataSinkCategory {
 
 export enum DataSinkType {
   FacebookPixel = 'Facebook Pixel',
-  GoogleTagManager = 'Google Tag Manager',
   GoogleAnalytics = 'Google Analytics',
+  GoogleTagManager = 'Google Tag Manager',
   Hotjar = 'Hotjar',
   LinkedInInsightTag = 'LinkedIn Insight Tag',
   PageportControl = 'pageport control',
@@ -28,8 +28,8 @@ export interface DataSink {
 }
 
 export type DataProtectionConsentItem = {
-  type: string
-  category: string
+  type: DataSinkType
+  category: DataSinkCategory
   tagId?: string
   accepted?: boolean
 }
