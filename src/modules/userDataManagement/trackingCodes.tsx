@@ -2,7 +2,7 @@ import React from 'react'
 import { DataSinkType } from './types'
 
 export interface TrackerProps {
-  trackingId: string
+  trackingId?: string
 }
 
 const FacebookPixel: React.FC<TrackerProps> = ({ trackingId }) => (

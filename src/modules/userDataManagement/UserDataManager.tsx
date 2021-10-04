@@ -6,6 +6,8 @@ import _ from 'lodash'
 import { ConsentBannerSettings, DataProtectionConsentData, DataSink, DataSinkCategory } from './types'
 import ConsentBanner, { ConsentBannerProps } from './ConsentBanner'
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit'
+import { createPortal } from 'react-dom'
+import trackingCodes from './trackingCodes'
 
 export interface UserDataManagerProps {
   acceptAll: () => void
@@ -16,6 +18,7 @@ export interface UserDataManagerProps {
 }
 
 class UserDataManager extends React.PureComponent<UserDataManagerProps> {
+  headEl: HTMLHeadElement
   scriptTags: Record<string, HTMLAnchorElement> = {}
 
   get consentBannerProps(): ConsentBannerProps {
@@ -29,21 +32,29 @@ class UserDataManager extends React.PureComponent<UserDataManagerProps> {
     return !!_.find(dataSinks, { accepted: undefined })
   }
 
-  componentDidUpdate() {
-    this.setupScriptTags()
+  constructor(props: UserDataManagerProps) {
+    super(props)
+    this.headEl = document.head
   }
 
-  setupScriptTags() {
-    const { consentData } = this.props
-    const initializedTrackerKeys = Object.keys(this.scriptTags)
-    const notInitializedTrackers = _.filter(consentData, ({category, accepted}) => {
-      return accepted && category !== DataSinkCategory.Essential
+  renderTrackerCodes(consentData: DataProtectionConsentData) {
+    return _.map(consentData, ({ category, accepted, type, tagId }) => {
+      if (!accepted || category === DataSinkCategory.Essential) {
+        return null
+      }
+      const TrackingCode = trackingCodes[type]
+      return TrackingCode ? <TrackingCode trackingId={tagId} /> : null
     })
   }
 
   render() {
-    const {} = this.props
-    return <>{this.displayConsentBanner && <ConsentBanner {...this.consentBannerProps} />}</>
+    const { consentData } = this.props
+    return (
+      <>
+        {this.displayConsentBanner && <ConsentBanner {...this.consentBannerProps} />}
+        {createPortal(this.renderTrackerCodes(consentData), this.headEl)}
+      </>
+    )
   }
 }
 
