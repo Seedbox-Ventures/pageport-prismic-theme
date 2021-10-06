@@ -1,23 +1,19 @@
 import React, { useContext } from 'react'
-import { ContainerSpacing, StyleHelper, ThemeColorType, ThemeLinkInteractiveStyle, ThemeTextType } from '../../theme'
-import { LinkProps } from '../basic/Link'
+import { ContainerSpacing, StyleHelper, ThemeColorType, ThemeTextType } from '../../theme'
+import { LinkProps, LinkStyle } from '../basic/Link'
 import { useAppDispatch, useAppSelector } from '../../state/hooks'
 import { closeMenu, openMenu, selectIsOpen, toggleMenu } from './burgerMenuSlice'
 import { Overlay } from '../overlay/Overlay'
 import { Navigation, NavigationProps } from '../basic/Navigation'
 import { BurgerMenuTrigger } from './BurgerMenuTrigger'
 import styled, { ThemeContext } from 'styled-components'
-import { Orientation } from '../page/Header'
+import { Orientation } from '../page'
 
 export interface BurgerMenuProps {
   links: Array<LinkProps>
   iconColor?: ThemeColorType
   textType?: ThemeTextType
-  linkColor?: ThemeColorType
-  linkActiveStyle?: ThemeLinkInteractiveStyle
-  linkActiveColor?: ThemeColorType
-  linkHoverStyle?: ThemeLinkInteractiveStyle
-  linkHoverColor?: ThemeColorType
+  linkStyle?: LinkStyle
   containerPadding?: Partial<ContainerSpacing>
   backgroundColor?: ThemeColorType
   orientation?: Orientation
@@ -46,11 +42,8 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = function ({
   links,
   iconColor = ThemeColorType.DarkText,
   textType = ThemeTextType.Header,
-  linkColor = ThemeColorType.DarkText,
-  linkActiveStyle = ThemeLinkInteractiveStyle.ChangeColor,
-  linkActiveColor = ThemeColorType.Accent,
-  linkHoverStyle = ThemeLinkInteractiveStyle.ChangeColor,
-  linkHoverColor = ThemeColorType.Accent,
+
+  linkStyle,
   containerPadding,
   backgroundColor = ThemeColorType.BackgroundDefault,
   orientation = Orientation.Left,
@@ -68,11 +61,7 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = function ({
   const navigationProps: NavigationProps = {
     items: links,
     textType,
-    linkColor,
-    linkActiveStyle,
-    linkActiveColor,
-    linkHoverStyle,
-    linkHoverColor,
+    linkStyle,
     onItemClick: closingFunc,
   }
 

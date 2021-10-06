@@ -127,6 +127,15 @@
         "label": "Link Color"
       }
     },
+    "link_underline": {
+      "type": "Boolean",
+      "config": {
+        "placeholder_false": "not underlined",
+        "placeholder_true": "underlined",
+        "default_value": false,
+        "label": "Underline Links"
+      }
+    },
     "link_active_style": {
       "type": "Select",
       "config": {

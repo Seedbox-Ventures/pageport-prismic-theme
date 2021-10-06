@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Link as GatsbyLink } from 'gatsby'
 import styled from 'styled-components'
+import { ThemeColorType, ThemeLinkInteractiveStyle } from '../../theme'
 
 export enum LinkTarget {
   Self = '_self',
@@ -9,7 +10,17 @@ export enum LinkTarget {
   Top = '_top',
 }
 
-export interface LinkProps {
+
+export interface LinkStyle {
+  color?: ThemeColorType
+  underline?: boolean
+  activeStyle?: ThemeLinkInteractiveStyle
+  activeColor?: ThemeColorType
+  hoverStyle?: ThemeLinkInteractiveStyle
+  hoverColor?: ThemeColorType
+}
+
+export interface LinkProps extends LinkStyle {
   internal?: boolean
   url?: string
   target?: LinkTarget
@@ -25,6 +36,7 @@ const StyledLink = styled.div<{
 `
 
 const Link: React.FC<LinkProps> = ({ url, target, internal, onClick, children }) => {
+
   if (internal && url) {
     return (
       <StyledLink as={GatsbyLink} to={url} target={target} onClick={onClick}>

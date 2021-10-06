@@ -14,6 +14,7 @@ import {
 } from './types'
 import { StyleHelper, StyleObject } from './Style'
 import { DataHelper } from '../utils/Prismic'
+import { LinkStyle } from '../modules/basic/Link'
 
 const tinycolor = require('tinycolor2')
 
@@ -104,27 +105,30 @@ export class Theme implements DefaultTheme {
     return StyleHelper.renderCssFromObject(this.getTypeStyleObject(themeType))
   }
 
-  renderLinkCss = (
-    linkColor: ThemeColorType = ThemeColorType.DarkText,
-    linkActiveStyle: ThemeLinkInteractiveStyle = ThemeLinkInteractiveStyle.ChangeColor,
-    linkActiveColor: ThemeColorType = ThemeColorType.Accent,
-    linkHoverStyle: ThemeLinkInteractiveStyle = ThemeLinkInteractiveStyle.ChangeColor,
-    linkHoverColor: ThemeColorType = ThemeColorType.Accent,
-  ): string => {
+  renderLinkCss = ({
+    color = ThemeColorType.DarkText,
+    underline = true,
+    activeStyle = ThemeLinkInteractiveStyle.Underline,
+    activeColor = ThemeColorType.DarkText,
+    hoverStyle = ThemeLinkInteractiveStyle.Underline,
+    hoverColor = ThemeColorType.DarkText,
+  }: LinkStyle = {}): string => {
     return `
-      color: ${this.getColorValueByType(linkColor)};
+      color: ${this.getColorValueByType(color)};
+      text-decoration: ${underline ? 'underline' : 'none'};
       
       &:active, &[aria-current=page] {
-        ${this.renderLinkInteractionCSS(linkActiveStyle, linkActiveColor, linkColor)}
+        ${this.renderLinkInteractionCSS(underline, activeStyle, activeColor, color)}
       }
       
       &:hover, &:focus {
-        ${this.renderLinkInteractionCSS(linkHoverStyle, linkHoverColor, linkColor)}
+        ${this.renderLinkInteractionCSS(underline, hoverStyle, hoverColor, color)}
       }
     `
   }
 
   renderLinkInteractionCSS = (
+    isUnderlined: boolean,
     linkInteractionStyle: ThemeLinkInteractiveStyle,
     linkInteractionColor: ThemeColorType,
     linkBaseColor: ThemeColorType,
@@ -138,7 +142,7 @@ export class Theme implements DefaultTheme {
         return `color: ${StyleHelper.lightenDarken(this.getColorValueByType(linkBaseColor), 20)};`
       case ThemeLinkInteractiveStyle.Underline:
       default:
-        return `text-decoration: underline;`
+        return `text-decoration: ${isUnderlined ? 'none' : 'underline'};`
     }
   }
 
