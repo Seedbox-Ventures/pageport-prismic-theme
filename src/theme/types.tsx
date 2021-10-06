@@ -1,5 +1,6 @@
 import * as CSS from 'csstype'
 import { FilledLinkToWebField } from '@prismicio/types'
+import { LinkStyle } from '../modules/basic/Link'
 
 export enum ThemeColorType {
   Primary = 'Primary',
@@ -172,12 +173,6 @@ export interface ThemeInterface {
   getStandardType: () => ThemeTypeStyle
   renderTextTypeCss: (themeTextType?: ThemeTextType) => string
   renderTypeCss: (themeTextType: ThemeTypeStyle) => string
-  renderLinkCss: (
-    linkColor?: ThemeColorType,
-    linkActiveStyle?: ThemeLinkInteractiveStyle,
-    linkActiveColor?: ThemeColorType,
-    linkHoverStyle?: ThemeLinkInteractiveStyle,
-    linkHoverColor?: ThemeColorType,
-  ) => string
+  renderLinkCss: (linkStyle?: LinkStyle) => string
   getButtonConfigByType: (buttonType: ThemeButtonType) => ThemeButtonConfig
 }

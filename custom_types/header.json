@@ -84,7 +84,13 @@
     "burger_menu_breakpoint": {
       "type": "Select",
       "config": {
-        "options": ["Never", "Phone", "Tablet", "Laptop", "Desktop"],
+        "options": [
+          "Never",
+          "Phone",
+          "Tablet",
+          "Laptop",
+          "Desktop"
+        ],
         "default_value": "Never",
         "label": "Burger Menu"
       }
@@ -127,10 +133,24 @@
         "label": "Link Color"
       }
     },
+    "link_underline": {
+      "type": "Boolean",
+      "config": {
+        "placeholder_false": "not underlined",
+        "placeholder_true": "underlined",
+        "default_value": false,
+        "label": "Underline Links"
+      }
+    },
     "link_active_style": {
       "type": "Select",
       "config": {
-        "options": ["Change Color", "Darken / Lighten", "Underline", "None"],
+        "options": [
+          "Change Color",
+          "Darken / Lighten",
+          "Underline",
+          "None"
+        ],
         "default_value": "Change Color",
         "label": "Link Active Style"
       }
@@ -157,7 +177,12 @@
     "link_hover_style": {
       "type": "Select",
       "config": {
-        "options": ["Change Color", "Darken / Lighten", "Underline", "None"],
+        "options": [
+          "Change Color",
+          "Darken / Lighten",
+          "Underline",
+          "None"
+        ],
         "default_value": "Change Color",
         "label": "Link Hover Style"
       }
@@ -225,7 +250,17 @@
     "cta_button_type": {
       "type": "Select",
       "config": {
-        "options": ["Default", "Primary", "Secondary", "Submit", "Cancel", "Info", "Success", "Warn", "Danger"],
+        "options": [
+          "Default",
+          "Primary",
+          "Secondary",
+          "Submit",
+          "Cancel",
+          "Info",
+          "Success",
+          "Warn",
+          "Danger"
+        ],
         "default_value": "Default",
         "label": "Button Type"
       }
