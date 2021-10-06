@@ -1,19 +1,15 @@
 import * as React from 'react'
 import _ from 'lodash'
-import { StyleHelper, StyleObject, ThemeColorType, ThemeLinkInteractiveStyle, ThemeTextType } from '../../theme'
-import { Link, LinkProps } from './Link'
+import { StyleHelper, StyleObject, ThemeTextType } from '../../theme'
+import Link, { LinkProps, LinkStyle } from './Link'
 import styled from 'styled-components'
 
 interface StyledNavigationProps {
   align?: 'vertical' | 'horizontal'
   itemPadding?: string
   textType?: ThemeTextType
-  linkColor?: ThemeColorType
-  linkActiveStyle?: ThemeLinkInteractiveStyle
-  linkActiveColor?: ThemeColorType
-  linkHoverStyle?: ThemeLinkInteractiveStyle
-  linkHoverColor?: ThemeColorType
   customCss?: StyleObject
+  linkStyle?: LinkStyle
 }
 
 export interface NavigationProps extends StyledNavigationProps {
@@ -21,18 +17,7 @@ export interface NavigationProps extends StyledNavigationProps {
 }
 
 export const StyledNavigation = styled.nav<StyledNavigationProps>(
-  ({
-    textType,
-    linkColor,
-    linkActiveStyle,
-    linkActiveColor,
-    linkHoverStyle,
-    linkHoverColor,
-    align = 'vertical',
-    itemPadding = '0 1rem',
-    customCss = {},
-    theme,
-  }) => {
+  ({ align = 'vertical', itemPadding = '0 1rem', customCss = {}, linkStyle, textType, theme }) => {
     return `
       ${StyleHelper.renderCssFromObject(
         _.merge(
@@ -48,7 +33,7 @@ export const StyledNavigation = styled.nav<StyledNavigationProps>(
       a {
         display: inline-block;
         line-height: 1.5em;
-        ${theme.renderLinkCss(linkColor, linkActiveStyle, linkActiveColor, linkHoverStyle, linkHoverColor)}
+        ${theme.renderLinkCss(linkStyle)}
         ${StyleHelper.renderCssFromObject({ padding: itemPadding })}
       }
       
@@ -64,11 +49,7 @@ export const Navigation: React.FC<NavigationProps> = ({
   items,
   align,
   customCss,
-  linkColor,
-  linkActiveColor,
-  linkActiveStyle,
-  linkHoverColor,
-  linkHoverStyle,
+  linkStyle,
   textType,
 }: NavigationProps) => {
   return (
@@ -76,11 +57,7 @@ export const Navigation: React.FC<NavigationProps> = ({
       {...{
         align,
         textType,
-        linkColor,
-        linkActiveStyle,
-        linkActiveColor,
-        linkHoverStyle,
-        linkHoverColor,
+        linkStyle,
         customCss,
       }}
     >

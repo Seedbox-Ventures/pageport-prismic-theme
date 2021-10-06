@@ -15,7 +15,7 @@ import { Section } from './Section'
 import { DataComponent } from './types'
 import { getImage, ImageDataLike } from 'gatsby-plugin-image'
 import { DataHelper, PrismicLinkData } from '../../utils/Prismic'
-import { LinkProps } from '../basic/Link'
+import { LinkProps, LinkStyle } from '../basic/Link'
 import { Logo, LogoProps } from '../basic/Logo'
 import PagePort from '../../utils/PagePort'
 import { Navigation, NavigationProps } from '../basic/Navigation'
@@ -43,6 +43,7 @@ export interface HeaderData {
   logo: LogoData
   link_text_type: ThemeTextType
   link_color: ThemeColorType
+  link_underline: boolean
   link_active_color: ThemeColorType
   link_active_style: ThemeLinkInteractiveStyle
   link_hover_color: ThemeColorType
@@ -70,11 +71,7 @@ export interface HeaderProps {
   padding?: Partial<ContainerSpacing>
   links?: Array<LinkProps>
   linkTextType: ThemeTextType
-  linkColor: ThemeColorType
-  linkActiveColor: ThemeColorType
-  linkActiveStyle: ThemeLinkInteractiveStyle
-  linkHoverColor: ThemeColorType
-  linkHoverStyle: ThemeLinkInteractiveStyle
+  linkStyle: LinkStyle
   ctaDisplay: boolean
   ctaText?: string
   ctaButtonType?: ThemeButtonType
@@ -92,11 +89,7 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
   logoPosition = Orientation.Left,
   links = [],
   linkTextType,
-  linkColor,
-  linkActiveStyle,
-  linkActiveColor,
-  linkHoverStyle,
-  linkHoverColor,
+  linkStyle,
   ctaDisplay,
   ctaText,
   ctaButtonType,
@@ -105,21 +98,14 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
   const navigationPropsPartial = {
     items: links,
     textType: linkTextType,
-    linkColor,
-    linkActiveStyle,
-    linkActiveColor,
-    linkHoverStyle,
-    linkHoverColor,
+    linkStyle,
   }
+  const { color: linkColor } = linkStyle
 
   const burgerMenuProps = {
     links,
     textType: linkTextType,
-    linkColor,
-    linkActiveColor,
-    linkHoverColor,
-    linkHoverStyle,
-    linkActiveStyle,
+    linkStyle,
     iconColor: linkColor,
     overlayPadding: padding,
     overlayBackgroundColor: backgroundColor,
@@ -178,6 +164,7 @@ Header.mapDataToProps = (headerData) => {
     is_sticky,
     links,
     link_text_type = ThemeTextType.Header,
+    link_underline = false,
     link_color = ThemeColorType.DarkText,
     link_active_style = ThemeLinkInteractiveStyle.ChangeColor,
     link_active_color = ThemeColorType.Accent,
@@ -196,11 +183,14 @@ Header.mapDataToProps = (headerData) => {
     padding: { top: padding_top ?? '1rem', bottom: padding_bottom ?? '1rem' },
     isSticky: is_sticky,
     linkTextType: link_text_type,
-    linkColor: link_color,
-    linkActiveStyle: link_active_style,
-    linkActiveColor: link_active_color,
-    linkHoverStyle: link_hover_style,
-    linkHoverColor: link_hover_color,
+    linkStyle: {
+      underline: link_underline,
+      color: link_color,
+      activeStyle: link_active_style,
+      activeColor: link_active_color,
+      hoverStyle: link_hover_style,
+      hoverColor: link_hover_color,
+    },
     links:
       links && links.length
         ? _.compact(
@@ -390,6 +380,7 @@ export const query = graphql`
       }
       link_text_type
       link_color
+      link_underline
       link_active_color
       link_active_style
       link_hover_color

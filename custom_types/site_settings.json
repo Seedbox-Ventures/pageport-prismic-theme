@@ -15,24 +15,14 @@
           "tracking_type": {
             "type": "Select",
             "config": {
-              "options": [
-                "Facebook Pixel",
-                "Google Analytics",
-                "Google Tag Manager",
-                "Hotjar",
-                "LinkedIn Insight Tag"
-              ],
+              "options": ["Facebook Pixel", "Google Analytics", "Google Tag Manager", "Hotjar", "LinkedIn Insight Tag"],
               "label": "Tracking Type"
             }
           },
           "tracking_category": {
             "type": "Select",
             "config": {
-              "options": [
-                "Essential",
-                "Marketing",
-                "Statistics"
-              ],
+              "options": ["Essential", "Marketing", "Statistics"],
               "label": "Tracking Category"
             }
           },
