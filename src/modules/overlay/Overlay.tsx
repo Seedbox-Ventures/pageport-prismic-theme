@@ -1,7 +1,7 @@
 import './overlay.scss'
 import React, { Fragment, ReactNode } from 'react'
 import { createPortal } from 'react-dom'
-import { OverlayConsumer, OverlayContext, OverlayProvider } from './OverlayContext'
+import OverlayProvider, { OverlayConsumer, OverlayContext} from './OverlayContext'
 import styled from 'styled-components'
 
 type OverlayAnchorRenderer = (overlayContext: OverlayContext) => ReactNode

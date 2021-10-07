@@ -5,7 +5,7 @@ import { StyleHelper } from '../../theme'
 import styled from 'styled-components'
 import _ from 'lodash'
 
-interface ImageProps {
+export interface ImageProps {
   alt: string
   width: string
   image: IGatsbyImageData

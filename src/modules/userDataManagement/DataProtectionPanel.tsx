@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import _ from 'lodash'
-import { Section } from '../page'
 import { ThemeButtonType, ThemeColorType } from '../../theme'
 import styled from 'styled-components'
 import Button from '../basic/Button'
@@ -25,6 +24,7 @@ import {
   TableContainer,
   TableRow,
 } from '@mui/material'
+import Section from '../page/Section'
 
 export interface DataProtectionSettingsProps {
   acceptAllFunc: () => void
