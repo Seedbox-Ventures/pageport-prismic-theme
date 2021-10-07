@@ -52,69 +52,78 @@
       "config": {
         "labels": {},
         "choices": {
-          "hero": {
-            "type": "Slice",
-            "fieldset": "Hero",
-            "description": "Hero Section",
-            "icon": "aspect_ratio",
-            "display": "grid",
-            "non-repeat": {
-              "title": {
-                "type": "StructuredText",
-                "config": {
-                  "single": "heading1",
-                  "label": "Title",
-                  "placeholder": "Title"
-                }
-              },
-              "subtitle": {
-                "type": "StructuredText",
-                "config": {
-                  "single": "heading1,heading2,heading3,heading4,heading5,heading6",
-                  "label": "Subtitle",
-                  "placeholder": "Sub Title"
-                }
-              },
-              "hero_background_image": {
-                "type": "Image",
-                "config": {
-                  "constraint": {
-                    "width": 1920,
-                    "height": 1080
-                  },
-                  "thumbnails": [],
-                  "label": "Hero Background Image"
-                }
-              }
-            },
-            "repeat": {}
-          },
-          "features": {
-            "type": "Slice",
-            "fieldset": "Features",
-            "description": "Feature Section",
-            "icon": "content_copy",
-            "display": "grid",
-            "non-repeat": {},
-            "repeat": {}
-          },
-          "pricing": {
-            "type": "Slice",
-            "fieldset": "Pricing",
-            "description": "Pricing Section",
-            "icon": "attach_money",
-            "display": "grid",
-            "non-repeat": {},
-            "repeat": {}
-          },
           "contact": {
             "type": "Slice",
             "fieldset": "Contact",
             "description": "Contact Section",
             "icon": "contact_mail",
             "display": "grid",
-            "non-repeat": {},
-            "repeat": {}
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "single": "heading1,heading2,heading3,heading4,heading5,heading6",
+                  "label": "title",
+                  "placeholder": "Title"
+                }
+              },
+              "text": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,list-item,o-list-item,rtl",
+                  "allowTargetBlank": true,
+                  "label": "Text"
+                }
+              },
+              "contact_name": {
+                "type": "Text",
+                "config": {
+                  "label": "Contact Name"
+                }
+              },
+              "contact_image": {
+                "type": "Image",
+                "config": {
+                  "constraint": {},
+                  "thumbnails": [],
+                  "label": "Contact Image"
+                }
+              },
+              "logo": {
+                "type": "Image",
+                "config": {
+                  "constraint": {},
+                  "thumbnails": [],
+                  "label": "Logo"
+                }
+              },
+              "background_color": {
+                "type": "Select",
+                "config": {
+                  "options": ["Background Default", "Background Alternative", "Background Emphasize"],
+                  "default_value": "Background Default",
+                  "label": "Background Color"
+                }
+              }
+            },
+            "repeat": {
+              "contact_type": {
+                "type": "Select",
+                "config": {
+                  "options": ["E-Mail", "Facebook", "Instagram", "LinkedIn"],
+                  "default_value": "E-Mail",
+                  "label": "Contact Type"
+                }
+              },
+              "contact_link": {
+                "type": "Link",
+                "config": {
+                  "allowTargetBlank": true,
+                  "label": "Contact Link",
+                  "select": null
+                }
+              }
+            }
           },
           "testimonials": {
             "type": "Slice",
