@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { DataSink } from './types'
 import { StyleHelper, ThemeButtonType, ThemeColorType, ThemeTextType } from '../../theme'
-import { Overlay } from '../overlay/Overlay'
 import Link from '../basic/Link'
 import Button from '../basic/Button'
-import { Section } from '../page'
 import DataProtectionPanel from './DataProtectionPanel'
+import Section from '../page/Section'
+import Overlay from '../overlay/Overlay'
 
 const StyledConsentBanner = styled.div<{ textType?: ThemeTextType }>(({ textType, theme }) => {
   return `

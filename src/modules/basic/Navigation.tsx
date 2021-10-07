@@ -46,7 +46,7 @@ export const StyledNavigation = styled.nav<StyledNavigationProps>(
   },
 )
 
-export const Navigation: React.FC<NavigationProps> = ({
+const Navigation: React.FC<NavigationProps> = ({
   items,
   align,
   customCss,
@@ -67,6 +67,8 @@ export const Navigation: React.FC<NavigationProps> = ({
     </StyledNavigation>
   )
 }
+
+export default Navigation
 
 function renderNavigationItems(items: Array<LinkProps>, onItemClick?: () => void): Array<React.ReactElement> {
   return _.map(items, ({ internal, url, children }, index) => {

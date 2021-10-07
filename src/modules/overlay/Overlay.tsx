@@ -28,7 +28,7 @@ const StyledBackdrop = styled.div<{
 `,
 )
 
-export class Overlay extends React.PureComponent<OverlayProps> {
+export default class Overlay extends React.PureComponent<OverlayProps> {
   static _root: HTMLElement
 
   componentDidMount() {

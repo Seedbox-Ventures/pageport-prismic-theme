@@ -84,12 +84,7 @@ const StyledBurgerMenuTrigger = styled.button<StyledBurgerMenuTriggerProps>(
   },
 )
 
-export const BurgerMenuTrigger: React.FC<BurgerMenuTriggerProps> = ({
-  isOpen = false,
-  onClick,
-  iconColor,
-  customCss,
-}) => (
+const BurgerMenuTrigger: React.FC<BurgerMenuTriggerProps> = ({ isOpen = false, onClick, iconColor, customCss }) => (
   <StyledBurgerMenuTrigger
     className={isOpen ? 'open' : ''}
     onClick={onClick}
@@ -102,3 +97,5 @@ export const BurgerMenuTrigger: React.FC<BurgerMenuTriggerProps> = ({
     <span />
   </StyledBurgerMenuTrigger>
 )
+
+export default BurgerMenuTrigger

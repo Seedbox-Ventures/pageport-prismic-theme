@@ -6,13 +6,17 @@ import { UnknownRecord, withPrismicPreview } from 'gatsby-plugin-prismic-preview
 import { WithPrismicPreviewProps } from 'gatsby-plugin-prismic-previews/src/withPrismicPreview'
 import { Theme, ThemeData, ThemeWrapper } from '../theme'
 import { linkResolver } from '../utils/LinkResolver'
-import { CallToAction } from '../sections/CallToAction'
-import { TextSection } from '../sections/TextSection'
-import { Footer, Header, HeaderData, SEO, SliceData, SliceZone } from '../modules/page'
 import { useAppDispatch } from '../state/hooks'
 import { receiveUserDataSettings } from '../modules/userDataManagement/userDataSlice'
 import { UserDataSettingsData } from '../modules/userDataManagement/types'
 import UserDataManager from '../modules/userDataManagement/UserDataManager'
+import ContactSection from '../sections/ContactSection'
+import SliceZone, { SliceData } from '../modules/page/SliceZone'
+import SEO from '../modules/page/Seo'
+import Footer from '../modules/page/Footer'
+import CallToAction from '../sections/CallToAction'
+import Header, { HeaderData } from '../modules/page/Header'
+import TextSection from '../sections/TextSection'
 
 interface DynamicPageProps extends UnknownRecord {
   prismicSiteSettings: {
@@ -82,10 +86,8 @@ export const query = graphql`
           ... on PrismicSliceType {
             slice_type
           }
+          ...PageDynamicDataBodyContact
           ...PageDynamicDataBodyText
-          ... on PrismicPageDynamicDataBodyCallToAction {
-            id
-          }
         }
         header_ref {
           document {

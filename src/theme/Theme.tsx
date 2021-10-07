@@ -13,7 +13,7 @@ import {
   ThemeTypeStyle,
 } from './types'
 import { StyleHelper, StyleObject } from './Style'
-import { DataHelper } from '../utils/Prismic'
+import { PrismicHelper } from '../utils/Prismic'
 import { LinkStyle } from '../modules/basic/Link'
 
 const tinycolor = require('tinycolor2')
@@ -26,7 +26,7 @@ export class Theme implements DefaultTheme {
   }
 
   static mapDataToProps = (themeData: ThemeData): ThemeProps => {
-    return _.omitBy(DataHelper.objectKeysToCamelCase(themeData), _.isEmpty) as ThemeProps
+    return _.omitBy(PrismicHelper.objectKeysToCamelCase(themeData), _.isEmpty) as ThemeProps
   }
 
   getColorValueByType = (colorType: ThemeColorType): `#${string}` => {

@@ -15,7 +15,7 @@ const initialState: OverlayContext = {
 
 export const { Provider, Consumer: OverlayConsumer } = createContext<OverlayContext>(initialState)
 
-export class OverlayProvider extends Component<OverlayProps, OverlayContext> {
+export default class OverlayProvider extends Component<OverlayProps, OverlayContext> {
   close: () => void
   open: () => void
   state = { ...initialState }

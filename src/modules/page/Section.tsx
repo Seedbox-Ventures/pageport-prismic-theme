@@ -55,7 +55,7 @@ const ContentContainer = styled.div<{
   return StyleHelper.renderCssFromObject(styleObj)
 })
 
-export const Section: React.FC<SectionProps> = ({
+const Section: React.FC<SectionProps> = ({
   backgroundColor,
   isFullWidth = false,
   padding,
@@ -85,3 +85,5 @@ export const Section: React.FC<SectionProps> = ({
     </StyledSection>
   )
 }
+
+export default Section
