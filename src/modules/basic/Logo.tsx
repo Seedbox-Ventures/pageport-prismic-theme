@@ -1,5 +1,5 @@
 import { IGatsbyImageData } from 'gatsby-plugin-image/dist/src/components/gatsby-image.browser'
-import { Link, LinkProps } from './Link'
+import Link, { LinkProps } from './Link'
 import * as React from 'react'
 import { PPGatsbyImage } from './Image'
 

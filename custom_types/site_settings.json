@@ -7,56 +7,110 @@
       }
     }
   },
-  "Tracking": {
+  "Consent Banner & Data Protection": {
+    "banner_explanation_text": {
+      "type": "Text",
+      "config": {
+        "label": "Explanation Text"
+      }
+    },
+    "banner_text_type": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Standard Text",
+          "Page Title",
+          "Section Title",
+          "Sub Title",
+          "Small Title",
+          "Small Text",
+          "Big Text",
+          "Footnote",
+          "Header",
+          "Footer",
+          "Button"
+        ],
+        "default_value": "Standard Text",
+        "label": "Text Type"
+      }
+    },
+    "banner_button_type": {
+      "type": "Select",
+      "config": {
+        "options": ["Default", "Primary", "Secondary", "Submit", "Cancel", "Info", "Success", "Warn", "Danger"],
+        "default_value": "Default",
+        "label": "Button Type"
+      }
+    },
+    "banner_background_color": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Primary",
+          "Accent",
+          "Info",
+          "Warn",
+          "Danger",
+          "Success",
+          "Light Text",
+          "Dark Text",
+          "Background Default",
+          "Background Alternative",
+          "Background Emphasize"
+        ],
+        "default_value": "Primary",
+        "label": "Background Color"
+      }
+    },
     "trackers": {
       "type": "Group",
       "config": {
         "fields": {
-          "tracking_type": {
+          "type": {
             "type": "Select",
             "config": {
-              "options": ["Facebook Pixel", "Google Analytics", "Google Tag Manager", "Hotjar", "LinkedIn Insight Tag"],
+              "options": [
+                "Facebook Pixel",
+                "Google Tag Manager",
+                "Google Analytics",
+                "Hotjar",
+                "LinkedIn Insight Tag",
+                "VWO"
+              ],
               "label": "Tracking Type"
             }
           },
-          "tracking_category": {
+          "category": {
             "type": "Select",
             "config": {
               "options": ["Essential", "Marketing", "Statistics"],
               "label": "Tracking Category"
             }
           },
-          "tracking_tag_id": {
+          "tag_id": {
             "type": "Text",
             "config": {
               "label": "Tracking Tag Id",
               "placeholder": "Google Mess ID, Facebook Pixel . . ."
             }
           },
-          "tracking_provider": {
+          "provider": {
             "type": "Text",
             "config": {
               "label": "Tracking Provider"
             }
           },
-          "tracking_gdpr_link": {
+          "gdpr_link": {
             "type": "Link",
             "config": {
               "label": "Tracking GDPR Link",
               "select": null
             }
           },
-          "tracker_purpose": {
+          "purpose": {
             "type": "Text",
             "config": {
               "label": "Tracking Purpose"
-            }
-          },
-          "tracking_code": {
-            "type": "StructuredText",
-            "config": {
-              "multi": "embed",
-              "label": "Tracking Code"
             }
           }
         },

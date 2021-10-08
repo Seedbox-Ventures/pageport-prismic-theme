@@ -24,21 +24,8 @@ export class OverlayProvider extends Component<OverlayProps, OverlayContext> {
     super(props)
     const { open, close } = props
 
-    this.close =
-      close ??
-      (() => {
-        if (this.props.isOpen === undefined) {
-          this.setState({ isOpen: false })
-        }
-      })
-
-    this.open =
-      open ??
-      (() => {
-        if (this.props.isOpen === undefined) {
-          this.setState({ isOpen: true })
-        }
-      })
+    this.close = close ?? (() => {})
+    this.open = open ?? (() => {})
 
     this.state = {
       close: this.close,

@@ -12,6 +12,7 @@ export default {
   },
   plugins: [
     'gatsby-plugin-ts-config',
+    'gatsby-plugin-sass',
     {
       resolve: 'gatsby-plugin-prismic-previews',
       options: {

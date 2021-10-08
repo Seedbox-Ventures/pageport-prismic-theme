@@ -37,6 +37,30 @@ export class StyleHelper {
     return PagePort.config.breakpoints[breakPointName]
   }
 
+  static paddingToString = (padding: ContainerSpacing): string => {
+    return StyleHelper.spacingToString(padding)
+  }
+
+  static marginToString = (margin: ContainerSpacing): string => {
+    return StyleHelper.spacingToString(margin)
+  }
+
+  static spacingToString = (spacing: ContainerSpacing): string => {
+    if (!spacing || spacing === '') {
+      return '0'
+    }
+    if (typeof spacing === 'string') {
+      return spacing
+    }
+    if (typeof spacing === 'number') {
+      return spacing.toString()
+    }
+    if (typeof spacing === 'object') {
+      return StyleHelper.spacingObjectToString(spacing)
+    }
+    return '0'
+  }
+
   static mergePaddings = (...paddings: Array<Partial<ContainerSpacing> | undefined>): string => {
     return StyleHelper.mergeContainerSpacings(...paddings)
   }
@@ -82,7 +106,7 @@ export class StyleHelper {
     let _lastMergedSpacings: SpacingObject = { top: '0', right: '0', bottom: '0', left: '0' }
     _.each(breakPoints, ({ name: breakPointName }) => {
       _lastMergedSpacings = _.merge(_lastMergedSpacings, ..._.map(breakPointSpacings, breakPointName))
-      mergedBreakPointSpacings.push(StyleHelper.SpacingObjectToString(_lastMergedSpacings))
+      mergedBreakPointSpacings.push(StyleHelper.spacingObjectToString(_lastMergedSpacings))
     })
 
     while (
@@ -98,7 +122,7 @@ export class StyleHelper {
     return mergedBreakPointSpacings.join('|')
   }
 
-  static SpacingObjectToString = (spacingObject: SpacingObject): string => {
+  static spacingObjectToString = (spacingObject: SpacingObject): string => {
     if (spacingObject.left !== spacingObject.right) {
       return `${spacingObject.top} ${spacingObject.right} ${spacingObject.bottom} ${spacingObject.left}`
     }

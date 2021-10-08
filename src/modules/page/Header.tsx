@@ -20,7 +20,7 @@ import { Logo, LogoProps } from '../basic/Logo'
 import PagePort from '../../utils/PagePort'
 import { Navigation, NavigationProps } from '../basic/Navigation'
 import styled from 'styled-components'
-import { Button } from '../basic/Button'
+import { ButtonLink } from '../basic/Button'
 import { BurgerMenu, BurgerMenuProps } from '../burgerMenu/BurgerMenu'
 import { graphql } from 'gatsby'
 
@@ -107,8 +107,8 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
     textType: linkTextType,
     linkStyle,
     iconColor: linkColor,
-    overlayPadding: padding,
-    overlayBackgroundColor: backgroundColor,
+    containerPadding: padding,
+    backgroundColor: backgroundColor,
     orientation: logoPosition,
   }
 
@@ -290,9 +290,9 @@ function renderCTA(
 
   return (
     <StyledCTAContainer breakPoint={breakPoint}>
-      <Button internal={link.internal} url={link.url} type={buttonType}>
+      <ButtonLink internal={link.internal} url={link.url} type={buttonType}>
         {text}
-      </Button>
+      </ButtonLink>
     </StyledCTAContainer>
   )
 }
@@ -320,13 +320,13 @@ function renderBurgerMenu(
   breakPoint: BreakPointName | 'Never',
   overlayLogo?: LogoProps,
 ): React.ReactFragment | null {
-  const { links, orientation, overlayPadding } = burgerMenuProps
+  const { links, orientation, containerPadding } = burgerMenuProps
   if (!links || links.length === 0 || breakPoint === 'Never') {
     return null
   }
 
   const displayAttributeParts: Array<string> = []
-  const paddingObj = StyleHelper.spacingToObject(overlayPadding) ?? StyleHelper.spacingStringToObject('1rem')
+  const paddingObj = StyleHelper.spacingToObject(containerPadding) ?? StyleHelper.spacingStringToObject('1rem')
 
   if (breakPoint === BreakPointName.Desktop) {
     displayAttributeParts.push('flex')

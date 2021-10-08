@@ -3,10 +3,10 @@ import { ContainerSpacing, StyleHelper, ThemeColorType, ThemeTextType } from '..
 import { LinkProps, LinkStyle } from '../basic/Link'
 import { useAppDispatch, useAppSelector } from '../../state/hooks'
 import { closeMenu, openMenu, selectIsOpen, toggleMenu } from './burgerMenuSlice'
-import { Overlay, StyledOverlayContainer } from '../overlay/Overlay'
+import { Overlay } from '../overlay/Overlay'
 import { Navigation, NavigationProps } from '../basic/Navigation'
 import { BurgerMenuTrigger } from './BurgerMenuTrigger'
-import { ThemeContext } from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
 import { Orientation } from '../page'
 
 export interface BurgerMenuProps {
@@ -14,44 +14,67 @@ export interface BurgerMenuProps {
   iconColor?: ThemeColorType
   textType?: ThemeTextType
   linkStyle?: LinkStyle
-  overlayPadding?: Partial<ContainerSpacing>
-  overlayBackgroundColor?: ThemeColorType
+  containerPadding?: Partial<ContainerSpacing>
+  backgroundColor?: ThemeColorType
   orientation?: Orientation
 }
+
+const StyledContentContainer = styled.div<{
+  backgroundColor: ThemeColorType
+  padding?: ContainerSpacing
+}>(({ backgroundColor, padding, theme }) => {
+  return StyleHelper.renderCssFromObject({
+    position: 'fixed',
+    display: 'flex',
+    'flex-direction': 'column',
+    'justify-content': 'center',
+    top: '0',
+    left: '0',
+    width: '100vw',
+    height: '100vh',
+    background: theme.getColorValueByType(backgroundColor),
+    padding: padding ? StyleHelper.paddingToString(padding) : 0,
+    'box-sizing': 'border-box',
+  })
+})
 
 export const BurgerMenu: React.FC<BurgerMenuProps> = function ({
   links,
   iconColor = ThemeColorType.DarkText,
   textType = ThemeTextType.Header,
+
   linkStyle,
-  overlayPadding,
-  overlayBackgroundColor = ThemeColorType.BackgroundDefault,
+  containerPadding,
+  backgroundColor = ThemeColorType.BackgroundDefault,
   orientation = Orientation.Left,
   children,
 }) {
-  const themeContext = useContext(ThemeContext)
   const dispatch = useAppDispatch()
+  const openingFunc = () => dispatch(openMenu())
+  const closingFunc = () => dispatch(closeMenu())
+  const themeContext = useContext(ThemeContext)
   const isOpenState = useAppSelector(selectIsOpen)
-  const containerPadding = StyleHelper.mergeContainerSpacings(themeContext.props.contentPadding, overlayPadding)
-  const paddingTop = StyleHelper.extractResponsiveSpacingPart(containerPadding, 'top')
-  const paddingLeft = StyleHelper.extractResponsiveSpacingPart(containerPadding, 'left')
-  const paddingRight = StyleHelper.extractResponsiveSpacingPart(containerPadding, 'right')
+  const mergedContainerPadding = StyleHelper.mergeContainerSpacings(themeContext.props.contentPadding, containerPadding)
+  const paddingTop = StyleHelper.extractResponsiveSpacingPart(mergedContainerPadding, 'top')
+  const paddingLeft = StyleHelper.extractResponsiveSpacingPart(mergedContainerPadding, 'left')
+  const paddingRight = StyleHelper.extractResponsiveSpacingPart(mergedContainerPadding, 'right')
   const navigationProps: NavigationProps = {
     items: links,
     textType,
     linkStyle,
+    onItemClick: closingFunc,
   }
 
   return (
     <Overlay
-      open={() => dispatch(openMenu())}
-      close={() => dispatch(closeMenu())}
+      open={openingFunc}
+      close={closingFunc}
       isOpen={isOpenState}
-      anchorRenderer={() => (
+      anchor={() => (
         <BurgerMenuTrigger isOpen={isOpenState} iconColor={iconColor} onClick={() => dispatch(toggleMenu())} />
       )}
     >
-      <StyledOverlayContainer backgroundColor={overlayBackgroundColor} padding={containerPadding}>
+      <StyledContentContainer backgroundColor={backgroundColor} padding={mergedContainerPadding}>
         <BurgerMenuTrigger
           isOpen={isOpenState}
           iconColor={iconColor}
@@ -65,7 +88,7 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = function ({
         />
         <Navigation {...navigationProps} />
         {children}
-      </StyledOverlayContainer>
+      </StyledContentContainer>
     </Overlay>
   )
 }

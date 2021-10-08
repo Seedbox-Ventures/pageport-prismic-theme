@@ -5,7 +5,7 @@ import { RichText, RichTextBlock } from 'prismic-reactjs'
 import { CustomLink } from '../utils/CustomLink'
 import { ContainerSpacing, ThemeBackgroundColor, ThemeButtonType, ThemeColorType } from '../theme'
 import styled from 'styled-components'
-import { Button, ButtonProps } from '../modules/basic/Button'
+import { Button, ButtonLinkProps } from '../modules/basic/Button'
 import { Section, SliceComponent, SliceData } from '../modules/page'
 import { DataHelper, PrismicLinkData } from '../utils/Prismic'
 
@@ -13,7 +13,7 @@ export interface CallToActionProps {
   backgroundColor: ThemeBackgroundColor
   title: string
   text?: RichTextBlock[]
-  buttons: Array<ButtonProps>
+  buttons: Array<ButtonLinkProps>
   padding?: Partial<ContainerSpacing>
 }
 
@@ -71,7 +71,7 @@ CallToAction.mapDataToProps = (sliceData: SliceData) => {
     buttons: !sliceData.items?.length
       ? []
       : sliceData.items.map(
-          (item: { button_type: ThemeButtonType; button_text: string; button_link: PrismicLinkData }): ButtonProps => {
+          (item: { button_type: ThemeButtonType; button_text: string; button_link: PrismicLinkData }): ButtonLinkProps => {
             return {
               ...DataHelper.prismicLinkToLinkProps(item.button_link)!,
               children: item.button_text,
