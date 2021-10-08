@@ -41,7 +41,9 @@
       "type": "Link",
       "config": {
         "select": "document",
-        "customtypes": ["header"],
+        "customtypes": [
+          "header"
+        ],
         "label": "Header Ref",
         "placeholder": "Header To Display"
       }
@@ -100,7 +102,11 @@
               "background_color": {
                 "type": "Select",
                 "config": {
-                  "options": ["Background Default", "Background Alternative", "Background Emphasize"],
+                  "options": [
+                    "Background Default",
+                    "Background Alternative",
+                    "Background Emphasize"
+                  ],
                   "default_value": "Background Default",
                   "label": "Background Color"
                 }
@@ -110,8 +116,13 @@
               "contact_type": {
                 "type": "Select",
                 "config": {
-                  "options": ["E-Mail", "Facebook", "Instagram", "LinkedIn"],
-                  "default_value": "E-Mail",
+                  "options": [
+                    "Email",
+                    "Facebook",
+                    "Instagram",
+                    "LinkedIn"
+                  ],
+                  "default_value": "Email",
                   "label": "Contact Type"
                 }
               },
@@ -152,7 +163,10 @@
               "columns": {
                 "type": "Select",
                 "config": {
-                  "options": ["1 Column", "2 Columns"],
+                  "options": [
+                    "1 Column",
+                    "2 Columns"
+                  ],
                   "default_value": "1 Column",
                   "label": "columns"
                 }
@@ -160,7 +174,11 @@
               "background_color": {
                 "type": "Select",
                 "config": {
-                  "options": ["Background Default", "Background Alternative", "Background Emphasize"],
+                  "options": [
+                    "Background Default",
+                    "Background Alternative",
+                    "Background Emphasize"
+                  ],
                   "default_value": "Background Default",
                   "label": "Background Color"
                 }
@@ -347,7 +365,11 @@
               "background_color": {
                 "type": "Select",
                 "config": {
-                  "options": ["Background Default", "Background Alternative", "Background Emphasize"],
+                  "options": [
+                    "Background Default",
+                    "Background Alternative",
+                    "Background Emphasize"
+                  ],
                   "default_value": "Background Default",
                   "label": "Background Color"
                 }
@@ -371,7 +393,13 @@
               "button_type": {
                 "type": "Select",
                 "config": {
-                  "options": ["Default", "Submit", "Success", "Danger", "Cancel"],
+                  "options": [
+                    "Default",
+                    "Submit",
+                    "Success",
+                    "Danger",
+                    "Cancel"
+                  ],
                   "default_value": "Default",
                   "label": "Button Type",
                   "placeholder": "Button Type"
@@ -403,7 +431,11 @@
     "footer_background_color": {
       "type": "Select",
       "config": {
-        "options": ["Background Default", "Background Alternative", "Background Emphasize"],
+        "options": [
+          "Background Default",
+          "Background Alternative",
+          "Background Emphasize"
+        ],
         "default_value": "Background Default",
         "label": "Background Color"
       }
@@ -455,7 +487,16 @@
           "platform": {
             "type": "Select",
             "config": {
-              "options": ["Facebook", "Instagram", "LinkedIn", "Pinterest", "TikTok", "Twitch", "Twitter", "Whatsapp"],
+              "options": [
+                "Facebook",
+                "Instagram",
+                "LinkedIn",
+                "Pinterest",
+                "TikTok",
+                "Twitch",
+                "Twitter",
+                "Whatsapp"
+              ],
               "default_value": "Facebook",
               "label": "Plattform"
             }

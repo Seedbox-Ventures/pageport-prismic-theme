@@ -63,7 +63,9 @@ const DynamicPage: React.ComponentType<gatsby.PageProps<DynamicPageProps> & With
           slicesData={slices}
           sliceComponentMap={{
             call_to_action: CallToAction,
-            text: TextSection,
+            contact: ContactSection,
+            text: TextSection
+            ,
           }}
         />
         <Footer />
