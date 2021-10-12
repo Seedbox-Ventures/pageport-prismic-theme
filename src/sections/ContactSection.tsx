@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { ThemeBackgroundColor, ThemeColorType } from '../theme'
+import { StyleHelper, ThemeBackgroundColor, ThemeButtonType, ThemeColorType } from '../theme'
 import { RichText, RichTextBlock } from 'prismic-reactjs'
 import styled from 'styled-components'
 import Contact, { ContactProps } from '../modules/person/Contact'
@@ -10,7 +10,9 @@ import { graphql } from 'gatsby'
 import { SocialMediaPlatform } from '../modules/socialMedia/type'
 import { PrismicHelper, PrismicLinkData } from '../utils/Prismic'
 import { getImage, ImageDataLike } from 'gatsby-plugin-image'
-import { Button, Checkbox, FormControlLabel, TextField } from '@mui/material'
+import TextField from '../modules/basic/TextField'
+import Button from '../modules/basic/Button'
+import { Checkbox, FormControlLabel } from '@mui/material'
 
 interface DataPrimary {
   background_color?: ThemeBackgroundColor
@@ -34,13 +36,47 @@ export interface ContactSectionProps {
 
 const StyledContactSection = styled.div`
   display: grid;
-  column-gap: 1rem;
-  row-gap: 1rem;
-  
+  column-gap: 4rem;
+  row-gap: 2rem;
+
+  ${StyleHelper.renderCssFromObject({ 'grid-template-columns': '1fr|1fr 1fr' })}
   .contentSection {
+    &__title {
+      grid-row-start: 1;
+      grid-row-end: 2;
+      grid-column-start: 1;
+      grid-column-end: 2;
+      //margin-bottom: 1rem;
+      ${StyleHelper.renderCssFromObject({ 'margin-bottom': '1rem' })}
+    }
+
+    &__text {
+      grid-row-start: 2;
+      grid-row-end: 3;
+      grid-column-start: 1;
+      grid-column-end: 2;
+      //margin-top: 1rem;
+    }
+
+    &__contact {
+      margin-top: 1rem;
+      grid-row-start: 3;
+      grid-row-end: 4;
+      grid-column-start: 1;
+      grid-column-end: 2;
+    }
+
     &__form {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      //flex-direction: column;
+      //margin-top: 1rem;
+      row-gap: 1rem;
+      ${StyleHelper.renderCssFromObject({
+        'grid-row-start': '4|2',
+        'grid-row-end': '5',
+        'grid-column-start': '1|2',
+        'grid-column-end': '2|3',
+      })}
     }
   }
 `
@@ -60,16 +96,16 @@ const ContactSection: SliceComponent<ContactSectionProps> = ({ backgroundColor, 
           </div>
         )}
         {contactProps && (
-          <div className={'contactSection__contact'}>
+          <div className={'contentSection__contact'}>
             <Contact {...contactProps} />
           </div>
         )}
         <form className="contentSection__form">
-          <TextField required label="Name" />
-          <TextField required label="E-Mail-Adresse" />
-          <TextField required label="Nachricht" multiline rows={4} />
-          <FormControlLabel control={<Checkbox />} label="Datenschutzlabel" />
-          <Button>Nachricht absenden</Button>
+          <TextField key={'name'} required label="Name" helperText={"Please provide your name"} />
+          <TextField key={'email'} required label="E-Mail-Adresse" helperText={"Please provide your e-mail address"}/>
+          <TextField key={'message'} required label="Nachricht" multiline rows={4} helperText={"Please write a message"}/>
+          <FormControlLabel control={<Checkbox required/>} label="Datenschutzlabel" />
+          <Button type={ThemeButtonType.Submit}>Nachricht absenden</Button>
         </form>
       </StyledContactSection>
     </Section>

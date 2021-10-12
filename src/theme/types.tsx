@@ -110,7 +110,10 @@ export enum ThemeLinkInteractiveStyle {
   Underline = 'Underline',
 }
 
+export type ThemeMode = 'light' | 'dark'
+
 export interface ThemeProps {
+  mode: ThemeMode
   colors: Array<ThemeColor>
   contentPadding: string
   contentMaxWidth: string

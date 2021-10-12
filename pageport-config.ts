@@ -7,6 +7,7 @@ export default {
   },
   theme: {
     defaultData: {
+      mode: 'light',
       colors: [
         {
           color_type: 'Primary',

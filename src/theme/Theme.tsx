@@ -62,13 +62,13 @@ export class Theme implements DefaultTheme {
     return {
       fontSize: StyleHelper.toPixelNumber(this.getStandardType().fontSize),
       htmlFontSize: StyleHelper.toPixelNumber(this.getStandardType().fontSize),
-      h1: this.getType(ThemeTextType.PageTitle) as unknown as CSSProperties,
-      h2: this.getType(ThemeTextType.SectionTitle) as unknown as CSSProperties,
-      h3: this.getType(ThemeTextType.SubTitle) as unknown as CSSProperties,
-      h4: this.getType(ThemeTextType.SmallTitle) as unknown as CSSProperties,
-      subtitle1: this.getType(ThemeTextType.SubTitle) as unknown as CSSProperties,
-      subtitle2: this.getType(ThemeTextType.SmallTitle) as unknown as CSSProperties,
-      button: this.getType(ThemeTextType.Button) as unknown as CSSProperties,
+      h1: this.getTextTypeStyleObject(ThemeTextType.PageTitle) as unknown as CSSProperties,
+      h2: this.getTextTypeStyleObject(ThemeTextType.SectionTitle) as unknown as CSSProperties,
+      h3: this.getTextTypeStyleObject(ThemeTextType.SubTitle) as unknown as CSSProperties,
+      h4: this.getTextTypeStyleObject(ThemeTextType.SmallTitle) as unknown as CSSProperties,
+      subtitle1: this.getTextTypeStyleObject(ThemeTextType.SubTitle) as unknown as CSSProperties,
+      subtitle2: this.getTextTypeStyleObject(ThemeTextType.SmallTitle) as unknown as CSSProperties,
+      button: this.getTextTypeStyleObject(ThemeTextType.Button) as unknown as CSSProperties,
     }
   }
 
@@ -120,7 +120,7 @@ export class Theme implements DefaultTheme {
       throw `Could not get type definition for text type ${themeTextType}`
     }
 
-    return this.getTextTypeStyleObject(themeTextType)
+    return this.getTypeStyleObject(themeType)
   }
 
   getTypeStyleObject = (themeType: ThemeTypeStyle): StyleObject => {
