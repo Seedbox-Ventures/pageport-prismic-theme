@@ -17,6 +17,7 @@ import Checkbox from '../modules/basic/Checkbox'
 
 interface DataPrimary {
   background_color?: ThemeBackgroundColor
+  button_style?: ThemeButtonType
   title?: { raw: RichTextBlock[] }
   text?: { raw: RichTextBlock[] }
   contact_name?: string
@@ -30,6 +31,7 @@ interface DataItem {
 
 export interface ContactSectionProps {
   backgroundColor: ThemeBackgroundColor
+  buttonStyle: ThemeButtonType
   title?: RichTextBlock[]
   text?: RichTextBlock[]
   contactProps: ContactProps
@@ -82,7 +84,13 @@ const StyledContactSection = styled.div`
   }
 `
 
-const ContactSection: SliceComponent<ContactSectionProps> = ({ backgroundColor, title, text, contactProps }) => {
+const ContactSection: SliceComponent<ContactSectionProps> = ({
+  backgroundColor,
+  buttonStyle,
+  title,
+  text,
+  contactProps,
+}) => {
   return (
     <Section backgroundColor={backgroundColor}>
       <StyledContactSection className={'contactSection'}>
@@ -102,11 +110,18 @@ const ContactSection: SliceComponent<ContactSectionProps> = ({ backgroundColor, 
           </div>
         )}
         <form className="contentSection__form">
-          <TextField key={'name'} required label="Name" helperText={"Please provide your name"} />
-          <TextField key={'email'} required label="E-Mail-Adresse" helperText={"Please provide your e-mail address"}/>
-          <TextField key={'message'} required label="Nachricht" multiline rows={4} helperText={"Please write a message"}/>
-          <FormControlLabel control={<Checkbox required/>} label="Datenschutzlabel" />
-          <Button themeType={ThemeButtonType.Submit}>Nachricht absenden</Button>
+          <TextField key={'name'} required label="Name" helperText={'Please provide your name'} />
+          <TextField key={'email'} required label="E-Mail-Adresse" helperText={'Please provide your e-mail address'} />
+          <TextField
+            key={'message'}
+            required
+            label="Nachricht"
+            multiline
+            rows={4}
+            helperText={'Please write a message'}
+          />
+          <FormControlLabel control={<Checkbox required />} label="Datenschutzlabel" />
+          <Button themeType={buttonStyle}>Nachricht absenden</Button>
         </form>
       </StyledContactSection>
     </Section>
@@ -114,10 +129,11 @@ const ContactSection: SliceComponent<ContactSectionProps> = ({ backgroundColor, 
 }
 
 ContactSection.mapDataToProps = (data: SliceData<DataPrimary, DataItem>) => {
-  const { background_color, contact_name, contact_image, text, title } = data.primary
+  const { background_color, button_style, contact_name, contact_image, text, title } = data.primary
   const { items: repeatables = [] } = data
   const image = contact_image ? getImage(contact_image) : undefined
   return {
+    buttonStyle: button_style ?? ThemeButtonType.Default,
     backgroundColor: background_color ?? ThemeColorType.BackgroundDefault,
     title: title?.raw,
     text: text?.raw,
@@ -147,6 +163,7 @@ export const query = graphql`
     id
     primary {
       background_color
+      button_style
       contact_name
       contact_image {
         alt

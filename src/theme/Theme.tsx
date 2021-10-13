@@ -30,7 +30,9 @@ export class Theme implements DefaultTheme {
   }
 
   static mapDataToProps = (themeData: ThemeData): ThemeProps => {
-    return _.omitBy(PrismicHelper.objectKeysToCamelCase(themeData), _.isEmpty) as ThemeProps
+    return _.omitBy(PrismicHelper.objectKeysToCamelCase(themeData), (val) => {
+      return typeof val === 'undefined' || val === null || (typeof val === 'object' && Object.keys(val).length === 0)
+    }) as ThemeProps
   }
 
   private _getMUIPaletteColor = (colorValue: `#${string}`): PaletteColor => {

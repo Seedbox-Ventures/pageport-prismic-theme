@@ -101,6 +101,7 @@ export interface ThemeButtonConfig {
   color: ThemeColorType
   fillBackground: boolean
   hoverEffect: ThemeButtonHoverEffectType
+  shadow: boolean
 }
 
 export enum ThemeLinkInteractiveStyle {
@@ -125,7 +126,7 @@ export interface ThemeProps {
   buttonPadding: string
   buttonBorderRadius: string
   buttonBorderWidth: string
-  buttonBoxShadow: string
+  buttonBoxShadow: boolean
   buttons: Array<ThemeButtonConfig>
 }
 
@@ -154,7 +155,7 @@ export interface ThemeData {
   button_padding?: string
   button_border_radius?: string
   button_border_width?: string
-  button_box_shadow?: string
+  button_box_shadow?: boolean
   buttons?: Array<{
     button_type: string
     color: string

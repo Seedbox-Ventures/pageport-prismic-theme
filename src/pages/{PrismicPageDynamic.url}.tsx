@@ -48,6 +48,7 @@ const DynamicPage: React.ComponentType<gatsby.PageProps<DynamicPageProps> & With
         document: { data: headerData },
       },
     } = data.prismicPageDynamic.data
+
     const themeProps = Theme.mapDataToProps(data.prismicTheme.data)
     const dispatch = useAppDispatch()
 
@@ -64,8 +65,7 @@ const DynamicPage: React.ComponentType<gatsby.PageProps<DynamicPageProps> & With
           sliceComponentMap={{
             call_to_action: CallToAction,
             contact: ContactSection,
-            text: TextSection
-            ,
+            text: TextSection,
           }}
         />
         <Footer />
