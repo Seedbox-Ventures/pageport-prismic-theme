@@ -106,7 +106,7 @@ const ContactSection: SliceComponent<ContactSectionProps> = ({ backgroundColor, 
           <TextField key={'email'} required label="E-Mail-Adresse" helperText={"Please provide your e-mail address"}/>
           <TextField key={'message'} required label="Nachricht" multiline rows={4} helperText={"Please write a message"}/>
           <FormControlLabel control={<Checkbox required/>} label="Datenschutzlabel" />
-          <Button type={ThemeButtonType.Submit}>Nachricht absenden</Button>
+          <Button themeType={ThemeButtonType.Submit}>Nachricht absenden</Button>
         </form>
       </StyledContactSection>
     </Section>

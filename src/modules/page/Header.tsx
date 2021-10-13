@@ -20,9 +20,9 @@ import { Logo, LogoProps } from '../basic/Logo'
 import PagePort from '../../utils/PagePort'
 import Navigation, { NavigationProps } from '../basic/Navigation'
 import styled from 'styled-components'
-import { ButtonLink } from '../basic/Button'
 import BurgerMenu, { BurgerMenuProps } from '../burgerMenu/BurgerMenu'
 import { graphql } from 'gatsby'
+import Button from '../basic/Button'
 
 export enum Orientation {
   Left = 'Left',
@@ -290,9 +290,9 @@ function renderCTA(
 
   return (
     <StyledCTAContainer breakPoint={breakPoint}>
-      <ButtonLink internal={link.internal} url={link.url} type={buttonType}>
+      <Button internal={link.internal} url={link.url} themeType={buttonType}>
         {text}
-      </ButtonLink>
+      </Button>
     </StyledCTAContainer>
   )
 }

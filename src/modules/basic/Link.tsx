@@ -19,16 +19,19 @@ export interface LinkStyle {
   hoverColor?: ThemeColorType
 }
 
-export interface StyledLinkProps extends LinkStyle {
+export interface StyledLinkProps extends LinkStyle, BasicLinkProps {
   as?: React.ElementType
 }
 
-export interface LinkProps extends LinkStyle {
+export interface BasicLinkProps {
   internal?: boolean
   url?: string
   target?: LinkTarget
-  onClick?: () => void
+  onClick?: React.MouseEventHandler<HTMLElement>
   children?: React.ReactNode
+}
+
+export interface LinkProps extends BasicLinkProps, LinkStyle {
 }
 
 const StyledLink = styled.div<StyledLinkProps>(
