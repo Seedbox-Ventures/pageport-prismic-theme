@@ -12,7 +12,8 @@ import { PrismicHelper, PrismicLinkData } from '../utils/Prismic'
 import { getImage, ImageDataLike } from 'gatsby-plugin-image'
 import TextField from '../modules/basic/TextField'
 import Button from '../modules/basic/Button'
-import { Checkbox, FormControlLabel } from '@mui/material'
+import { FormControlLabel } from '@mui/material'
+import Checkbox from '../modules/basic/Checkbox'
 
 interface DataPrimary {
   background_color?: ThemeBackgroundColor
