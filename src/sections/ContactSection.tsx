@@ -10,10 +10,11 @@ import { graphql } from 'gatsby'
 import { SocialMediaPlatform } from '../modules/socialMedia/type'
 import { PrismicHelper, PrismicLinkData } from '../utils/Prismic'
 import { getImage, ImageDataLike } from 'gatsby-plugin-image'
-import TextField from '../modules/basic/TextField'
 import Button from '../modules/basic/Button'
 import { FormControlLabel } from '@mui/material'
 import Checkbox from '../modules/basic/Checkbox'
+import Form from '../modules/form/Form'
+import FormTextField from '../modules/form/FormTextField'
 
 interface DataPrimary {
   background_color?: ThemeBackgroundColor
@@ -109,20 +110,28 @@ const ContactSection: SliceComponent<ContactSectionProps> = ({
             <Contact {...contactProps} />
           </div>
         )}
-        <form className="contentSection__form">
-          <TextField key={'name'} required label="Name" helperText={'Please provide your name'} />
-          <TextField key={'email'} required label="E-Mail-Adresse" helperText={'Please provide your e-mail address'} />
-          <TextField
+        <Form className="contentSection__form">
+          <FormTextField key={'name'} required label="Name" helperText={'Please provide your name'} />
+          <FormTextField
+            key={'email'}
+            required
+            label="E-Mail-Adresse"
+            helperText={'Please provide your e-mail address'}
+            type={'email'}
+          />
+          <FormTextField
             key={'message'}
             required
             label="Nachricht"
             multiline
-            rows={4}
+            rows={6}
             helperText={'Please write a message'}
           />
           <FormControlLabel control={<Checkbox required />} label="Datenschutzlabel" />
-          <Button themeType={buttonStyle}>Nachricht absenden</Button>
-        </form>
+          <Button type={'submit'} themeType={buttonStyle}>
+            Nachricht absenden
+          </Button>
+        </Form>
       </StyledContactSection>
     </Section>
   )

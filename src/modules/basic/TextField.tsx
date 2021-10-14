@@ -1,5 +1,5 @@
 import React from 'react'
-import { BaseTextFieldProps, TextField as MUITextField } from '@mui/material'
+import { TextField as MUITextField, TextFieldProps } from '@mui/material'
 import styled from 'styled-components'
 import { Theme, ThemeColorType } from '../../theme'
 import tinycolor from 'tinycolor2'
@@ -12,7 +12,7 @@ const StyledTextField = styled(MUITextField)(({ theme }) => {
   return renderDarkStyle(theme as Theme)
 })
 
-const TextField: React.FC<BaseTextFieldProps> = (props) => {
+const TextField: React.FC<TextFieldProps> = (props) => {
   return <StyledTextField {...props} />
 }
 
