@@ -1,10 +1,6 @@
 import React from 'react'
 import FormProvider, { FormConsumer } from './FormContext'
 
-export interface FormField {
-  validate: () => boolean
-}
-
 export interface FormProps {
   className?: string
   onSubmit?: () => void
