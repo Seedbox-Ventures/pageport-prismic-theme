@@ -10,6 +10,7 @@ const buttonHoverShadow =
   '0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)'
 
 export interface ButtonProps extends BasicLinkProps {
+  disabled?: boolean
   themeType?: ThemeButtonType
   type?: 'button' | 'submit' | 'reset'
 }
@@ -22,11 +23,16 @@ interface StyledButtonProps extends MUIButtonProps {
 
 const StyledButton = styled(MUIButton)<StyledButtonProps>(({ colorValue, hoverEffect, shadow, theme }) => {
   const textColor = theme.getTextColorValueByBackgroundValue(colorValue)
+  const ghostColor = '#aaa'
+  const ghostTextColor = '#ccc'
 
   return {
     '&.MuiButton-root': {
       '&': {
         fontFamily: theme.getFontFamily((theme.getType(ThemeTextType.Button) || theme.getStandardType()).fontFamily),
+      },
+      '&.Mui-disabled': {
+        cursor: 'not-allowed',
       },
       '&.MuiButton-contained': {
         '&': {
@@ -40,6 +46,11 @@ const StyledButton = styled(MUIButton)<StyledButtonProps>(({ colorValue, hoverEf
           boxShadow: shadow ? buttonShadow : 'none',
         },
         '&:hover, &:focus': getButtonHoverStyle('contained', hoverEffect, colorValue),
+        '&.Mui-disabled': {
+          backgroundColor: ghostColor,
+          borderColor: ghostColor,
+          color: ghostTextColor,
+        },
       },
       '&.MuiButton-outlined': {
         '&': {
@@ -51,6 +62,10 @@ const StyledButton = styled(MUIButton)<StyledButtonProps>(({ colorValue, hoverEf
           boxShadow: shadow ? buttonShadow : 'none',
         },
         '&:hover, &:focus': getButtonHoverStyle('outlined', hoverEffect, colorValue),
+        '&.Mui-disabled': {
+          borderColor: ghostColor,
+          color: ghostTextColor,
+        },
       },
       '&.MuiButton-text': {
         '&': {
@@ -62,14 +77,22 @@ const StyledButton = styled(MUIButton)<StyledButtonProps>(({ colorValue, hoverEf
   }
 })
 
-const Button: React.FC<ButtonProps> = ({ themeType = ThemeButtonType.Default, type, url, children }) => {
+const Button: React.FC<ButtonProps> = ({ disabled, themeType = ThemeButtonType.Default, type, url, children,onClick }) => {
   const buttonProps: StyledButtonProps = {
     ...getStyledButtonPropsFromButtonType(themeType),
     href: url,
+    disabled,
     type,
+    onClick
   }
 
-  return <StyledButton {...buttonProps}>{children}</StyledButton>
+  return (
+    <StyledButton
+      {...buttonProps}
+    >
+      {children}
+    </StyledButton>
+  )
 }
 
 export default Button
@@ -105,7 +128,7 @@ function getButtonHoverStyle(
         color: baseColorValue,
       },
       [ThemeButtonHoverEffectType.ChangeBoxShadow]: {
-        boxShadow: buttonHoverShadow
+        boxShadow: buttonHoverShadow,
       },
       [ThemeButtonHoverEffectType.DarkenLighten]: {
         background: changeColor,
@@ -119,7 +142,7 @@ function getButtonHoverStyle(
         color: changeTextColor,
       },
       [ThemeButtonHoverEffectType.ChangeBoxShadow]: {
-        boxShadow: buttonHoverShadow
+        boxShadow: buttonHoverShadow,
       },
       [ThemeButtonHoverEffectType.DarkenLighten]: {
         borderColor: changeColor,
@@ -132,8 +155,7 @@ function getButtonHoverStyle(
         backgroundColor: baseColorValue,
         color: changeTextColor,
       },
-      [ThemeButtonHoverEffectType.ChangeBoxShadow]: {
-      },
+      [ThemeButtonHoverEffectType.ChangeBoxShadow]: {},
       [ThemeButtonHoverEffectType.DarkenLighten]: {
         color: changeColor,
       },
