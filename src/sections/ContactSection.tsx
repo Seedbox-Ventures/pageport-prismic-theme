@@ -10,11 +10,11 @@ import { graphql } from 'gatsby'
 import { SocialMediaPlatform } from '../modules/socialMedia/type'
 import { PrismicHelper, PrismicLinkData } from '../utils/Prismic'
 import { getImage, ImageDataLike } from 'gatsby-plugin-image'
-import Button from '../modules/basic/Button'
 import { FormControlLabel } from '@mui/material'
 import Checkbox from '../modules/basic/Checkbox'
 import Form from '../modules/form/Form'
 import FormTextField from '../modules/form/FormTextField'
+import FormSubmit from '../modules/form/FormSubmit'
 
 interface DataPrimary {
   background_color?: ThemeBackgroundColor
@@ -128,9 +128,7 @@ const ContactSection: SliceComponent<ContactSectionProps> = ({
             helperText={'Please write a message'}
           />
           <FormControlLabel control={<Checkbox required />} label="Datenschutzlabel" />
-          <Button type={'submit'} themeType={buttonStyle}>
-            Nachricht absenden
-          </Button>
+          <FormSubmit themeType={buttonStyle}>Nachricht absenden</FormSubmit>
         </Form>
       </StyledContactSection>
     </Section>

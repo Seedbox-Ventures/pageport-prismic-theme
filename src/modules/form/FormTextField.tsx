@@ -1,9 +1,10 @@
 import React, { Component, ReactNode } from 'react'
 import { TextFieldProps } from '@mui/material'
 import TextField from '../basic/TextField'
-import { FormConsumer } from './FormContext'
+import { FormConsumer, FormContext } from './FormContext'
 import { isNumber } from 'lodash'
 import { isEMail, isPhoneNumber } from '../../utils/Validation'
+import { FormField } from './Form'
 
 interface FormTextFieldState {
   isTouched: boolean
@@ -17,7 +18,8 @@ const initialState: FormTextFieldState = {
   value: '',
 }
 
-export default class FormTextField extends Component<TextFieldProps, FormTextFieldState> {
+export default class FormTextField extends Component<TextFieldProps, FormTextFieldState> implements FormField {
+  static contextType = FormContext
   errorText: ReactNode
 
   constructor(props: TextFieldProps) {
@@ -25,6 +27,11 @@ export default class FormTextField extends Component<TextFieldProps, FormTextFie
 
     this.errorText = props.helperText
     this.state = { ...initialState }
+  }
+
+  componentDidMount = () => {
+    const { registerFormField } = this.context
+    registerFormField(this)
   }
 
   onBlur = () => {

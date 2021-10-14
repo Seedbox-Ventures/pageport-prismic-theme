@@ -1,37 +1,56 @@
-import React, { ChangeEventHandler, Component, createContext } from 'react'
-import { FormProps } from './Form'
+import React, { Component, createContext } from 'react'
+import _ from 'lodash'
+import { FormField, FormProps } from './Form'
 
-export type FormContext = {
-  onChange: ChangeEventHandler<HTMLInputElement>
-  iAmHere: (args: any) => void
+export type FormContextState = {
+  onSubmit: () => void
+  registerFormField: (formField: FormField) => void
 }
 
-const initialState: FormContext = {
-  onChange: () => void 0,
-  iAmHere: () => void 0,
+const initialState: FormContextState = {
+  onSubmit: () => void 0,
+  registerFormField: (_formField: FormField) => void 0,
 }
 
-const { Provider, Consumer } = createContext<FormContext>(initialState)
+export const FormContext = createContext<FormContextState>(initialState)
+const { Provider, Consumer } = FormContext
 export const FormConsumer = Consumer
 
-export default class FormProvider extends Component<FormProps, FormContext> {
-  state = { ...initialState }
+export default class FormProvider extends Component<FormProps, FormContextState> {
+  formFields: Array<FormField> = []
 
   constructor(props: FormProps) {
     super(props)
 
     this.state = {
-      onChange: this.onChange,
-      iAmHere: this.iAmHere,
+      onSubmit: this.onSubmit,
+      registerFormField: this.registerFormField,
     }
   }
 
-  iAmHere(...args: any[]) {
-    console.log('I AM HERE', args)
+  onSubmit = () => {
+    const { onSubmit: providedSubmit } = this.props
+    if (!this.validate()) {
+      return
+    }
+
+    if (typeof providedSubmit === 'function') {
+      providedSubmit()
+    }
   }
 
-  onChange(...args: any) {
-    console.log('ON CHANGE', args)
+  registerFormField = (formField: FormField) => {
+    this.formFields.push(formField)
+  }
+
+  validate = (): boolean => {
+    // const { formFields } = this.props
+    let isValid = true
+    _.forEach(this.formFields, (formField) => {
+      isValid = formField.validate() && isValid
+    })
+
+    return isValid
   }
 
   render() {
