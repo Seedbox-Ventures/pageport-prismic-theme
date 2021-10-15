@@ -65,10 +65,10 @@ export default class FormTextField extends FormField<FormTextFieldProps, FormTex
   }
 
   validate = (): boolean => {
-    const { value } = this.state
+    const { value, isTouched } = this.state
     const isValid = this._isValidValue(value)
 
-    this.setState({ isValid })
+    this.setState({ isValid, isTouched: isTouched || !isValid })
 
     return isValid
   }

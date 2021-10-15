@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { ThemeColorType } from '../../theme'
 
 export interface FormCheckboxProps extends CheckboxProps, FormFieldProps {
-  label?: string
+  label?: ReactNode
   value?: boolean
   helperText?: string
 }
@@ -24,12 +24,22 @@ const initialState: FormCheckboxState = {
 
 const StyledFormControl = styled(FormControl)(({ theme }) => {
   return {
-    '&.Mui-error': {
+    '&.MuiFormControl-root': {
       '&': {
-        color: theme.getColorValueByType(ThemeColorType.Danger),
+        '& .MuiFormControlLabel-root': {
+          '&': { alignItems: 'start' },
+          '& .MuiTypography-root': {
+            paddingTop: '9px',
+          },
+        },
       },
-      '& .MuiCheckbox-root svg': {
-        fill: theme.getColorValueByType(ThemeColorType.Danger),
+      '&.Mui-error': {
+        '&': {
+          color: theme.getColorValueByType(ThemeColorType.Danger),
+        },
+        '& .MuiCheckbox-root svg': {
+          fill: theme.getColorValueByType(ThemeColorType.Danger),
+        },
       },
     },
   }
