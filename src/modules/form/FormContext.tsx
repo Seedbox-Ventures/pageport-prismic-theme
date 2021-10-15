@@ -4,7 +4,7 @@ import { FormProps } from './Form'
 import { FormField } from './FormField'
 
 export type FormContextState = {
-  onSubmit: () => void
+  onSubmit: (e: React.FormEvent) => void
   registerFormField: (formField: FormField<any, any, any>) => void
 }
 
@@ -29,7 +29,8 @@ export default class FormProvider extends Component<FormProps, FormContextState>
     }
   }
 
-  onSubmit = () => {
+  onSubmit = (event: React.FormEvent) => {
+    event.preventDefault()
     const { onSubmit: providedSubmit } = this.props
     if (!this.validate()) {
       return
