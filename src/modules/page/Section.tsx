@@ -21,19 +21,26 @@ export const StyledSection = styled.div<{
   backgroundColor: ThemeColorType
   isSticky: boolean
   customCss?: StyleObject
-}>(({ backgroundColor, isSticky, theme, customCss = {} }) =>
-  StyleHelper.renderCssFromObject(
+}>(({ backgroundColor, isSticky, theme, customCss = {} }) => {
+  const textColor = theme.getTextColorByBackground(backgroundColor)
+  const color = theme.getColorValueByType(textColor)
+  return `
+  ${StyleHelper.renderCssFromObject(
     _.merge(
       {
-        color: theme.getTextColorValueByBackground(backgroundColor),
+        color,
         'background-color': theme.getColorValueByType(backgroundColor),
         position: isSticky ? 'sticky' : 'static',
         width: '100%',
       },
       customCss,
     ),
-  ),
-)
+  )}
+  a {
+    ${theme.renderTextLinkCss(textColor)}
+  }
+  `
+})
 
 const ContentContainer = styled.div<{
   isFullWidth: boolean

@@ -20,6 +20,8 @@ interface DataPrimary {
   button_style?: ThemeButtonType
   title?: { raw: RichTextBlock[] }
   text?: { raw: RichTextBlock[] }
+  thank_you_message?: { raw: RichTextBlock[] }
+  data_protection_text?: { raw: RichTextBlock[] }
   contact_name?: string
   contact_image?: ImageDataLike
 }
@@ -34,6 +36,8 @@ export interface ContactSectionProps {
   buttonStyle: ThemeButtonType
   title?: RichTextBlock[]
   text?: RichTextBlock[]
+  tankYouMessage?: RichTextBlock[]
+  dataProtectionText?: RichTextBlock[]
   contactProps: ContactProps
 }
 
@@ -49,7 +53,6 @@ const StyledContactSection = styled.div`
       grid-row-end: 2;
       grid-column-start: 1;
       grid-column-end: 2;
-      //margin-bottom: 1rem;
       ${StyleHelper.renderCssFromObject({ 'margin-bottom': '1rem' })}
     }
 
@@ -58,7 +61,6 @@ const StyledContactSection = styled.div`
       grid-row-end: 3;
       grid-column-start: 1;
       grid-column-end: 2;
-      //margin-top: 1rem;
     }
 
     &__contact {
@@ -71,8 +73,6 @@ const StyledContactSection = styled.div`
 
     &__form {
       display: grid;
-      //flex-direction: column;
-      //margin-top: 1rem;
       row-gap: 1rem;
       ${StyleHelper.renderCssFromObject({
         'grid-row-start': '4|2',
@@ -90,6 +90,7 @@ const ContactSection: SliceComponent<ContactSectionProps> = ({
   title,
   text,
   contactProps,
+  dataProtectionText,
 }) => {
   return (
     <Section backgroundColor={backgroundColor}>
@@ -126,7 +127,7 @@ const ContactSection: SliceComponent<ContactSectionProps> = ({
             rows={6}
             helperText={'Please write a message'}
           />
-          <FormCheckbox required label={'Datenschutzlabel'} />
+          {dataProtectionText && <FormCheckbox required label={<RichText render={dataProtectionText} />} />}
 
           <FormSubmit themeType={buttonStyle}>Nachricht absenden</FormSubmit>
         </Form>
@@ -136,7 +137,8 @@ const ContactSection: SliceComponent<ContactSectionProps> = ({
 }
 
 ContactSection.mapDataToProps = (data: SliceData<DataPrimary, DataItem>) => {
-  const { background_color, button_style, contact_name, contact_image, text, title } = data.primary
+  const { background_color, button_style, contact_name, contact_image, text, title, data_protection_text } =
+    data.primary
   const { items: repeatables = [] } = data
   const image = contact_image ? getImage(contact_image) : undefined
   return {
@@ -160,6 +162,7 @@ ContactSection.mapDataToProps = (data: SliceData<DataPrimary, DataItem>) => {
           }
         : undefined,
     },
+    dataProtectionText: data_protection_text?.raw,
   }
 }
 
@@ -186,6 +189,16 @@ export const query = graphql`
         text
       }
       title {
+        html
+        raw
+        text
+      }
+      thank_you_message {
+        html
+        raw
+        text
+      }
+      data_protection_text {
         html
         raw
         text
