@@ -75,6 +75,30 @@
                   "label": "Text"
                 }
               },
+              "data_protection_text": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,strong,em,hyperlink",
+                  "allowTargetBlank": true,
+                  "label": "Data Protection Text"
+                }
+              },
+              "thank_you_message": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,list-item,o-list-item,rtl",
+                  "allowTargetBlank": true,
+                  "label": "Thank You Message"
+                }
+              },
+              "error_message": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "paragraph, preformatted, heading1, heading2, heading3, heading4, heading5, heading6, strong, em, hyperlink, image, list-item, o-list-item, rtl",
+                  "allowTargetBlank": true,
+                  "label": "Error Message"
+                }
+              },
               "contact_name": {
                 "type": "Text",
                 "config": {
