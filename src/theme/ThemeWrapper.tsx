@@ -61,6 +61,7 @@ export const query = graphql`
           line_height
           text_type
         }
+        link_style
         button_padding
         button_border_radius
         button_border_width

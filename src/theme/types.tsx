@@ -1,4 +1,3 @@
-import * as CSS from 'csstype'
 import { FilledLinkToWebField } from '@prismicio/types'
 import { LinkStyle } from '../modules/basic/Link'
 
@@ -48,8 +47,7 @@ export enum ThemeTextType {
   Button = 'Button',
 }
 
-export enum ThemeLinkHoverEffekt {
-  None = 'None',
+export enum ThemeLinkStyle {
   DarkenLighten = 'Darken / Lighten',
   Underline = 'Underline',
 }
@@ -63,18 +61,6 @@ export interface ThemeTypeStyle {
   fontStyle: string
   textType: ThemeTextType
   linkColor: ThemeColorType
-  linkHoverEffekt: ThemeLinkHoverEffekt
-}
-
-export interface ThemeLinkConfig {
-  fontFamily: ThemeFontFamilyType
-  fontSize: CSS.Property.FontSize
-  fontWeight: CSS.Property.FontWeight
-  fontStyle: CSS.Property.FontStyle
-  letterSpacing: CSS.Property.LetterSpacing
-  lineHeight: CSS.Property.LineHeight
-  color: ThemeColorType
-  hoverEffekt: ThemeLinkHoverEffekt
 }
 
 export enum ThemeButtonType {
@@ -123,6 +109,7 @@ export interface ThemeProps {
   secondaryFontFamily: string
   secondaryFontImportLink: FilledLinkToWebField
   typeDefinitions: Array<ThemeTypeStyle>
+  linkStyle: ThemeLinkStyle
   buttonPadding: string
   buttonBorderRadius: string
   buttonBorderWidth: string
@@ -152,6 +139,7 @@ export interface ThemeData {
     line_height: string
     text_type: string
   }>
+  link_style?: ThemeLinkStyle
   button_padding?: string
   button_border_radius?: string
   button_border_width?: string
@@ -175,6 +163,7 @@ export interface ThemeInterface {
   getTextColorValueByBackgroundValue: (background: `#${string}`) => `#${string}`
   getType: (textType: ThemeTextType) => ThemeTypeStyle | undefined
   getStandardType: () => ThemeTypeStyle
+  renderTextLinkCss: (textColor: ThemeColorType) => string
   renderTextTypeCss: (themeTextType?: ThemeTextType) => string
   renderTypeCss: (themeTextType: ThemeTypeStyle) => string
   renderLinkCss: (linkStyle?: LinkStyle) => string

@@ -7,6 +7,7 @@ import {
   ThemeData,
   ThemeFontFamilyType,
   ThemeLinkInteractiveStyle,
+  ThemeLinkStyle,
   ThemeProps,
   ThemeTextColor,
   ThemeTextType,
@@ -148,6 +149,34 @@ export class Theme implements DefaultTheme {
 
   renderTypeCss = (themeType: ThemeTypeStyle): string => {
     return StyleHelper.renderCssFromObject(this.getTypeStyleObject(themeType))
+  }
+
+  renderTextLinkCss = (textColor: ThemeColorType): string => {
+    const { linkStyle } = this.props
+    const color = this.getColorValueByType(textColor)
+    switch (linkStyle) {
+      case ThemeLinkStyle.Underline:
+        return `
+          color: ${color};
+          text-decoration: underline;
+          
+          &:hover {
+            text-decoration: none;
+          }
+        `
+      case ThemeLinkStyle.DarkenLighten:
+        const darkenedLightenedColor = StyleHelper.lightenDarken(color, 20)
+        return `
+          color: ${darkenedLightenedColor};
+          text-decoration: none;
+          
+          &:hover {
+            color: ${color}
+          }
+        `
+      default:
+        return ''
+    }
   }
 
   renderLinkCss = ({

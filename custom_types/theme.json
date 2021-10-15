@@ -180,7 +180,14 @@
       }
     }
   },
-  "Buttons": {
+  "Links & Buttons": {
+    "link_style": {
+      "type": "Select",
+      "config": {
+        "options": ["Underline", "Darken / Lighten"],
+        "label": "Link Style"
+      }
+    },
     "button_padding": {
       "type": "Text",
       "config": {
