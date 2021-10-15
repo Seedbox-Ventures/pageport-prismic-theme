@@ -29,6 +29,7 @@ const StyledButton = styled(MUIButton)<StyledButtonProps>(({ colorValue, hoverEf
   return {
     '&.MuiButton-root': {
       '&': {
+        textDecoration: 'none',
         fontFamily: theme.getFontFamily((theme.getType(ThemeTextType.Button) || theme.getStandardType()).fontFamily),
       },
       '&.Mui-disabled': {
