@@ -4,13 +4,17 @@ import { FormProps } from './Form'
 import { FormField } from './FormField'
 
 export type FormContextState = {
+  getFormValues: () => Record<string, any>
   onSubmit: (e: React.FormEvent) => void
   registerFormField: (formField: FormField<any, any, any>) => void
+  reset: () => void
 }
 
 const initialState: FormContextState = {
+  getFormValues: () => ({}),
   onSubmit: () => void 0,
   registerFormField: (_formField: FormField<any, any, any>) => void 0,
+  reset: () => void 0,
 }
 
 export const FormContext = createContext<FormContextState>(initialState)
@@ -24,9 +28,28 @@ export default class FormProvider extends Component<FormProps, FormContextState>
     super(props)
 
     this.state = {
+      getFormValues: this.getFormValues,
       onSubmit: this.onSubmit,
       registerFormField: this.registerFormField,
+      reset: this.reset,
     }
+  }
+
+  getFormValues = (): Record<string, any> => {
+    const formValues: Record<string, any> = {}
+
+    _.forEach(this.formFields, (formField) => {
+      if (!formField.name) return;
+      formValues[formField.name] = formField.value
+    })
+
+    return formValues
+  }
+
+  reset = () => {
+    _.forEach(this.formFields, (formField) => {
+      formField.reset()
+    })
   }
 
   onSubmit = (event: React.FormEvent) => {
@@ -37,7 +60,7 @@ export default class FormProvider extends Component<FormProps, FormContextState>
     }
 
     if (typeof providedSubmit === 'function') {
-      providedSubmit()
+      providedSubmit(this.getFormValues(), { ...this.state })
     }
   }
 

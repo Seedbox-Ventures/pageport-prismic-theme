@@ -1,9 +1,9 @@
 import React from 'react'
-import FormProvider, { FormConsumer } from './FormContext'
+import FormProvider, { FormConsumer, FormContextState } from './FormContext'
 
 export interface FormProps {
   className?: string
-  onSubmit?: () => void
+  onSubmit?: (formValues: Record<string, any>, context: FormContextState) => void
 }
 
 const Form: React.FC<FormProps> = (props) => {
@@ -12,7 +12,7 @@ const Form: React.FC<FormProps> = (props) => {
   return (
     <FormProvider {...props}>
       <FormConsumer>
-        {() => {
+        {(  ) => {
           return <form className={className}>{children}</form>
         }}
       </FormConsumer>

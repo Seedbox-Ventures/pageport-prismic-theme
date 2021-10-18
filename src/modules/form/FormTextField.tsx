@@ -39,10 +39,14 @@ export default class FormTextField extends FormField<FormTextFieldProps, FormTex
     this.setState({ isTouched: true, isValid: this._isValidValue(value) })
   }
 
-  onChange = (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { onChange } = this.props
     const { value } = e.currentTarget
     const { isTouched } = this.state
     this.setState({ value, isValid: !isTouched || this._isValidValue(value) })
+    if (typeof onChange === 'function') {
+      onChange(e)
+    }
   }
 
   protected _isValidValue = (value: string): boolean => {
@@ -71,6 +75,10 @@ export default class FormTextField extends FormField<FormTextFieldProps, FormTex
     this.setState({ isValid, isTouched: isTouched || !isValid })
 
     return isValid
+  }
+
+  reset = () => {
+    this.setState({ ...initialState })
   }
 
   render = () => {

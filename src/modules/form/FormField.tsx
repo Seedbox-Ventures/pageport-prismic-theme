@@ -13,7 +13,14 @@ export abstract class FormField<P extends FormFieldProps, S, V> extends Componen
     registerFormField(this)
   }
 
-  abstract get value(): V
+  get name(): string | undefined {
+    const { name } = this.props
+    return name
+  }
+
+  abstract get value(): V | undefined
 
   abstract validate: () => boolean
+
+  abstract reset: () => void
 }

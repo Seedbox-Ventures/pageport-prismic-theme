@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import _ from 'lodash'
+import tinycolor from 'tinycolor2'
+import styled from 'styled-components'
 import { StyleHelper, ThemeBackgroundColor, ThemeButtonType, ThemeColorType } from '../theme'
 import { RichText, RichTextBlock } from 'prismic-reactjs'
-import styled from 'styled-components'
 import Contact, { ContactProps } from '../modules/person/Contact'
 import { SliceComponent, SliceData } from '../modules/page/SliceZone'
 import Section from '../modules/page/Section'
@@ -14,7 +15,10 @@ import FormTextField from '../modules/form/FormTextField'
 import FormSubmit from '../modules/form/FormSubmit'
 import FormCheckbox from '../modules/form/FormCheckbox'
 import { graphql } from 'gatsby'
-import tinycolor from 'tinycolor2'
+import { CircularProgress, IconButton } from '@mui/material'
+import EmailService from '../services/EmailService'
+import { Close } from '@mui/icons-material'
+import { FormContextState } from '../modules/form/FormContext'
 
 interface DataPrimary {
   background_color?: ThemeBackgroundColor
@@ -50,17 +54,20 @@ interface StyledContactSectionProps {
 
 const StyledContactSection = styled.div<StyledContactSectionProps>(({ backgroundColor, theme }) => {
   const backgroundColorValue = theme.getColorValueByType(backgroundColor)
-  const overlayBackgroundColorValue = tinycolor(backgroundColorValue).setAlpha(.95).toRgbString()
+  const overlayBackgroundColorValue = tinycolor(backgroundColorValue).setAlpha(0.95).toRgbString()
+  const loadingackgroundColorValue = tinycolor(backgroundColorValue).setAlpha(0.8).toRgbString()
 
   return `
-  display: grid;
-  column-gap: 4rem;
-  row-gap: 2rem;
-
-  ${StyleHelper.renderCssFromObject({ 'grid-template-columns': '1fr|1fr 1fr' })}
-  .contentSection {
+  &.contactSection {
+    display: grid;
+    column-gap: 4rem;
+    row-gap: 2rem;
     position: relative;
-    
+    box-sizing: content-box;
+    ${StyleHelper.renderCssFromObject({ 'grid-template-columns': '1fr|1fr 1fr' })}
+  }
+  
+  .contactSection {
     &__title {
       grid-row-start: 1;
       grid-row-end: 2;
@@ -85,14 +92,32 @@ const StyledContactSection = styled.div<StyledContactSectionProps>(({ background
     }
 
     &__form {
+      position: relative;
       display: grid;
       row-gap: 1rem;
       ${StyleHelper.renderCssFromObject({
-    'grid-row-start': '4|2',
-    'grid-row-end': '5',
-    'grid-column-start': '1|2',
-    'grid-column-end': '2|3',
-  })}
+        'grid-row-start': '4|2',
+        'grid-row-end': '5',
+        'grid-column-start': '1|2',
+        'grid-column-end': '2|3',
+      })}
+      
+      [type=submit] {
+        margin-top: 1rem;
+      }
+    }
+    
+    &__loadingOverlay {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      top: -1rem;
+      bottom: -1rem;
+      left: -1rem;
+      right: -1rem;
+      background: ${loadingackgroundColorValue};
+      z-index: 1;
     }
     
     &__overlay {
@@ -110,78 +135,177 @@ const StyledContactSection = styled.div<StyledContactSectionProps>(({ background
       pointer-events: none;
       opacity: 0;
       transition: opacity 1s ease-in-out;
+      text-align: center;
       
       &-visible {
         opacity: 1;
         pointer-events: auto;
       }
     }
+    
+    &__overlayClose {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
   }
 `
 })
 
-const ContactSection: SliceComponent<ContactSectionProps> = (
-  {
-    backgroundColor,
-    buttonStyle,
-    title,
-    text,
-    contactProps,
-    dataProtectionText,
-    thankYouMessage,
-    errorMessage ,
-  }) => {
-  const [isSent, setIsSent] = useState(false)
-  const [error, setError] = useState(false)
+interface ContactSectionState {
+  isLoading: boolean
+  isSent: boolean
+  error?: string
+  success: boolean
+  formValues: {
+    name: string
+    email: string
+    message: string
+    acceptAGBs: boolean
+  }
+}
+
+const initialState: ContactSectionState = {
+  isSent: false,
+  isLoading: false,
+  success: false,
+  formValues: {
+    name: '',
+    email: '',
+    message: 'My message',
+    acceptAGBs: false,
+  },
+}
+
+const ContactSection: SliceComponent<ContactSectionProps> = ({
+  backgroundColor,
+  buttonStyle,
+  title,
+  text,
+  contactProps,
+  dataProtectionText,
+  thankYouMessage,
+  errorMessage,
+}) => {
+  const [state, setState] = useState(initialState)
+  const {
+    error,
+    isLoading,
+    isSent,
+    formValues: { name, email, message, acceptAGBs },
+  } = state
+
+  const onSubmit = async (_formValues: Record<string, any>, { reset: formValueReset }: FormContextState) => {
+    setState({ ...state, isLoading: true })
+    let error: string | undefined = undefined
+    try {
+      if (!(await EmailService.sendFormData())) {
+        error = 'Could not send form data'
+      }
+    } catch (e) {
+      error = e ?? 'Could not send form data'
+    }
+
+    if (!error && typeof formValueReset === 'function') {
+      formValueReset()
+    }
+
+    setState({
+      ...state,
+      isLoading: false,
+      error: error,
+      isSent: true,
+    })
+  }
+
+  const onCloseOverlay = () => {
+    setState({ ...state, isSent: false, isLoading: false })
+  }
+
+  const onChangeValue = (name: string, value: any) => {
+    const { formValues } = state
+    setState({ ...state, formValues: { ...formValues, [name]: value } })
+  }
 
   return (
     <Section backgroundColor={backgroundColor}>
       <StyledContactSection className={'contactSection'} backgroundColor={backgroundColor}>
         {title && (
-          <div className='contentSection__title'>
+          <div className="contactSection__title">
             <RichText render={title} />
           </div>
         )}
         {text && (
-          <div className='contentSection__text'>
+          <div className="contactSection__text">
             <RichText render={text} />
           </div>
         )}
         {contactProps && (
-          <div className={'contentSection__contact'}>
+          <div className={'contactSection__contact'}>
             <Contact {...contactProps} />
           </div>
         )}
-        <Form
-          className='contentSection__form'
-          onSubmit={() => {
-            setError(true);
-            setIsSent(true)
-          }}
-        >
-          <FormTextField key={'name'} required label='Name' helperText={'Please provide your name'} />
+        <Form className="contactSection__form" onSubmit={onSubmit}>
+          <FormTextField
+            key={'name'}
+            required
+            label="Name"
+            helperText={'Please provide your name'}
+            onChange={(e) => {
+              onChangeValue('name', e.currentTarget.value)
+            }}
+            value={name}
+          />
           <FormTextField
             key={'email'}
             required
-            label='E-Mail-Adresse'
+            label="E-Mail-Adresse"
             helperText={'Please provide your e-mail address'}
             type={'email'}
+            value={email}
+            onChange={(e) => {
+              onChangeValue('email', e.currentTarget.value)
+            }}
           />
           <FormTextField
             key={'message'}
             required
-            label='Nachricht'
+            label="Nachricht"
             multiline
             rows={6}
             helperText={'Please write a message'}
+            value={message}
+            onChange={(e) => {
+              onChangeValue('message', e.currentTarget.value)
+            }}
           />
-          {dataProtectionText && <FormCheckbox required label={<RichText render={dataProtectionText} />} />}
+          {dataProtectionText && (
+            <FormCheckbox
+              required
+              name="acceptAGB"
+              checked={acceptAGBs}
+              onChange={(e) => {
+                onChangeValue('acceptAGB', e.currentTarget.checked)
+              }}
+              label={<RichText render={dataProtectionText} />}
+            />
+          )}
 
           <FormSubmit themeType={buttonStyle}>Nachricht absenden</FormSubmit>
+          {isLoading && (
+            <div className={'contactSection__loadingOverlay'}>
+              <CircularProgress />
+            </div>
+          )}
         </Form>
-        {<div className={'contentSection__overlay' + (isSent ? ' contentSection__overlay-visible' : '')}>
-          <RichText render={error ? errorMessage : thankYouMessage} />
-        </div>}
+        {
+          <div className={'contactSection__overlay' + (isSent ? ' contactSection__overlay-visible' : '')}>
+            <RichText render={error ? errorMessage : thankYouMessage} />
+            <IconButton onClick={onCloseOverlay} className={'contactSection__overlayClose'}>
+              <Close />
+            </IconButton>
+          </div>
+        }
       </StyledContactSection>
     </Section>
   )
@@ -218,10 +342,10 @@ ContactSection.mapDataToProps = (data: SliceData<DataPrimary, DataItem>) => {
       }),
       image: image
         ? {
-          alt: contact_name ?? '',
-          width: '90px',
-          image,
-        }
+            alt: contact_name ?? '',
+            width: '90px',
+            image,
+          }
         : undefined,
     },
     dataProtectionText: data_protection_text?.raw,
@@ -231,54 +355,54 @@ ContactSection.mapDataToProps = (data: SliceData<DataPrimary, DataItem>) => {
 export default ContactSection
 
 export const query = graphql`
-    fragment PageDynamicDataBodyContact on PrismicPageDynamicDataBodyContact {
-        id
-        primary {
-            background_color
-            button_style
-            contact_name
-            contact_image {
-                alt
-                gatsbyImageData(placeholder: BLURRED, layout: FULL_WIDTH)
-            }
-            logo {
-                alt
-                gatsbyImageData(placeholder: BLURRED, layout: FULL_WIDTH)
-            }
-            text {
-                html
-                raw
-                text
-            }
-            title {
-                html
-                raw
-                text
-            }
-            thank_you_message {
-                html
-                raw
-                text
-            }
-            error_message {
-                html
-                raw
-                text
-            }
-            data_protection_text {
-                html
-                raw
-                text
-            }
-        }
-        items {
-            contact_type
-            contact_link {
-                url
-                target
-                type
-                link_type
-            }
-        }
+  fragment PageDynamicDataBodyContact on PrismicPageDynamicDataBodyContact {
+    id
+    primary {
+      background_color
+      button_style
+      contact_name
+      contact_image {
+        alt
+        gatsbyImageData(placeholder: BLURRED, layout: FULL_WIDTH)
+      }
+      logo {
+        alt
+        gatsbyImageData(placeholder: BLURRED, layout: FULL_WIDTH)
+      }
+      text {
+        html
+        raw
+        text
+      }
+      title {
+        html
+        raw
+        text
+      }
+      thank_you_message {
+        html
+        raw
+        text
+      }
+      error_message {
+        html
+        raw
+        text
+      }
+      data_protection_text {
+        html
+        raw
+        text
+      }
     }
+    items {
+      contact_type
+      contact_link {
+        url
+        target
+        type
+        link_type
+      }
+    }
+  }
 `

@@ -8,17 +8,19 @@ import { ThemeColorType } from '../../theme'
 
 export interface FormCheckboxProps extends CheckboxProps, FormFieldProps {
   label?: ReactNode
-  value?: boolean
+  checked?: boolean
   helperText?: string
+  value?: string
 }
 
 interface FormCheckboxState {
-  value: boolean
+  checked: boolean
   isValid: boolean
+  value?: string
 }
 
 const initialState: FormCheckboxState = {
-  value: false,
+  checked: false,
   isValid: true,
 }
 
@@ -45,48 +47,61 @@ const StyledFormControl = styled(FormControl)(({ theme }) => {
   }
 })
 
-export default class FormCheckbox extends FormField<FormCheckboxProps, FormCheckboxState, boolean> {
+export default class FormCheckbox extends FormField<FormCheckboxProps, FormCheckboxState, string> {
   static contextType = FormContext
   errorText: ReactNode
 
   constructor(props: FormCheckboxProps) {
     super(props)
-    const { value = false, helperText } = props
+    const { checked = false, helperText } = props
 
     this.errorText = helperText
-    this.state = { ...initialState, value }
+    this.state = { ...initialState, checked }
   }
 
-  get value(): boolean {
-    return false
+  get value(): string | undefined {
+    const { value } = this.state
+    return value
   }
 
-  protected _isValidValue = (value: boolean): boolean => {
+  protected _isValidState = (value: boolean): boolean => {
     const { required } = this.props
 
     return !required || value
   }
 
-  onChange = (e: React.FormEvent<HTMLInputElement>) => {
+  onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { onChange } = this.props
     const { checked } = e.currentTarget
-    this.setState({ value: checked, isValid: this._isValidValue(checked) })
+    this.setState({ checked, isValid: this._isValidState(checked) })
+    if (typeof onChange === 'function') {
+      onChange(e, checked)
+    }
   }
 
   validate = (): boolean => {
-    const { value } = this.state
-    const isValid = this._isValidValue(value)
+    const { checked } = this.state
+    const isValid = this._isValidState(checked)
 
     this.setState({ isValid })
 
     return isValid
   }
 
+  reset = () => {
+    this.setState({...initialState})
+  }
+
   render = () => {
     const { label, helperText = '' } = this.props
-    const { isValid } = this.state
+    const { isValid, checked } = this.state
+
     return (
       <StyledFormControl error={!isValid} className={isValid ? '' : 'Mui-error'}>
-        <FormControlLabel control={<Checkbox {...this.props} onChange={this.onChange} />} label={label} />
+        <FormControlLabel
+          control={<Checkbox {...this.props} onChange={this.onChange} checked={checked} />}
+          label={label}
+        />
         {!isValid && helperText.length !== 0 && <FormHelperText>{helperText}</FormHelperText>}
       </StyledFormControl>
     )
