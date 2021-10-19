@@ -180,7 +180,14 @@
       }
     }
   },
-  "Buttons": {
+  "Links & Buttons": {
+    "link_style": {
+      "type": "Select",
+      "config": {
+        "options": ["Underline", "Darken / Lighten"],
+        "label": "Link Style"
+      }
+    },
     "button_padding": {
       "type": "Text",
       "config": {
@@ -189,7 +196,7 @@
       }
     },
     "button_border_radius": {
-      "type": "Number",
+      "type": "Text",
       "config": {
         "label": "Button Border Radius",
         "placeholder": "10px"
@@ -203,10 +210,12 @@
       }
     },
     "button_box_shadow": {
-      "type": "Text",
+      "type": "Boolean",
       "config": {
-        "label": "Button Box Shadow",
-        "placeholder": "none"
+        "placeholder_false": "off",
+        "placeholder_true": "on",
+        "default_value": false,
+        "label": "Button Box Shadow"
       }
     },
     "buttons": {
@@ -254,8 +263,8 @@
             "type": "Select",
             "config": {
               "options": ["None", "Change Background", "Change Box Shadow", "Darken / Lighten"],
-              "label": "Hover Effect",
-              "placeholder": "none"
+              "default_value": "None",
+              "label": "Hover Effect"
             }
           }
         },

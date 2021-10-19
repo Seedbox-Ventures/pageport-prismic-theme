@@ -10,7 +10,6 @@ export enum LinkTarget {
   Top = '_top',
 }
 
-
 export interface LinkStyle {
   color?: ThemeColorType
   underline?: boolean
@@ -20,23 +19,29 @@ export interface LinkStyle {
   hoverColor?: ThemeColorType
 }
 
-export interface LinkProps extends LinkStyle {
+export interface StyledLinkProps extends LinkStyle, BasicLinkProps {
+  as?: React.ElementType
+}
+
+export interface BasicLinkProps {
   internal?: boolean
   url?: string
   target?: LinkTarget
-  onClick?: () => void
+  onClick?: React.MouseEventHandler<HTMLElement>
   children?: React.ReactNode
 }
 
-const StyledLink = styled.div<{
-  as?: React.ElementType
-}>`
+export interface LinkProps extends BasicLinkProps, LinkStyle {
+}
+
+const StyledLink = styled.div<StyledLinkProps>(
+  ({ underline = true }) => `
   cursor: pointer;
-  text-decoration: underline;
-`
+  text-decoration: ${underline ? 'underline' : 'none'};
+`,
+)
 
 const Link: React.FC<LinkProps> = ({ url, target, internal, onClick, children }) => {
-
   if (internal && url) {
     return (
       <StyledLink as={GatsbyLink} to={url} target={target} onClick={onClick}>

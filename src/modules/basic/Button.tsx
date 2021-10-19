@@ -1,104 +1,167 @@
-import * as React from 'react'
-import styled from 'styled-components'
+import React, { useContext } from 'react'
 import { StyleHelper, ThemeButtonHoverEffectType, ThemeButtonType, ThemeTextType } from '../../theme'
-import Link, { LinkProps } from './Link'
+import { Button as MUIButton, ButtonProps as MUIButtonProps } from '@mui/material'
+import styled, { ThemeContext } from 'styled-components'
+import { BasicLinkProps } from './Link'
 
-const StyledButton = styled.button<{ buttonType: ThemeButtonType; as: React.ElementType }>(({ buttonType, theme }) => {
-  const buttonConfig = theme.getButtonConfigByType(buttonType)
-  const buttonColorValue = theme.getColorValueByType(buttonConfig.color)
+const buttonShadow =
+  '0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)'
+const buttonHoverShadow =
+  '0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)'
 
-  const values = {
-    padding: theme.props.buttonPadding,
-    borderRadius: theme.props.buttonBorderRadius,
-    border: {
-      width: theme.props.buttonBorderWidth,
-      color: buttonColorValue,
+export interface ButtonProps extends BasicLinkProps {
+  disabled?: boolean
+  themeType?: ThemeButtonType
+  type?: 'button' | 'submit' | 'reset'
+}
+
+interface StyledButtonProps extends MUIButtonProps {
+  colorValue: `#${string}`
+  hoverEffect: ThemeButtonHoverEffectType
+  shadow: boolean
+}
+
+const StyledButton = styled(MUIButton)<StyledButtonProps>(({ colorValue, hoverEffect, shadow, theme }) => {
+  const textColor = theme.getTextColorValueByBackgroundValue(colorValue)
+  const ghostColor = '#aaa'
+  const ghostTextColor = '#ccc'
+
+  return {
+    '&.MuiButton-root': {
+      '&': {
+        textDecoration: 'none',
+        fontFamily: theme.getFontFamily((theme.getType(ThemeTextType.Button) || theme.getStandardType()).fontFamily),
+      },
+      '&.Mui-disabled': {
+        cursor: 'not-allowed',
+      },
+      '&.MuiButton-contained': {
+        '&': {
+          background: colorValue,
+          color: textColor,
+          borderColor: colorValue,
+          padding: theme.props.buttonPadding,
+          borderRadius: theme.props.buttonBorderRadius,
+          borderWidth: theme.props.buttonBorderWidth,
+          borderStyle: 'solid',
+          boxShadow: shadow ? buttonShadow : 'none',
+        },
+        '&:hover, &:focus': getButtonHoverStyle('contained', hoverEffect, colorValue),
+        '&.Mui-disabled': {
+          backgroundColor: ghostColor,
+          borderColor: ghostColor,
+          color: ghostTextColor,
+        },
+      },
+      '&.MuiButton-outlined': {
+        '&': {
+          color: colorValue,
+          borderColor: colorValue,
+          padding: theme.props.buttonPadding,
+          borderRadius: theme.props.buttonBorderRadius,
+          borderWidth: theme.props.buttonBorderWidth,
+          boxShadow: shadow ? buttonShadow : 'none',
+        },
+        '&:hover, &:focus': getButtonHoverStyle('outlined', hoverEffect, colorValue),
+        '&.Mui-disabled': {
+          borderColor: ghostColor,
+          color: ghostTextColor,
+        },
+      },
+      '&.MuiButton-text': {
+        '&': {
+          color: colorValue,
+        },
+        '&:hover, &:focus': getButtonHoverStyle('text', hoverEffect, colorValue),
+      },
     },
-    boxShadow: theme.props.buttonBoxShadow,
-    fontFamily: theme.getFontFamily((theme.getType(ThemeTextType.Button) || theme.getStandardType()).fontFamily),
-    bgColor: !buttonConfig.fillBackground ? 'transparent' : buttonColorValue,
-    textColor: !buttonConfig.fillBackground
-      ? buttonColorValue
-      : theme.getTextColorValueByBackgroundValue(buttonColorValue),
   }
-
-  const buttonHoverEffects: Record<ThemeButtonHoverEffectType, string> = {
-    [ThemeButtonHoverEffectType.None]: `
-      
-    `,
-    [ThemeButtonHoverEffectType.ChangeBackground]: `
-      background-color: ${!buttonConfig.fillBackground ? buttonColorValue : 'transparent'};
-      color: ${
-        !buttonConfig.fillBackground ? theme.getTextColorValueByBackgroundValue(buttonColorValue) : buttonColorValue
-      };
-    `,
-    [ThemeButtonHoverEffectType.ChangeBoxShadow]: `
-      /* TODO: implement ChangeBoxShadow effect */
-    `,
-    [ThemeButtonHoverEffectType.DarkenLighten]: `
-      background-color: ${StyleHelper.lightenDarken(buttonColorValue)};
-      border-color: ${StyleHelper.lightenDarken(buttonColorValue)};
-    `,
-  }
-
-  return `
-    display: inline-block;
-    margin: 0;
-    padding: ${values.padding};
-    border: ${values.border.width} solid ${values.border.color};
-    border-radius: ${values.borderRadius};
-    background-color: ${values.bgColor};
-    box-sizing: border-box;
-    text-decoration: none;
-    font-family: ${values.fontFamily};
-    color: ${values.textColor};
-    text-align: center;
-    transition: all 0.2s;
-    line-height: 1;
-    cursor: pointer;
-    
-    &:hover, &:focus {
-      ${buttonHoverEffects[buttonConfig.hoverEffect]}
-    }
-  `
 })
 
-export interface ButtonProps {
-  type: ThemeButtonType
-  onClick?: React.MouseEventHandler<HTMLButtonElement>
-}
-
-const Button: React.FC<ButtonProps> = ({ type, children, onClick }) => {
-  return (
-    <StyledButton buttonType={type} as={'button'} onClick={onClick}>
-      {children}
-    </StyledButton>
-  )
-}
-
-export interface ButtonLinkProps extends LinkProps {
-  type?: ThemeButtonType
-}
-
-export const ButtonLink: React.FC<ButtonLinkProps> = ({
-  type = ThemeButtonType.Default,
-  url,
-  target,
-  internal,
-  children,
-}) => {
-  if (internal) {
-    return (
-      <StyledButton as={Link} url={url} target={target} buttonType={type}>
-        {children}
-      </StyledButton>
-    )
+const Button: React.FC<ButtonProps> = ({ disabled, themeType = ThemeButtonType.Default, type, url, children,onClick }) => {
+  const buttonProps: StyledButtonProps = {
+    ...getStyledButtonPropsFromButtonType(themeType),
+    href: url,
+    disabled,
+    type,
+    onClick
   }
+
   return (
-    <StyledButton as="a" href={url} target={target} buttonType={type}>
+    <StyledButton
+      {...buttonProps}
+    >
       {children}
     </StyledButton>
   )
 }
 
 export default Button
+
+function getStyledButtonPropsFromButtonType(type: ThemeButtonType): StyledButtonProps {
+  const theme = useContext(ThemeContext)
+  const { buttonBoxShadow } = theme.props
+  const { fillBackground, color, hoverEffect } = theme.getButtonConfigByType(type)
+  const buttonColorValue = theme.getColorValueByType(color)
+
+  return {
+    variant: fillBackground ? 'contained' : 'outlined',
+    colorValue: buttonColorValue,
+    hoverEffect,
+    shadow: buttonBoxShadow,
+  }
+}
+
+function getButtonHoverStyle(
+  variant: 'contained' | 'outlined' | 'text',
+  hoverType: ThemeButtonHoverEffectType,
+  baseColorValue: `#${string}`,
+) {
+  const theme = useContext(ThemeContext)
+  const changeColor = StyleHelper.lightenDarken(baseColorValue, 20)
+  const changeTextColor = theme.getTextColorValueByBackgroundValue(baseColorValue)
+
+  const hoverStyles: Record<'contained' | 'outlined' | 'text', Record<ThemeButtonHoverEffectType, any>> = {
+    contained: {
+      [ThemeButtonHoverEffectType.None]: {},
+      [ThemeButtonHoverEffectType.ChangeBackground]: {
+        background: 'transparent',
+        color: baseColorValue,
+      },
+      [ThemeButtonHoverEffectType.ChangeBoxShadow]: {
+        boxShadow: buttonHoverShadow,
+      },
+      [ThemeButtonHoverEffectType.DarkenLighten]: {
+        background: changeColor,
+        borderColor: changeColor,
+      },
+    },
+    outlined: {
+      [ThemeButtonHoverEffectType.None]: {},
+      [ThemeButtonHoverEffectType.ChangeBackground]: {
+        backgroundColor: baseColorValue,
+        color: changeTextColor,
+      },
+      [ThemeButtonHoverEffectType.ChangeBoxShadow]: {
+        boxShadow: buttonHoverShadow,
+      },
+      [ThemeButtonHoverEffectType.DarkenLighten]: {
+        borderColor: changeColor,
+        color: changeColor,
+      },
+    },
+    text: {
+      [ThemeButtonHoverEffectType.None]: {},
+      [ThemeButtonHoverEffectType.ChangeBackground]: {
+        backgroundColor: baseColorValue,
+        color: changeTextColor,
+      },
+      [ThemeButtonHoverEffectType.ChangeBoxShadow]: {},
+      [ThemeButtonHoverEffectType.DarkenLighten]: {
+        color: changeColor,
+      },
+    },
+  }
+
+  return hoverStyles[variant][hoverType]
+}

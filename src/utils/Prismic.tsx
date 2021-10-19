@@ -17,12 +17,12 @@ export interface PrismicLinkData {
   localFile?: any // TODO implement prismics "File" type
 }
 
-export const DataHelper = {
+export const PrismicHelper = {
   objectKeysToCamelCase: function (obj: Object): Record<string, any> {
     let transformedObj: Record<string, any> = _.mapKeys(obj, (_v, k) => _.camelCase(k))
     transformedObj = _.mapValues(transformedObj, (v) => {
       if (typeof v === 'object') {
-        return DataHelper.objectKeysToCamelCase(v)
+        return PrismicHelper.objectKeysToCamelCase(v)
       }
       return v
     }) as Record<string, any>

@@ -11,18 +11,18 @@ import {
   ThemeLinkInteractiveStyle,
   ThemeTextType,
 } from '../../theme'
-import { Section } from './Section'
+import Section from './Section'
 import { DataComponent } from './types'
 import { getImage, ImageDataLike } from 'gatsby-plugin-image'
-import { DataHelper, PrismicLinkData } from '../../utils/Prismic'
+import { PrismicHelper, PrismicLinkData } from '../../utils/Prismic'
 import { LinkProps, LinkStyle } from '../basic/Link'
 import { Logo, LogoProps } from '../basic/Logo'
 import PagePort from '../../utils/PagePort'
-import { Navigation, NavigationProps } from '../basic/Navigation'
+import Navigation, { NavigationProps } from '../basic/Navigation'
 import styled from 'styled-components'
-import { ButtonLink } from '../basic/Button'
-import { BurgerMenu, BurgerMenuProps } from '../burgerMenu/BurgerMenu'
+import BurgerMenu, { BurgerMenuProps } from '../burgerMenu/BurgerMenu'
 import { graphql } from 'gatsby'
+import Button from '../basic/Button'
 
 export enum Orientation {
   Left = 'Left',
@@ -80,7 +80,7 @@ export interface HeaderProps {
 
 const customSectionContainerStyle = { 'flex-direction': 'row', 'justify-content': 'space-between' }
 
-export const Header: DataComponent<HeaderProps, HeaderData> = ({
+const Header: DataComponent<HeaderProps, HeaderData> = ({
   burgerMenuBreakPoint = 'Never',
   backgroundColor = ThemeColorType.Primary,
   isSticky = false,
@@ -145,8 +145,6 @@ export const Header: DataComponent<HeaderProps, HeaderData> = ({
   )
 }
 
-//items={navigationItems} align="horizontal" customCss={}
-
 Header.mapDataToProps = (headerData) => {
   const {
     header: { defaultData: headerDefaults },
@@ -198,7 +196,7 @@ Header.mapDataToProps = (headerData) => {
               if (!navItem?.link) {
                 return undefined
               }
-              const linkProps = DataHelper.prismicLinkToLinkProps(navItem.link)
+              const linkProps = PrismicHelper.prismicLinkToLinkProps(navItem.link)
               if (!linkProps) {
                 return undefined
               }
@@ -216,11 +214,13 @@ Header.mapDataToProps = (headerData) => {
         : undefined,
     ctaDisplay: cta_display,
     ctaText: cta_text,
-    ctaLink: DataHelper.prismicLinkToLinkProps(cta_link),
+    ctaLink: PrismicHelper.prismicLinkToLinkProps(cta_link),
     ctaButtonType: cta_button_type,
     logo: mapLogoDataToProps(logo, logo_width, logo_link),
   }
 }
+
+export default Header
 
 function mapLogoDataToProps(logo?: LogoData, width?: string, link?: PrismicLinkData): LogoProps | undefined {
   if (!logo) {
@@ -230,7 +230,7 @@ function mapLogoDataToProps(logo?: LogoData, width?: string, link?: PrismicLinkD
     image: getImage(logo!.gatsbyImageData!),
     alt: logo!.alt ?? '',
     width,
-    link: link ? DataHelper.prismicLinkToLinkProps(link) : undefined,
+    link: link ? PrismicHelper.prismicLinkToLinkProps(link) : undefined,
   }
 }
 
@@ -290,9 +290,9 @@ function renderCTA(
 
   return (
     <StyledCTAContainer breakPoint={breakPoint}>
-      <ButtonLink internal={link.internal} url={link.url} type={buttonType}>
+      <Button internal={link.internal} url={link.url} themeType={buttonType}>
         {text}
-      </ButtonLink>
+      </Button>
     </StyledCTAContainer>
   )
 }

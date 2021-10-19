@@ -5,15 +5,16 @@ import { RichText, RichTextBlock } from 'prismic-reactjs'
 import { CustomLink } from '../utils/CustomLink'
 import { ContainerSpacing, ThemeBackgroundColor, ThemeButtonType, ThemeColorType } from '../theme'
 import styled from 'styled-components'
-import { Button, ButtonLinkProps } from '../modules/basic/Button'
-import { Section, SliceComponent, SliceData } from '../modules/page'
-import { DataHelper, PrismicLinkData } from '../utils/Prismic'
+import { PrismicHelper, PrismicLinkData } from '../utils/Prismic'
+import { SliceComponent, SliceData } from '../modules/page/SliceZone'
+import Section from '../modules/page/Section'
+import Button, { ButtonProps } from '../modules/basic/Button'
 
 export interface CallToActionProps {
   backgroundColor: ThemeBackgroundColor
   title: string
   text?: RichTextBlock[]
-  buttons: Array<ButtonLinkProps>
+  buttons: Array<ButtonProps>
   padding?: Partial<ContainerSpacing>
 }
 
@@ -42,7 +43,7 @@ const CallToActionButtons = styled.div`
   margin: 3rem 0 0;
 `
 
-export const CallToAction: SliceComponent<CallToActionProps> = ({ backgroundColor, title, text, buttons, padding }) => {
+const CallToAction: SliceComponent<CallToActionProps> = ({ backgroundColor, title, text, buttons, padding }) => {
   return (
     <Section {...{ backgroundColor, padding }}>
       <CallToActionContainer>
@@ -71,19 +72,26 @@ CallToAction.mapDataToProps = (sliceData: SliceData) => {
     buttons: !sliceData.items?.length
       ? []
       : sliceData.items.map(
-          (item: { button_type: ThemeButtonType; button_text: string; button_link: PrismicLinkData }): ButtonLinkProps => {
+          (item: {
+            button_type: ThemeButtonType
+            button_text: string
+            button_link: PrismicLinkData
+          }): ButtonProps => {
             return {
-              ...DataHelper.prismicLinkToLinkProps(item.button_link)!,
+              ...PrismicHelper.prismicLinkToLinkProps(item.button_link)!,
               children: item.button_text,
-              type: item.button_type,
+              themeType: item.button_type,
             }
           },
         ),
   }
 }
 
+export default CallToAction
+
 export const query = graphql`
   fragment PageDynamicDataBodyCallToAction on PrismicPageDynamicDataBodyCallToAction {
+    id
     primary {
       title
       text {

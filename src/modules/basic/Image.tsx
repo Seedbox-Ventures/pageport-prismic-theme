@@ -5,7 +5,8 @@ import { StyleHelper } from '../../theme'
 import styled from 'styled-components'
 import _ from 'lodash'
 
-interface PPGatsbyImageProps {
+export interface ImageProps {
+  className?: string
   alt: string
   width: string
   image: IGatsbyImageData
@@ -21,13 +22,12 @@ const StyledImage = styled(GatsbyImage)<StyledImageProps>(({ width }) => {
   })
 })
 
-export const PPGatsbyImage: React.FC<PPGatsbyImageProps> = ({ alt, image, width }) => {
+const Image: React.FC<ImageProps> = ({ alt, image, width, className }) => {
   const appliedImageData = { ...image }
 
   if (width !== '') {
-    const pixelSizes: Array<number> = _.map<string, number>(
-      StyleHelper.splitResponsiveValue(width),
-      (value) => StyleHelper.toPixelNumber(value),
+    const pixelSizes: Array<number> = _.map<string, number>(StyleHelper.splitResponsiveValue(width), (value) =>
+      StyleHelper.toPixelNumber(value),
     )
 
     const maxPixelSize = Math.max(...pixelSizes)
@@ -38,6 +38,7 @@ export const PPGatsbyImage: React.FC<PPGatsbyImageProps> = ({ alt, image, width 
     appliedImageData.images!.fallback!.sizes = StyleHelper.arrayToImageSizes(pixelSizes)
   }
 
-
-  return <StyledImage alt={alt} image={appliedImageData} width={width} />
+  return <StyledImage className={className} alt={alt} image={appliedImageData} width={width} />
 }
+
+export default Image

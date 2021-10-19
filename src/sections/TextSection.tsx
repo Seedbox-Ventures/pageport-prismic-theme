@@ -5,7 +5,8 @@ import { RichText, RichTextBlock } from 'prismic-reactjs'
 import { CustomLink } from '../utils/CustomLink'
 import { SpacingObject, StyleHelper, ThemeBackgroundColor } from '../theme'
 import styled from 'styled-components'
-import { Section, SliceComponent, SliceData } from '../modules/page'
+import Section from '../modules/page/Section'
+import { SliceComponent, SliceData } from '../modules/page/SliceZone'
 
 export interface TextSectionProps {
   backgroundColor: ThemeBackgroundColor
@@ -22,7 +23,7 @@ const TextContainer = styled.div<{ columns: number }>(({ columns }) => {
   return ''
 })
 
-export const TextSection: SliceComponent<TextSectionProps> = ({ backgroundColor, columns, content, padding }) => {
+const TextSection: SliceComponent<TextSectionProps> = ({ backgroundColor, columns, content, padding }) => {
   return (
     <Section {...{ backgroundColor, padding }}>
       <TextContainer columns={columns}>
@@ -39,8 +40,11 @@ TextSection.mapDataToProps = (sliceData: SliceData) => ({
   padding: { top: sliceData.primary.padding_top, bottom: sliceData.primary.padding_bottom },
 })
 
+export default TextSection
+
 export const query = graphql`
   fragment PageDynamicDataBodyText on PrismicPageDynamicDataBodyText {
+    id
     primary {
       background_color
       columns

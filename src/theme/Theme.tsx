@@ -7,26 +7,72 @@ import {
   ThemeData,
   ThemeFontFamilyType,
   ThemeLinkInteractiveStyle,
+  ThemeLinkStyle,
   ThemeProps,
   ThemeTextColor,
   ThemeTextType,
   ThemeTypeStyle,
 } from './types'
 import { StyleHelper, StyleObject } from './Style'
-import { DataHelper } from '../utils/Prismic'
+import { PrismicHelper } from '../utils/Prismic'
 import { LinkStyle } from '../modules/basic/Link'
+import { createTheme, Palette, PaletteColor, Theme as MUITheme } from '@mui/material'
+import { CSSProperties, Typography } from '@mui/material/styles/createTypography'
 
 const tinycolor = require('tinycolor2')
 
 export class Theme implements DefaultTheme {
   readonly props: ThemeProps
+  readonly muiTheme: MUITheme
 
   constructor(themeProps: ThemeProps) {
     this.props = themeProps
+    this.muiTheme = createTheme({ palette: this._extractMUIPalette(), typography: this._extractMUITypography })
   }
 
   static mapDataToProps = (themeData: ThemeData): ThemeProps => {
-    return _.omitBy(DataHelper.objectKeysToCamelCase(themeData), _.isEmpty) as ThemeProps
+    return _.omitBy(PrismicHelper.objectKeysToCamelCase(themeData), (val) => {
+      return typeof val === 'undefined' || val === null || (typeof val === 'object' && Object.keys(val).length === 0)
+    }) as ThemeProps
+  }
+
+  private _getMUIPaletteColor = (colorValue: `#${string}`): PaletteColor => {
+    const color = tinycolor(colorValue)
+    return {
+      light: color.lighten().toString(),
+      main: colorValue,
+      dark: color.darken().toString(),
+      contrastText: this.getTextColorValueByBackgroundValue(colorValue),
+    }
+  }
+
+  private _extractMUIPalette = (): Partial<Palette> => {
+    return {
+      common: {
+        black: this.getColorValueByType(ThemeColorType.DarkText),
+        white: this.getColorValueByType(ThemeColorType.LightText),
+      },
+      primary: this._getMUIPaletteColor(this.getColorValueByType(ThemeColorType.Primary)),
+      secondary: this._getMUIPaletteColor(this.getColorValueByType(ThemeColorType.Accent)),
+      error: this._getMUIPaletteColor(this.getColorValueByType(ThemeColorType.Danger)),
+      warning: this._getMUIPaletteColor(this.getColorValueByType(ThemeColorType.Warn)),
+      info: this._getMUIPaletteColor(this.getColorValueByType(ThemeColorType.Info)),
+      success: this._getMUIPaletteColor(this.getColorValueByType(ThemeColorType.Success)),
+    }
+  }
+
+  private _extractMUITypography = (): Partial<Typography> => {
+    return {
+      fontSize: StyleHelper.toPixelNumber(this.getStandardType().fontSize),
+      htmlFontSize: StyleHelper.toPixelNumber(this.getStandardType().fontSize),
+      h1: this.getTextTypeStyleObject(ThemeTextType.PageTitle) as unknown as CSSProperties,
+      h2: this.getTextTypeStyleObject(ThemeTextType.SectionTitle) as unknown as CSSProperties,
+      h3: this.getTextTypeStyleObject(ThemeTextType.SubTitle) as unknown as CSSProperties,
+      h4: this.getTextTypeStyleObject(ThemeTextType.SmallTitle) as unknown as CSSProperties,
+      subtitle1: this.getTextTypeStyleObject(ThemeTextType.SubTitle) as unknown as CSSProperties,
+      subtitle2: this.getTextTypeStyleObject(ThemeTextType.SmallTitle) as unknown as CSSProperties,
+      button: this.getTextTypeStyleObject(ThemeTextType.Button) as unknown as CSSProperties,
+    }
   }
 
   getColorValueByType = (colorType: ThemeColorType): `#${string}` => {
@@ -62,8 +108,8 @@ export class Theme implements DefaultTheme {
     return this.getColorValueByType(textColor)
   }
 
-  getType = (textType: ThemeTextType): ThemeTypeStyle | undefined => {
-    return _.find(this.props.typeDefinitions, { textType })
+  getType = (textType: ThemeTextType): ThemeTypeStyle => {
+    return _.find(this.props.typeDefinitions, { textType }) ?? this.getStandardType()
   }
 
   getStandardType = (): ThemeTypeStyle => {
@@ -77,7 +123,7 @@ export class Theme implements DefaultTheme {
       throw `Could not get type definition for text type ${themeTextType}`
     }
 
-    return this.getTextTypeStyleObject(themeTextType)
+    return this.getTypeStyleObject(themeType)
   }
 
   getTypeStyleObject = (themeType: ThemeTypeStyle): StyleObject => {
@@ -103,6 +149,34 @@ export class Theme implements DefaultTheme {
 
   renderTypeCss = (themeType: ThemeTypeStyle): string => {
     return StyleHelper.renderCssFromObject(this.getTypeStyleObject(themeType))
+  }
+
+  renderTextLinkCss = (textColor: ThemeColorType): string => {
+    const { linkStyle } = this.props
+    const color = this.getColorValueByType(textColor)
+    switch (linkStyle) {
+      case ThemeLinkStyle.Underline:
+        return `
+          color: ${color};
+          text-decoration: underline;
+          
+          &:hover {
+            text-decoration: none;
+          }
+        `
+      case ThemeLinkStyle.DarkenLighten:
+        const darkenedLightenedColor = StyleHelper.lightenDarken(color, 20)
+        return `
+          color: ${darkenedLightenedColor};
+          text-decoration: none;
+          
+          &:hover {
+            color: ${color}
+          }
+        `
+      default:
+        return ''
+    }
   }
 
   renderLinkCss = ({

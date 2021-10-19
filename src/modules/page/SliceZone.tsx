@@ -1,29 +1,27 @@
 import * as React from 'react'
 import { DataComponent } from './types'
 
-export interface SliceData {
+export interface SliceData<P = Record<string, any>, I = any> {
   slice_type: string
-  primary: Record<string, any>
-  items?: Array<any>
+  id: string
+  primary: P
+  items?: Array<I>
 }
 
 export interface SliceProps {
-  data: SliceData,
+  data: SliceData
 }
 
-export interface SliceComponentMap extends Partial<Record<string, SliceComponent<any>>> {
-}
+export interface SliceComponentMap extends Partial<Record<string, SliceComponent<any>>> {}
 
-export interface SliceComponent<P> extends DataComponent<P, SliceData> {
-}
-
+export interface SliceComponent<P> extends DataComponent<P, SliceData> {}
 
 export interface SliceZoneProps {
   slicesData: Array<SliceData>
   sliceComponentMap: SliceComponentMap
 }
 
-export const SliceZone: React.FC<SliceZoneProps> = ({ slicesData, sliceComponentMap }) => {
+const SliceZone: React.FC<SliceZoneProps> = ({ slicesData, sliceComponentMap }) => {
   const sliceZoneContent = slicesData.map((sliceData, index) => {
     const SliceComponent = sliceComponentMap[sliceData?.slice_type]
     if (SliceComponent && sliceData?.primary) {
@@ -32,5 +30,7 @@ export const SliceZone: React.FC<SliceZoneProps> = ({ slicesData, sliceComponent
     return null
   })
 
-  return <main className='container'>{sliceZoneContent}</main>
+  return <main className="container">{sliceZoneContent}</main>
 }
+
+export default SliceZone

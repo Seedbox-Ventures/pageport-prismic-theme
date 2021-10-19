@@ -6,17 +6,25 @@ import { UnknownRecord, withPrismicPreview } from 'gatsby-plugin-prismic-preview
 import { WithPrismicPreviewProps } from 'gatsby-plugin-prismic-previews/src/withPrismicPreview'
 import { Theme, ThemeData, ThemeWrapper } from '../theme'
 import { linkResolver } from '../utils/LinkResolver'
-import { CallToAction } from '../sections/CallToAction'
-import { TextSection } from '../sections/TextSection'
-import { Footer, Header, HeaderData, SEO, SliceData, SliceZone } from '../modules/page'
 import { useAppDispatch } from '../state/hooks'
 import { receiveUserDataSettings } from '../modules/userDataManagement/userDataSlice'
 import { UserDataSettingsData } from '../modules/userDataManagement/types'
 import UserDataManager from '../modules/userDataManagement/UserDataManager'
+import ContactSection from '../sections/ContactSection'
+import SliceZone, { SliceData } from '../modules/page/SliceZone'
+import SEO from '../modules/page/Seo'
+import Footer from '../modules/page/Footer'
+import CallToAction from '../sections/CallToAction'
+import Header, { HeaderData } from '../modules/page/Header'
+import TextSection from '../sections/TextSection'
+import EmailProvider from '../services/email/EmailContext'
+import { EmailProviderInputData } from '../services/email/type'
+
+interface SiteSettingsData extends UserDataSettingsData, EmailProviderInputData {}
 
 interface DynamicPageProps extends UnknownRecord {
   prismicSiteSettings: {
-    data: UserDataSettingsData
+    data: SiteSettingsData
   }
   prismicTheme: {
     data: ThemeData
@@ -44,6 +52,8 @@ const DynamicPage: React.ComponentType<gatsby.PageProps<DynamicPageProps> & With
         document: { data: headerData },
       },
     } = data.prismicPageDynamic.data
+
+    const emailProviderProps = EmailProvider.mapDataToProps(data.prismicSiteSettings.data)
     const themeProps = Theme.mapDataToProps(data.prismicTheme.data)
     const dispatch = useAppDispatch()
 
@@ -52,19 +62,22 @@ const DynamicPage: React.ComponentType<gatsby.PageProps<DynamicPageProps> & With
     })
 
     return (
-      <ThemeWrapper themeProps={themeProps} isRootTheme={true}>
-        <SEO title={title} />
-        <Header {...Header.mapDataToProps(headerData)} />
-        <SliceZone
-          slicesData={slices}
-          sliceComponentMap={{
-            call_to_action: CallToAction,
-            text: TextSection,
-          }}
-        />
-        <Footer />
-        <UserDataManager />
-      </ThemeWrapper>
+      <EmailProvider {...emailProviderProps}>
+        <ThemeWrapper themeProps={themeProps} isRootTheme={true}>
+          <SEO title={title} />
+          <Header {...Header.mapDataToProps(headerData)} />
+          <SliceZone
+            slicesData={slices}
+            sliceComponentMap={{
+              call_to_action: CallToAction,
+              contact: ContactSection,
+              text: TextSection,
+            }}
+          />
+          <Footer />
+          <UserDataManager />
+        </ThemeWrapper>
+      </EmailProvider>
     )
   }
 
@@ -82,10 +95,8 @@ export const query = graphql`
           ... on PrismicSliceType {
             slice_type
           }
+          ...PageDynamicDataBodyContact
           ...PageDynamicDataBodyText
-          ... on PrismicPageDynamicDataBodyCallToAction {
-            id
-          }
         }
         header_ref {
           document {
@@ -95,6 +106,7 @@ export const query = graphql`
       }
     }
     ...Theme
+    ...EmailSettings
     ...UserDataSettings
   }
 `

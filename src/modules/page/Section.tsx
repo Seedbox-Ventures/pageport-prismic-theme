@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { useContext } from 'react'
 import _ from 'lodash'
-import styled, { ThemeContext } from 'styled-components'
-import { ContainerSpacing, StyleHelper, StyleObject, ThemeColorType } from '../../theme'
+import tinycolor from 'tinycolor2'
+import styled, { ThemeContext, ThemeProvider } from 'styled-components'
+import { ContainerSpacing, StyleHelper, StyleObject, ThemeColorType, ThemeMode } from '../../theme'
 import * as CSS from 'csstype'
 
 export interface SectionProps {
@@ -20,19 +21,26 @@ export const StyledSection = styled.div<{
   backgroundColor: ThemeColorType
   isSticky: boolean
   customCss?: StyleObject
-}>(({ backgroundColor, isSticky, theme, customCss = {} }) =>
-  StyleHelper.renderCssFromObject(
+}>(({ backgroundColor, isSticky, theme, customCss = {} }) => {
+  const textColor = theme.getTextColorByBackground(backgroundColor)
+  const color = theme.getColorValueByType(textColor)
+  return `
+  ${StyleHelper.renderCssFromObject(
     _.merge(
       {
-        color: theme.getTextColorValueByBackground(backgroundColor),
+        color,
         'background-color': theme.getColorValueByType(backgroundColor),
         position: isSticky ? 'sticky' : 'static',
         width: '100%',
       },
       customCss,
     ),
-  ),
-)
+  )}
+  a {
+    ${theme.renderTextLinkCss(textColor)}
+  }
+  `
+})
 
 const ContentContainer = styled.div<{
   isFullWidth: boolean
@@ -55,7 +63,7 @@ const ContentContainer = styled.div<{
   return StyleHelper.renderCssFromObject(styleObj)
 })
 
-export const Section: React.FC<SectionProps> = ({
+const Section: React.FC<SectionProps> = ({
   backgroundColor,
   isFullWidth = false,
   padding,
@@ -69,19 +77,24 @@ export const Section: React.FC<SectionProps> = ({
   const mergedPadding = padding
     ? StyleHelper.mergeContainerSpacings(theme.props.contentPadding, padding)
     : theme.props.contentPadding
+  const mode: ThemeMode = tinycolor(theme.getColorValueByType(backgroundColor)).isDark() ? 'dark' : 'light'
 
   return (
-    <StyledSection {...{ as, backgroundColor, className, isSticky }}>
-      <ContentContainer
-        {...{
-          className: 'contentContainer',
-          isFullWidth,
-          padding: mergedPadding,
-          customContainerStyle,
-        }}
-      >
-        {children}
-      </ContentContainer>
-    </StyledSection>
+    <ThemeProvider theme={{ ...theme, props: { ...theme.props, mode } }}>
+      <StyledSection {...{ as, backgroundColor, className, isSticky }}>
+        <ContentContainer
+          {...{
+            className: 'contentContainer',
+            isFullWidth,
+            padding: mergedPadding,
+            customContainerStyle,
+          }}
+        >
+          {children}
+        </ContentContainer>
+      </StyledSection>
+    </ThemeProvider>
   )
 }
+
+export default Section

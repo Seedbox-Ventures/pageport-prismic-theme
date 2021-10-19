@@ -1,3 +1,5 @@
 .pp_overlayRoot {
-  z-index: 10000;
+  & > * {
+    z-index: 10000;
+  }
 }

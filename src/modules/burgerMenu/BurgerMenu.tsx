@@ -3,11 +3,11 @@ import { ContainerSpacing, StyleHelper, ThemeColorType, ThemeTextType } from '..
 import { LinkProps, LinkStyle } from '../basic/Link'
 import { useAppDispatch, useAppSelector } from '../../state/hooks'
 import { closeMenu, openMenu, selectIsOpen, toggleMenu } from './burgerMenuSlice'
-import { Overlay } from '../overlay/Overlay'
-import { Navigation, NavigationProps } from '../basic/Navigation'
-import { BurgerMenuTrigger } from './BurgerMenuTrigger'
+import  BurgerMenuTrigger  from './BurgerMenuTrigger'
 import styled, { ThemeContext } from 'styled-components'
-import { Orientation } from '../page'
+import Navigation, { NavigationProps } from '../basic/Navigation'
+import { Orientation } from '../page/Header'
+import Overlay from '../overlay/Overlay'
 
 export interface BurgerMenuProps {
   links: Array<LinkProps>
@@ -38,11 +38,10 @@ const StyledContentContainer = styled.div<{
   })
 })
 
-export const BurgerMenu: React.FC<BurgerMenuProps> = function ({
+const BurgerMenu: React.FC<BurgerMenuProps> = function ({
   links,
   iconColor = ThemeColorType.DarkText,
   textType = ThemeTextType.Header,
-
   linkStyle,
   containerPadding,
   backgroundColor = ThemeColorType.BackgroundDefault,
@@ -92,3 +91,5 @@ export const BurgerMenu: React.FC<BurgerMenuProps> = function ({
     </Overlay>
   )
 }
+
+export default BurgerMenu

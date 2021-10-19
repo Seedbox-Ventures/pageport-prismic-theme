@@ -1,7 +1,7 @@
 import { IGatsbyImageData } from 'gatsby-plugin-image/dist/src/components/gatsby-image.browser'
 import Link, { LinkProps } from './Link'
 import * as React from 'react'
-import { PPGatsbyImage } from './Image'
+import Image from './Image'
 
 export interface LogoProps {
   image?: IGatsbyImageData
@@ -15,7 +15,7 @@ export const Logo: React.FC<LogoProps> = ({ image, alt = '', width = '120px', li
     return null
   }
 
-  const logo = <PPGatsbyImage {...{ image, alt, width }} />
+  const logo = <Image {...{ image, alt, width }} />
 
   if (link?.url) {
     return <Link {...link}>{logo}</Link>
