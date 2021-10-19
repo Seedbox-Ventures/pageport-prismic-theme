@@ -7,7 +7,7 @@ const breakPoints = _.map(pageportBreakpoints, (nextBreakPoint: number) => (next
 
 export default {
   siteMetadata: {
-    title: 'Gatsby + Prismic Tutorial',
+    title: 'Pageport',
     description: 'Learn how to integrate Prismic into your Gatsby project.',
   },
   plugins: [
