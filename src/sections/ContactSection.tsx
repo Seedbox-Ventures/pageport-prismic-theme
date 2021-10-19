@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import _ from 'lodash'
 import tinycolor from 'tinycolor2'
 import styled from 'styled-components'
@@ -16,9 +16,9 @@ import FormSubmit from '../modules/form/FormSubmit'
 import FormCheckbox from '../modules/form/FormCheckbox'
 import { graphql } from 'gatsby'
 import { CircularProgress, IconButton } from '@mui/material'
-import EmailService from '../services/EmailService'
 import { Close } from '@mui/icons-material'
 import { FormContextState } from '../modules/form/FormContext'
+import { EmailContext } from '../services/email/EmailContext'
 
 interface DataPrimary {
   background_color?: ThemeBackgroundColor
@@ -177,6 +177,13 @@ const initialState: ContactSectionState = {
   },
 }
 
+type FormValues = {
+  name: string
+  email: string
+  message: string
+  agb: boolean
+}
+
 const ContactSection: SliceComponent<ContactSectionProps> = ({
   backgroundColor,
   buttonStyle,
@@ -188,6 +195,7 @@ const ContactSection: SliceComponent<ContactSectionProps> = ({
   errorMessage,
 }) => {
   const [state, setState] = useState(initialState)
+  const { handleUserMessage } = useContext(EmailContext)
   const {
     error,
     isLoading,
@@ -195,11 +203,22 @@ const ContactSection: SliceComponent<ContactSectionProps> = ({
     formValues: { name, email, message, acceptAGBs },
   } = state
 
-  const onSubmit = async (_formValues: Record<string, any>, { reset: formValueReset }: FormContextState) => {
+  const sendMessage = ({ name, email, message, agb }: FormValues) => {
+    const messageToSend = `
+      ${message}
+      
+      - - - - - - - - - - - - - - - - - - - - -
+      Accepted AGBs: ${agb ? 'yes' : 'no'}    
+    `
+
+    return handleUserMessage({ name, email }, messageToSend)
+  }
+
+  const onSubmit = async (formValues: Record<string, any>, { reset: formValueReset }: FormContextState) => {
     setState({ ...state, isLoading: true })
     let error: string | undefined = undefined
     try {
-      if (!(await EmailService.sendFormData())) {
+      if (!(await sendMessage(formValues as FormValues))) {
         error = 'Could not send form data'
       }
     } catch (e) {
@@ -250,6 +269,7 @@ const ContactSection: SliceComponent<ContactSectionProps> = ({
             key={'name'}
             required
             label="Name"
+            name={'name'}
             helperText={'Please provide your name'}
             onChange={(e) => {
               onChangeValue('name', e.currentTarget.value)
@@ -261,6 +281,7 @@ const ContactSection: SliceComponent<ContactSectionProps> = ({
             required
             label="E-Mail-Adresse"
             helperText={'Please provide your e-mail address'}
+            name={'email'}
             type={'email'}
             value={email}
             onChange={(e) => {
@@ -274,6 +295,7 @@ const ContactSection: SliceComponent<ContactSectionProps> = ({
             multiline
             rows={6}
             helperText={'Please write a message'}
+            name={'message'}
             value={message}
             onChange={(e) => {
               onChangeValue('message', e.currentTarget.value)

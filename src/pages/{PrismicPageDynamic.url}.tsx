@@ -17,10 +17,14 @@ import Footer from '../modules/page/Footer'
 import CallToAction from '../sections/CallToAction'
 import Header, { HeaderData } from '../modules/page/Header'
 import TextSection from '../sections/TextSection'
+import EmailProvider from '../services/email/EmailContext'
+import { EmailProviderInputData } from '../services/email/type'
+
+interface SiteSettingsData extends UserDataSettingsData, EmailProviderInputData {}
 
 interface DynamicPageProps extends UnknownRecord {
   prismicSiteSettings: {
-    data: UserDataSettingsData
+    data: SiteSettingsData
   }
   prismicTheme: {
     data: ThemeData
@@ -49,6 +53,7 @@ const DynamicPage: React.ComponentType<gatsby.PageProps<DynamicPageProps> & With
       },
     } = data.prismicPageDynamic.data
 
+    const emailProviderProps = EmailProvider.mapDataToProps(data.prismicSiteSettings.data)
     const themeProps = Theme.mapDataToProps(data.prismicTheme.data)
     const dispatch = useAppDispatch()
 
@@ -57,20 +62,22 @@ const DynamicPage: React.ComponentType<gatsby.PageProps<DynamicPageProps> & With
     })
 
     return (
-      <ThemeWrapper themeProps={themeProps} isRootTheme={true}>
-        <SEO title={title} />
-        <Header {...Header.mapDataToProps(headerData)} />
-        <SliceZone
-          slicesData={slices}
-          sliceComponentMap={{
-            call_to_action: CallToAction,
-            contact: ContactSection,
-            text: TextSection,
-          }}
-        />
-        <Footer />
-        <UserDataManager />
-      </ThemeWrapper>
+      <EmailProvider {...emailProviderProps}>
+        <ThemeWrapper themeProps={themeProps} isRootTheme={true}>
+          <SEO title={title} />
+          <Header {...Header.mapDataToProps(headerData)} />
+          <SliceZone
+            slicesData={slices}
+            sliceComponentMap={{
+              call_to_action: CallToAction,
+              contact: ContactSection,
+              text: TextSection,
+            }}
+          />
+          <Footer />
+          <UserDataManager />
+        </ThemeWrapper>
+      </EmailProvider>
     )
   }
 
@@ -99,6 +106,7 @@ export const query = graphql`
       }
     }
     ...Theme
+    ...EmailSettings
     ...UserDataSettings
   }
 `
