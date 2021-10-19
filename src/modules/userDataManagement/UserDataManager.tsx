@@ -18,7 +18,7 @@ export interface UserDataManagerProps {
 }
 
 class UserDataManager extends React.PureComponent<UserDataManagerProps> {
-  headEl: HTMLHeadElement
+  headEl?: HTMLHeadElement
   scriptTags: Record<string, HTMLAnchorElement> = {}
 
   get consentBannerProps(): ConsentBannerProps {
@@ -32,8 +32,7 @@ class UserDataManager extends React.PureComponent<UserDataManagerProps> {
     return !!_.find(dataSinks, { accepted: undefined })
   }
 
-  constructor(props: UserDataManagerProps) {
-    super(props)
+  componentDidMount = () => {
     this.headEl = document.head
   }
 
@@ -47,12 +46,12 @@ class UserDataManager extends React.PureComponent<UserDataManagerProps> {
     })
   }
 
-  render() {
+  render = () => {
     const { consentData } = this.props
     return (
       <>
         {this.displayConsentBanner && <ConsentBanner {...this.consentBannerProps} />}
-        {createPortal(this.renderTrackerCodes(consentData), this.headEl)}
+        {!!this.headEl && createPortal(this.renderTrackerCodes(consentData), this.headEl)}
       </>
     )
   }
