@@ -39,7 +39,7 @@ export default class FormProvider extends Component<FormProps, FormContextState>
     const formValues: Record<string, any> = {}
 
     _.forEach(this.formFields, (formField) => {
-      if (!formField.name) return;
+      if (!formField.name) return
       formValues[formField.name] = formField.value
     })
 

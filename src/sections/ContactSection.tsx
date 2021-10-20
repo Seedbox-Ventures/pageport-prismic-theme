@@ -55,7 +55,7 @@ interface StyledContactSectionProps {
 const StyledContactSection = styled.div<StyledContactSectionProps>(({ backgroundColor, theme }) => {
   const backgroundColorValue = theme.getColorValueByType(backgroundColor)
   const overlayBackgroundColorValue = tinycolor(backgroundColorValue).setAlpha(0.95).toRgbString()
-  const loadingackgroundColorValue = tinycolor(backgroundColorValue).setAlpha(0.8).toRgbString()
+  const loadingBackgroundColorValue = tinycolor(backgroundColorValue).setAlpha(0.8).toRgbString()
 
   return `
   &.contactSection {
@@ -116,7 +116,7 @@ const StyledContactSection = styled.div<StyledContactSectionProps>(({ background
       bottom: -1rem;
       left: -1rem;
       right: -1rem;
-      background: ${loadingackgroundColorValue};
+      background: ${loadingBackgroundColorValue};
       z-index: 1;
     }
     
@@ -181,7 +181,7 @@ type FormValues = {
   name: string
   email: string
   message: string
-  agb: boolean
+  acceptAGBs: string
 }
 
 const ContactSection: SliceComponent<ContactSectionProps> = ({
@@ -195,7 +195,7 @@ const ContactSection: SliceComponent<ContactSectionProps> = ({
   errorMessage,
 }) => {
   const [state, setState] = useState(initialState)
-  const { handleUserMessage } = useContext(EmailContext)
+  const { submitContactForm } = useContext(EmailContext)
   const {
     error,
     isLoading,
@@ -203,22 +203,12 @@ const ContactSection: SliceComponent<ContactSectionProps> = ({
     formValues: { name, email, message, acceptAGBs },
   } = state
 
-  const sendMessage = ({ name, email, message, agb }: FormValues) => {
-    const messageToSend = `
-      ${message}
-      
-      - - - - - - - - - - - - - - - - - - - - -
-      Accepted AGBs: ${agb ? 'yes' : 'no'}    
-    `
-
-    return handleUserMessage({ name, email }, messageToSend)
-  }
-
   const onSubmit = async (formValues: Record<string, any>, { reset: formValueReset }: FormContextState) => {
     setState({ ...state, isLoading: true })
     let error: string | undefined = undefined
     try {
-      if (!(await sendMessage(formValues as FormValues))) {
+      const { name, email, message, acceptAGBs } = formValues as FormValues
+      if (!(await submitContactForm({ name, email }, message, { acceptAGBs: acceptAGBs ?? 'no' }))) {
         error = 'Could not send form data'
       }
     } catch (e) {
@@ -304,7 +294,8 @@ const ContactSection: SliceComponent<ContactSectionProps> = ({
           {dataProtectionText && (
             <FormCheckbox
               required
-              name="acceptAGB"
+              name="acceptAGBs"
+              value="yes"
               checked={acceptAGBs}
               onChange={(e) => {
                 onChangeValue('acceptAGB', e.currentTarget.checked)

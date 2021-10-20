@@ -53,15 +53,16 @@ export default class FormCheckbox extends FormField<FormCheckboxProps, FormCheck
 
   constructor(props: FormCheckboxProps) {
     super(props)
-    const { checked = false, helperText } = props
+    const { checked = false, helperText, value } = props
 
     this.errorText = helperText
-    this.state = { ...initialState, checked }
+    this.state = { ...initialState, checked, value }
   }
 
   get value(): string | undefined {
-    const { value } = this.state
-    return value
+    const { checked, value } = this.state
+
+    return checked ? value ?? 'on' : undefined
   }
 
   protected _isValidState = (value: boolean): boolean => {
@@ -89,7 +90,7 @@ export default class FormCheckbox extends FormField<FormCheckboxProps, FormCheck
   }
 
   reset = () => {
-    this.setState({...initialState})
+    this.setState({ ...initialState })
   }
 
   render = () => {

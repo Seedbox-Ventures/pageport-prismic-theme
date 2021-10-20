@@ -1,29 +1,23 @@
-export enum EmailAPIProviderType {
-  undefined = 'undefined',
-  Sendinblue = 'Sendinblue',
-}
-
-export interface Contact {
-  email: string
-  name?: string
-}
+import { Contact, EmailProviderType } from '../../apiServices/email'
 
 export interface EmailProviderInputData {
-  email_api?: EmailAPIProviderType
-  email_api_key?: string
+  email_host_name?: string
+  email_provider?: EmailProviderType
+  email_provider_api_key?: string
   email_sender_address?: string
   email_sender_name?: string
 }
 
-export interface EmailProviderProps {
-  apiKey?: string
-  apiProvider?: EmailAPIProviderType
-  contact?: Contact
+export interface EmailServiceProps {
+  apiKey: string
+  contact: Contact
+  emailProviderType: EmailProviderType
+  hostName: string
 }
 
 export interface MessageProps {
   sender: Contact
-  to: Contact
+  receiver: Contact
   subject: string
   textContent: string
   htmlContent?: string

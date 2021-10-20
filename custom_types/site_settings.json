@@ -37,17 +37,7 @@
     "banner_button_type": {
       "type": "Select",
       "config": {
-        "options": [
-          "Default",
-          "Primary",
-          "Secondary",
-          "Submit",
-          "Cancel",
-          "Info",
-          "Success",
-          "Warn",
-          "Danger"
-        ],
+        "options": ["Default", "Primary", "Secondary", "Submit", "Cancel", "Info", "Success", "Warn", "Danger"],
         "default_value": "Default",
         "label": "Button Type"
       }
@@ -93,11 +83,7 @@
           "category": {
             "type": "Select",
             "config": {
-              "options": [
-                "Essential",
-                "Marketing",
-                "Statistics"
-              ],
+              "options": ["Essential", "Marketing", "Statistics"],
               "label": "Tracking Category"
             }
           },
@@ -133,6 +119,25 @@
     }
   },
   "Email Sending": {
+    "email_host_name": {
+      "type": "Text",
+      "config": {
+        "label": "Email Host Name"
+      }
+    },
+    "email_provider": {
+      "type": "Select",
+      "config": {
+        "options": ["Sendinblue"],
+        "label": "Email Provider"
+      }
+    },
+    "email_provider_api_key": {
+      "type": "Text",
+      "config": {
+        "label": "Email Provider API Key"
+      }
+    },
     "email_sender_name": {
       "type": "Text",
       "config": {
@@ -144,21 +149,6 @@
       "type": "Text",
       "config": {
         "label": "Sender Email Address"
-      }
-    },
-    "email_api": {
-      "type": "Select",
-      "config": {
-        "options": [
-          "Sendinblue"
-        ],
-        "label": "Email API"
-      }
-    },
-    "email_api_key": {
-      "type": "Text",
-      "config": {
-        "label": "Email API Key"
       }
     }
   }

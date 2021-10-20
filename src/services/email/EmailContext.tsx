@@ -1,49 +1,44 @@
 import React, { Component, createContext } from 'react'
-import { Contact, EmailAPIProviderType, EmailProviderInputData, EmailProviderProps, MessageProps } from './type'
-import EmailAPIProvider, { EmailAPIInitializationError } from './EmailAPIProvider'
-import Sendinblue from './Sendinblue'
+import { EmailProviderInputData, EmailServiceProps, MessageProps } from './type'
+import EmailService, { EmailServiceInitializationError } from './EmailService'
+import { Contact } from '../../apiServices/email'
 
-export interface EmailProviderState {
+export interface EmailContextProviderState {
   defaultContact: Contact
   sendEmail: (messageProps: MessageProps) => Promise<Response>
 }
 
-const nullProvider: EmailAPIProvider = {
-  type: EmailAPIProviderType.undefined,
-  signUp: () =>
-    new Promise<boolean>((_resolve, reject) => {
-      reject(new EmailAPIInitializationError('Email provider function "signUp" not initialized'))
-    }),
-  handleUserMessage: () =>
-    new Promise<boolean>((_resolve, reject) => {
-      reject(new EmailAPIInitializationError('Email provider function "handleUserMessage" not initialized'))
-    }),
-}
+const nullService: EmailService = new EmailService(undefined)
 
-export const EmailContext = createContext<EmailAPIProvider>(nullProvider)
+export const EmailContext = createContext<EmailService>(nullService)
 const { Provider, Consumer } = EmailContext
 export const EmailContextConsumer = Consumer
 
-export default class EmailProvider extends Component<EmailProviderProps, EmailProviderState> {
-  static mapDataToProps({ email_api, email_api_key }: EmailProviderInputData): EmailProviderProps {
-    return { apiKey: email_api_key, apiProvider: email_api }
-  }
+export default class EmailContextProvider extends Component<EmailServiceProps, EmailContextProviderState> {
+  static mapDataToProps(emailServiceData: EmailProviderInputData): EmailServiceProps {
+    const { email_host_name, email_provider, email_provider_api_key, email_sender_address, email_sender_name } =
+      emailServiceData
 
-  static initProvider(props: EmailProviderProps): EmailAPIProvider {
-    const { apiProvider } = props
-    switch (apiProvider) {
-      case EmailAPIProviderType.Sendinblue:
-        return new Sendinblue(props)
+    if (!email_provider_api_key || !email_sender_address || !email_provider || !email_host_name) {
+      throw new EmailServiceInitializationError(
+        `Received invalid data for mail context ${JSON.stringify(emailServiceData)}`,
+      )
     }
-    throw new EmailAPIInitializationError(`No implementation found for provider type ${apiProvider}`)
+
+    return {
+      apiKey: email_provider_api_key,
+      contact: { email: email_sender_address, name: email_sender_name },
+      emailProviderType: email_provider,
+      hostName: email_host_name,
+    }
   }
 
-  apiProvider: EmailAPIProvider
+  apiProvider: EmailService
 
-  constructor(props: EmailProviderProps) {
+  constructor(props: EmailServiceProps) {
     super(props)
 
-    this.apiProvider = EmailProvider.initProvider(props)
+    this.apiProvider = new EmailService(props)
   }
 
   render = () => {
