@@ -128,12 +128,12 @@ export class Theme implements DefaultTheme {
 
   getTypeStyleObject = (themeType: ThemeTypeStyle): StyleObject => {
     return {
-      'font-family': this.getFontFamily(themeType.fontFamily),
-      'font-size': themeType.fontSize,
-      'letter-spacing': themeType.letterSpacing,
-      'line-height': themeType.lineHeight,
-      'font-weight': themeType.fontWeight,
-      'font-style': themeType.fontStyle,
+      fontFamily: this.getFontFamily(themeType.fontFamily),
+      fontSize: themeType.fontSize,
+      letterSpacing: themeType.letterSpacing,
+      lineHeight: themeType.lineHeight,
+      fontWeight: themeType.fontWeight,
+      fontStyle: themeType.fontStyle,
     }
   }
 

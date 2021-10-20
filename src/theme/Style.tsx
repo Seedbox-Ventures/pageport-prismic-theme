@@ -171,7 +171,7 @@ export class StyleHelper {
       if (_.isEmpty(styles)) {
         return undefined
       }
-      const styleParts = _.map(styles, (cssValue, cssAttr) => `${cssAttr}: ${cssValue};`)
+      const styleParts = _.map(styles, (cssValue, cssAttr) => `${kebabize(cssAttr)}: ${cssValue};`)
       if (breakPoint !== BreakPointName.Phone) {
         styleParts.unshift(`@media (min-width: ${StyleHelper.getBreakPointValue(breakPoint)}px ) {`)
         styleParts.push('}')
@@ -315,4 +315,8 @@ export class StyleHelper {
       ? tinycolor(colorValue).brighten(amount)
       : tinycolor(colorValue).darken(amount)
     ).toHexString()}`
+}
+
+const kebabize = (str: string): string => {
+  return str.replace(/((?<=[a-z\d])[A-Z]|(?<=[A-Z\d])[A-Z](?=[a-z]))/g, '-$1').toLowerCase()
 }
