@@ -16,13 +16,13 @@ export interface ButtonProps extends BasicLinkProps {
 }
 
 interface StyledButtonProps extends MUIButtonProps {
-  colorValue: `#${string}`
-  hoverEffect: ThemeButtonHoverEffectType
-  shadow: boolean
+  $colorValue: `#${string}`
+  $hoverEffect: ThemeButtonHoverEffectType
+  $shadow: boolean
 }
 
-const StyledButton = styled(MUIButton)<StyledButtonProps>(({ colorValue, hoverEffect, shadow, theme }) => {
-  const textColor = theme.getTextColorValueByBackgroundValue(colorValue)
+const StyledButton = styled(MUIButton)<StyledButtonProps>(({ $colorValue, $hoverEffect, $shadow, theme }) => {
+  const textColor = theme.getTextColorValueByBackgroundValue($colorValue)
   const ghostColor = '#aaa'
   const ghostTextColor = '#ccc'
 
@@ -37,16 +37,16 @@ const StyledButton = styled(MUIButton)<StyledButtonProps>(({ colorValue, hoverEf
       },
       '&.MuiButton-contained': {
         '&': {
-          background: colorValue,
+          background: $colorValue,
           color: textColor,
-          borderColor: colorValue,
+          borderColor: $colorValue,
           padding: theme.props.buttonPadding,
           borderRadius: theme.props.buttonBorderRadius,
           borderWidth: theme.props.buttonBorderWidth,
           borderStyle: 'solid',
-          boxShadow: shadow ? buttonShadow : 'none',
+          boxShadow: $shadow ? buttonShadow : 'none',
         },
-        '&:hover, &:focus': getButtonHoverStyle('contained', hoverEffect, colorValue),
+        '&:hover, &:focus': getButtonHoverStyle('contained', $hoverEffect, $colorValue),
         '&.Mui-disabled': {
           backgroundColor: ghostColor,
           borderColor: ghostColor,
@@ -55,14 +55,14 @@ const StyledButton = styled(MUIButton)<StyledButtonProps>(({ colorValue, hoverEf
       },
       '&.MuiButton-outlined': {
         '&': {
-          color: colorValue,
-          borderColor: colorValue,
+          color: $colorValue,
+          borderColor: $colorValue,
           padding: theme.props.buttonPadding,
           borderRadius: theme.props.buttonBorderRadius,
           borderWidth: theme.props.buttonBorderWidth,
-          boxShadow: shadow ? buttonShadow : 'none',
+          boxShadow: $shadow ? buttonShadow : 'none',
         },
-        '&:hover, &:focus': getButtonHoverStyle('outlined', hoverEffect, colorValue),
+        '&:hover, &:focus': getButtonHoverStyle('outlined', $hoverEffect, $colorValue),
         '&.Mui-disabled': {
           borderColor: ghostColor,
           color: ghostTextColor,
@@ -70,9 +70,9 @@ const StyledButton = styled(MUIButton)<StyledButtonProps>(({ colorValue, hoverEf
       },
       '&.MuiButton-text': {
         '&': {
-          color: colorValue,
+          color: $colorValue,
         },
-        '&:hover, &:focus': getButtonHoverStyle('text', hoverEffect, colorValue),
+        '&:hover, &:focus': getButtonHoverStyle('text', $hoverEffect, $colorValue),
       },
     },
   }
@@ -106,9 +106,9 @@ function getStyledButtonPropsFromButtonType(type: ThemeButtonType): StyledButton
 
   return {
     variant: fillBackground ? 'contained' : 'outlined',
-    colorValue: buttonColorValue,
-    hoverEffect,
-    shadow: buttonBoxShadow,
+    $colorValue: buttonColorValue,
+    $hoverEffect: hoverEffect,
+    $shadow: buttonBoxShadow,
   }
 }
 
