@@ -1,12 +1,13 @@
 import React from 'react'
 import { DataSinkType } from './types'
+import { Helmet } from 'react-helmet'
 
 export interface TrackerProps {
   trackingId?: string
 }
 
 const FacebookPixel: React.FC<TrackerProps> = ({ trackingId }) => (
-  <>
+  <Helmet>
     <script>
       {`<!-- Facebook Pixel Code -->
       !function(f,b,e,v,n,t,s)
@@ -22,11 +23,11 @@ const FacebookPixel: React.FC<TrackerProps> = ({ trackingId }) => (
 
       <!-- End Facebook Pixel Code -->`}
     </script>
-  </>
+  </Helmet>
 )
 
 const GoogleAnalytics: React.FC<TrackerProps> = ({ trackingId }) => (
-  <>
+  <Helmet>
     {'<!-- Global site tag (gtag.js) - Google Analytics -->'}
     <script async src={`https://www.googletagmanager.com/gtag/js?id=${trackingId}`} />
     <script>
@@ -36,11 +37,11 @@ const GoogleAnalytics: React.FC<TrackerProps> = ({ trackingId }) => (
     
       gtag('config', '${trackingId}');`}
     </script>
-  </>
+  </Helmet>
 )
 
 const GoogleTagManager: React.FC<TrackerProps> = ({ trackingId }) => (
-  <>
+  <Helmet>
     {'<!-- Google Tag Manager -->'}
     <script>
       {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -50,7 +51,7 @@ const GoogleTagManager: React.FC<TrackerProps> = ({ trackingId }) => (
         })(window,document,'script','dataLayer','${trackingId}');`}
     </script>
     {'<!-- End Google Tag Manager -->'}
-  </>
+  </Helmet>
 )
 
 const Hotjar: React.FC<TrackerProps> = ({ trackingId }) => (
@@ -70,7 +71,7 @@ const Hotjar: React.FC<TrackerProps> = ({ trackingId }) => (
 )
 
 const LinkedInInsightTag: React.FC<TrackerProps> = ({ trackingId }) => (
-  <>
+  <Helmet>
     {'<!-- LinkedIn Insight Tag -->'}
     <script>
       {`_linkedin_partner_id = "${trackingId}";
@@ -87,11 +88,11 @@ const LinkedInInsightTag: React.FC<TrackerProps> = ({ trackingId }) => (
         b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
         s.parentNode.insertBefore(b, s);})(window.lintrk);`}
     </script>
-  </>
+  </Helmet>
 )
 
 const VWO: React.FC<TrackerProps> = ({ trackingId }) => (
-  <>
+  <Helmet>
     {'<!-- LinkedIn Insight Tag -->'}
     <script>
       {`window._vwo_code = window._vwo_code || (function(){
@@ -106,7 +107,7 @@ const VWO: React.FC<TrackerProps> = ({ trackingId }) => (
         f=false,d=document,code={use_existing_jquery:function(){return use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){
         window.settings_timer=setTimeout(function () {_vwo_code.finish() },settings_tolerance);var a=d.createElement('style'),b=hide_element?hide_element+'{opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;}':'',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);this.load('https://dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&f='+(+is_spa)+'&r='+Math.random());return settings_timer; }};window._vwo_settings_timer = code.init(); return code; }());`}
     </script>
-  </>
+  </Helmet>
 )
 
 const trackingCodes: Record<DataSinkType, React.FC<TrackerProps> | null> = {

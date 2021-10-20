@@ -1,13 +1,12 @@
 import React from 'react'
 import { RootState } from '../../state/store'
 import { acceptAll, rejectAll, selectConsentBannerSettings, selectConsentData, selectDataSinks } from './userDataSlice'
-import { connect } from 'react-redux'
 import _ from 'lodash'
 import { ConsentBannerSettings, DataProtectionConsentData, DataSink, DataSinkCategory } from './types'
 import ConsentBanner, { ConsentBannerProps } from './ConsentBanner'
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit'
-import { createPortal } from 'react-dom'
 import trackingCodes from './trackingCodes'
+import { connect } from 'react-redux'
 
 export interface UserDataManagerProps {
   acceptAll: () => void
@@ -18,7 +17,6 @@ export interface UserDataManagerProps {
 }
 
 class UserDataManager extends React.PureComponent<UserDataManagerProps> {
-  headEl?: HTMLHeadElement
   scriptTags: Record<string, HTMLAnchorElement> = {}
 
   get consentBannerProps(): ConsentBannerProps {
@@ -32,17 +30,13 @@ class UserDataManager extends React.PureComponent<UserDataManagerProps> {
     return !!_.find(dataSinks, { accepted: undefined })
   }
 
-  componentDidMount = () => {
-    this.headEl = document.head
-  }
-
   renderTrackerCodes(consentData: DataProtectionConsentData) {
     return _.map(consentData, ({ category, accepted, type, tagId }) => {
       if (!accepted || category === DataSinkCategory.Essential) {
         return null
       }
       const TrackingCode = trackingCodes[type]
-      return TrackingCode ? <TrackingCode trackingId={tagId} /> : null
+      return TrackingCode ? <TrackingCode key={tagId} trackingId={tagId} /> : null
     })
   }
 
@@ -51,7 +45,7 @@ class UserDataManager extends React.PureComponent<UserDataManagerProps> {
     return (
       <>
         {this.displayConsentBanner && <ConsentBanner {...this.consentBannerProps} />}
-        {!!this.headEl && createPortal(this.renderTrackerCodes(consentData), this.headEl)}
+        {this.renderTrackerCodes(consentData)}
       </>
     )
   }
